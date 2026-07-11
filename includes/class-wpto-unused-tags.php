@@ -21,10 +21,24 @@ class WPTO_Unused_Tags {
 			array_filter(
 				$terms,
 				function ( $term ) {
-					return 0 === (int) $term->count;
+					// term->count only tallies posts with post_status = 'publish',
+					// so it can read 0 for a tag that's still attached to drafts,
+					// scheduled, pending, or private posts. Confirm there are truly
+					// no associated objects before treating it as unused.
+					return self::has_no_objects( $term->term_id );
 				}
 			)
 		);
+	}
+
+	private static function has_no_objects( $term_id ) {
+		$object_ids = get_objects_in_term( $term_id, 'post_tag' );
+
+		if ( is_wp_error( $object_ids ) ) {
+			return false;
+		}
+
+		return empty( $object_ids );
 	}
 
 	public static function delete_terms( array $term_ids ) {
@@ -40,8 +54,9 @@ class WPTO_Unused_Tags {
 				continue;
 			}
 
-			if ( 0 !== (int) $term->count ) {
-				// Safety: never delete a tag that has posts, even if requested.
+			if ( ! self::has_no_objects( $term_id ) ) {
+				// Safety: never delete a tag that has posts, even if requested,
+				// and even if the cached count column says otherwise.
 				$errors[] = $term_id;
 				continue;
 			}
