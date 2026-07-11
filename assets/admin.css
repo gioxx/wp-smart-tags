@@ -1,0 +1,12 @@
+.wpto-wrap table.wp-list-table {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+.wpto-wrap h2 {
+	margin-top: 30px;
+}
+
+#wpto-progress p {
+	font-weight: 600;
+}
