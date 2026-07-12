@@ -52,7 +52,8 @@ The **"Manage Tags"** tab (next to "AI Analysis" on the same page) is where all 
 - The **"Unused tags (0 posts)"** table, with a bulk delete option; use **"Recount tag counts"** if counts look wrong (e.g. after an import).
 - A searchable, sortable, paginated table of every tag in use, each linking straight to its filtered post list. Use the screen options panel (top right) to change how many tags are shown per page.
 - **Delete** any tag individually (row action) or in bulk.
-- **Merge** any 2+ tags regardless of how their names differ: select them via checkbox, choose which one should survive from a "Merge into" dropdown, and confirm. This skips the need to give unrelated tags a common search term just to find them together, which WordPress's native Tags screen requires — and no AI is involved.
+- **Quick Edit** any tag inline (row action) to rename it or change its slug, without leaving the page.
+- **Merge** any 2+ tags regardless of how their names differ, even if you find them via separate searches: select tags via checkbox and use **"Add to merge selection"** to build up a persistent selection (shown in a bar above the table, across searches/pages/sorting), then **"Prepare merge"**, choose which tag should survive from a "Merge into" dropdown, and confirm. This skips the need to give unrelated tags a common search term just to find them together, which WordPress's native Tags screen requires — and no AI is involved.
 
 ## Updates
 

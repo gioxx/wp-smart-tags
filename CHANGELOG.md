@@ -2,6 +2,11 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.16.0] - 2026-07-12
+
+- Fixed a real limitation in the manual merge workflow: selecting tags across different searches/pages/sort orders used to lose the previous selection, since checkboxes only survive within a single page. The bulk action is now "Add to merge selection", which accumulates tags into a persistent per-user selection (shown in a bar above the table, with its own "Prepare merge" and "Clear selection" controls) so tags found via unrelated searches can be merged together.
+- Added Quick Edit to the tag table: an inline row (no page navigation) to rename a tag or change its slug via AJAX, opened from a new row action next to Edit/Delete.
+
 ## [0.15.3] - 2026-07-12
 
 - Fixed the release workflow still building the zip artifact under the old `ai-tags-optimizer` slug; it's now `smart-tags-for-wordpress` to match the plugin's current name. The main plugin file, text domain, and install path inside `wp-content/plugins/` are unaffected.

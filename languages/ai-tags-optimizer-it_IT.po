@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Smart Tags for WordPress 0.15.3\n"
+"Project-Id-Version: Smart Tags for WordPress 0.16.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 23:00+0200\n"
+"POT-Creation-Date: 2026-07-12 23:30+0200\n"
 "PO-Revision-Date: 2026-07-12 23:00+0200\n"
 "Last-Translator: Gioxx <https://gioxx.org>\n"
 "Language-Team: Italiano\n"
@@ -17,50 +17,50 @@ msgstr ""
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: includes/class-wpto-admin-page.php:34 includes/class-wpto-admin-page.php:126
+#: includes/class-wpto-admin-page.php:35 includes/class-wpto-admin-page.php:131
 msgid "Smart Tags for WordPress"
 msgstr "Smart Tags for WordPress"
 
-#: includes/class-wpto-admin-page.php:35
+#: includes/class-wpto-admin-page.php:36
 msgid "Smart Tags"
 msgstr "Smart Tags"
 
-#: includes/class-wpto-admin-page.php:44 includes/class-wpto-admin-page.php:45
+#: includes/class-wpto-admin-page.php:45 includes/class-wpto-admin-page.php:46
 #: includes/class-wpto-settings.php:127
 msgid "Smart Tags for WordPress: Settings"
 msgstr "Smart Tags for WordPress: Impostazioni"
 
-#: includes/class-wpto-admin-page.php:60
+#: includes/class-wpto-admin-page.php:61
 msgid "Tags per page"
 msgstr "Tag per pagina"
 
-#: includes/class-wpto-admin-page.php:100
+#: includes/class-wpto-admin-page.php:101
 msgid "Delete the selected tags?"
 msgstr "Confermi la cancellazione dei tag selezionati?"
 
-#: includes/class-wpto-admin-page.php:101
+#: includes/class-wpto-admin-page.php:102
 msgid "Confirm this merge? This action cannot be undone."
 msgstr "Confermi questo merge? L'operazione non è reversibile."
 
-#: includes/class-wpto-admin-page.php:102
+#: includes/class-wpto-admin-page.php:103
 msgid "Delete the selected tags? This action cannot be undone."
 msgstr "Cancellare i tag selezionati? L'operazione non è reversibile."
 
-#: includes/class-wpto-admin-page.php:103
+#: includes/class-wpto-admin-page.php:104
 msgid "Approve the selected suggestions? This action cannot be undone."
 msgstr ""
 "Confermi l'approvazione dei suggerimenti selezionati? L'operazione non è "
 "reversibile."
 
-#: includes/class-wpto-admin-page.php:104
+#: includes/class-wpto-admin-page.php:105
 msgid "Reject the selected suggestions?"
 msgstr "Confermi il rifiuto dei suggerimenti selezionati?"
 
-#: includes/class-wpto-admin-page.php:105
+#: includes/class-wpto-admin-page.php:106
 msgid "Restore the selected suggestions to pending?"
 msgstr "Ripristinare come in sospeso i suggerimenti selezionati?"
 
-#: includes/class-wpto-admin-page.php:106
+#: includes/class-wpto-admin-page.php:107
 msgid ""
 "Starting a new analysis will clear any unreviewed pending suggestions and re-"
 "analyze your current tags. Rejected and previously applied suggestions are "
@@ -70,189 +70,217 @@ msgstr ""
 "revisionati e rianalizzerà i tag attuali. I suggerimenti rifiutati e quelli "
 "già applicati vengono mantenuti. Continuare?"
 
-#: includes/class-wpto-admin-page.php:107
+#: includes/class-wpto-admin-page.php:108
 msgid "Select at least one row first."
 msgstr "Seleziona almeno una riga."
 
-#: includes/class-wpto-admin-page.php:108
+#: includes/class-wpto-admin-page.php:109
 msgid "Some items could not be processed:"
 msgstr "Alcuni elementi non sono stati elaborati:"
 
-#: includes/class-wpto-admin-page.php:109
+#: includes/class-wpto-admin-page.php:110
+#: includes/class-wpto-admin-page.php:993
 msgid "Something went wrong."
 msgstr "Si è verificato un errore."
 
-#: includes/class-wpto-admin-page.php:110
+#: includes/class-wpto-admin-page.php:111
 msgid "Processing batch, this can take up to two minutes..."
 msgstr "Elaborazione batch in corso, può richiedere fino a due minuti..."
 
-#: includes/class-wpto-admin-page.php:111 includes/class-wpto-settings.php:108
+#: includes/class-wpto-admin-page.php:112 includes/class-wpto-settings.php:108
 msgid "Enter an API key first."
 msgstr "Inserisci prima una API key."
 
-#: includes/class-wpto-admin-page.php:112
+#: includes/class-wpto-admin-page.php:113
 msgid "Testing..."
 msgstr "Verifica in corso..."
 
-#: includes/class-wpto-admin-page.php:132
+#: includes/class-wpto-admin-page.php:114
+#: includes/class-wpto-admin-page.php:416
+#: includes/class-wpto-admin-page.php:669
+#: includes/class-wpto-tag-stats-table.php:27
+msgid "Name"
+msgstr "Nome"
+
+#: includes/class-wpto-admin-page.php:115
+#: includes/class-wpto-admin-page.php:417
+#: includes/class-wpto-admin-page.php:670
+#: includes/class-wpto-tag-stats-table.php:28
+msgid "Slug"
+msgstr "Slug"
+
+#: includes/class-wpto-admin-page.php:116
+msgid "Save"
+msgstr "Salva"
+
+#: includes/class-wpto-admin-page.php:117
+#: includes/class-wpto-admin-page.php:701
+msgid "Cancel"
+msgstr "Annulla"
+
+#: includes/class-wpto-admin-page.php:137
 #, php-format
 msgid "Need to change the API key, model, or other options? Head over to %s."
 msgstr "Vuoi cambiare API key, modello o altre opzioni? Vai su %s."
 
-#: includes/class-wpto-admin-page.php:133
+#: includes/class-wpto-admin-page.php:138
 msgid "the plugin settings"
 msgstr "le impostazioni del plugin"
 
-#: includes/class-wpto-admin-page.php:139
-#: includes/class-wpto-admin-page.php:196
+#: includes/class-wpto-admin-page.php:144
+#: includes/class-wpto-admin-page.php:201
 msgid "AI Analysis"
 msgstr "Analisi AI"
 
-#: includes/class-wpto-admin-page.php:140
+#: includes/class-wpto-admin-page.php:145
 msgid "Manage Tags"
 msgstr "Gestisci tag"
 
-#: includes/class-wpto-admin-page.php:175
+#: includes/class-wpto-admin-page.php:180
 msgid "Near-duplicates"
 msgstr "Quasi-duplicati"
 
-#: includes/class-wpto-admin-page.php:176
+#: includes/class-wpto-admin-page.php:181
 msgid "Semantic overlaps"
 msgstr "Sovrapposizioni semantiche"
 
-#: includes/class-wpto-admin-page.php:177
+#: includes/class-wpto-admin-page.php:182
 msgid "Low-usage tags"
 msgstr "Tag a basso utilizzo"
 
-#: includes/class-wpto-admin-page.php:184
+#: includes/class-wpto-admin-page.php:189
 msgid "Pending suggestions"
 msgstr "Suggerimenti in sospeso"
 
-#: includes/class-wpto-admin-page.php:188
+#: includes/class-wpto-admin-page.php:193
 msgid "Merges applied"
 msgstr "Unioni applicate"
 
-#: includes/class-wpto-admin-page.php:192
-#: includes/class-wpto-admin-page.php:288
+#: includes/class-wpto-admin-page.php:197
+#: includes/class-wpto-admin-page.php:293
 msgid "Rejected suggestions"
 msgstr "Suggerimenti rifiutati"
 
-#: includes/class-wpto-admin-page.php:198
+#: includes/class-wpto-admin-page.php:203
 msgid "Start analysis"
 msgstr "Avvia analisi"
 
-#: includes/class-wpto-admin-page.php:199
+#: includes/class-wpto-admin-page.php:204
 msgid "Stop analysis"
 msgstr "Ferma analisi"
 
-#: includes/class-wpto-admin-page.php:206
+#: includes/class-wpto-admin-page.php:211
 #, php-format
 msgid "Batches completed: %1$d / %2$d"
 msgstr "Batch completati: %1$d / %2$d"
 
-#: includes/class-wpto-admin-page.php:215
+#: includes/class-wpto-admin-page.php:220
 msgid "Processing log"
 msgstr "Log elaborazione"
 
-#: includes/class-wpto-admin-page.php:222
+#: includes/class-wpto-admin-page.php:227
 #, php-format
 msgid "Batch #%1$d - %2$s (%3$s)"
 msgstr "Batch #%1$d - %2$s (%3$s)"
 
-#: includes/class-wpto-admin-page.php:236
+#: includes/class-wpto-admin-page.php:241
 msgid "Failed batches"
 msgstr "Batch falliti"
 
-#: includes/class-wpto-admin-page.php:240
+#: includes/class-wpto-admin-page.php:245
 msgid "Batch ID"
 msgstr "ID batch"
 
-#: includes/class-wpto-admin-page.php:241
+#: includes/class-wpto-admin-page.php:246
 msgid "Error"
 msgstr "Errore"
 
-#: includes/class-wpto-admin-page.php:250
+#: includes/class-wpto-admin-page.php:255
 msgid "Retry"
 msgstr "Riprova"
 
-#: includes/class-wpto-admin-page.php:259
+#: includes/class-wpto-admin-page.php:264
 msgid "Suggestions"
 msgstr "Suggerimenti"
 
-#: includes/class-wpto-admin-page.php:265
+#: includes/class-wpto-admin-page.php:270
 msgid "Approve selected"
 msgstr "Approva selezionati"
 
-#: includes/class-wpto-admin-page.php:266
+#: includes/class-wpto-admin-page.php:271
 msgid "Reject selected"
 msgstr "Rifiuta selezionati"
 
-#: includes/class-wpto-admin-page.php:272
-#: includes/class-wpto-admin-page.php:296
-#: includes/class-wpto-admin-page.php:318
+#: includes/class-wpto-admin-page.php:277
+#: includes/class-wpto-admin-page.php:301
+#: includes/class-wpto-admin-page.php:323
 msgid "Source tag(s)"
 msgstr "Tag sorgente"
 
-#: includes/class-wpto-admin-page.php:273
-#: includes/class-wpto-admin-page.php:297
-#: includes/class-wpto-admin-page.php:319
+#: includes/class-wpto-admin-page.php:278
+#: includes/class-wpto-admin-page.php:302
+#: includes/class-wpto-admin-page.php:324
 msgid "Target tag"
 msgstr "Tag destinazione"
 
-#: includes/class-wpto-admin-page.php:274
-#: includes/class-wpto-admin-page.php:298
-#: includes/class-wpto-admin-page.php:320
+#: includes/class-wpto-admin-page.php:279
+#: includes/class-wpto-admin-page.php:303
+#: includes/class-wpto-admin-page.php:325
 msgid "Reason"
 msgstr "Motivazione"
 
-#: includes/class-wpto-admin-page.php:275
-#: includes/class-wpto-admin-page.php:299
-#: includes/class-wpto-admin-page.php:321
+#: includes/class-wpto-admin-page.php:280
+#: includes/class-wpto-admin-page.php:304
+#: includes/class-wpto-admin-page.php:326
 msgid "Confidence"
 msgstr "Confidenza"
 
-#: includes/class-wpto-admin-page.php:276
-#: includes/class-wpto-admin-page.php:300
+#: includes/class-wpto-admin-page.php:281
+#: includes/class-wpto-admin-page.php:305
 msgid "Actions"
 msgstr "Azioni"
 
-#: includes/class-wpto-admin-page.php:290
+#: includes/class-wpto-admin-page.php:295
 msgid "Restore selected"
 msgstr "Ripristina selezionati"
 
-#: includes/class-wpto-admin-page.php:313
+#: includes/class-wpto-admin-page.php:318
 msgid "Applied suggestions (history)"
 msgstr "Suggerimenti applicati (storico)"
 
-#: includes/class-wpto-admin-page.php:314
+#: includes/class-wpto-admin-page.php:319
 msgid "The most recent merges applied to your tags, read-only."
 msgstr "Le unioni più recenti applicate ai tuoi tag, in sola lettura."
 
-#: includes/class-wpto-admin-page.php:322
+#: includes/class-wpto-admin-page.php:327
 msgid "Applied on"
 msgstr "Applicato il"
 
-#: includes/class-wpto-admin-page.php:369
+#: includes/class-wpto-admin-page.php:364
+msgid "Added to the merge selection below."
+msgstr "Aggiunto alla selezione per il merge qui sotto."
+
+#: includes/class-wpto-admin-page.php:378
 msgid "Select at least two tags to merge."
 msgstr "Seleziona almeno due tag da unire."
 
-#: includes/class-wpto-admin-page.php:384
+#: includes/class-wpto-admin-page.php:395
 msgid "Tags in use"
 msgstr "Tag in uso"
 
-#: includes/class-wpto-admin-page.php:388
+#: includes/class-wpto-admin-page.php:399
 msgid "Unused tags"
 msgstr "Tag inutilizzati"
 
-#: includes/class-wpto-admin-page.php:392
+#: includes/class-wpto-admin-page.php:403
 msgid "Unused tags (0 posts)"
 msgstr "Tag inutilizzati (0 post)"
 
-#: includes/class-wpto-admin-page.php:394
+#: includes/class-wpto-admin-page.php:405
 msgid "Recount tag counts"
 msgstr "Ricalcola conteggi tag"
 
-#: includes/class-wpto-admin-page.php:395
+#: includes/class-wpto-admin-page.php:406
 msgid ""
 "Fixes the per-tag post count if it has drifted out of sync with the actual "
 "associations (e.g. after an import)."
@@ -260,82 +288,85 @@ msgstr ""
 "Corregge il conteggio post per tag se risulta disallineato rispetto alle "
 "associazioni reali (es. dopo un import)."
 
-#: includes/class-wpto-admin-page.php:398
+#: includes/class-wpto-admin-page.php:409
 msgid "No unused tags found."
 msgstr "Nessun tag inutilizzato trovato."
 
-#: includes/class-wpto-admin-page.php:405
-#: includes/class-wpto-admin-page.php:574
-#: includes/class-wpto-tag-stats-table.php:27
-msgid "Name"
-msgstr "Nome"
-
-#: includes/class-wpto-admin-page.php:406
-#: includes/class-wpto-admin-page.php:575
-#: includes/class-wpto-tag-stats-table.php:28
-msgid "Slug"
-msgstr "Slug"
-
-#: includes/class-wpto-admin-page.php:420
+#: includes/class-wpto-admin-page.php:431
 msgid "Delete selected"
 msgstr "Elimina selezionati"
 
-#: includes/class-wpto-admin-page.php:429
+#: includes/class-wpto-admin-page.php:440
 msgid "All tags"
 msgstr "Tutti i tag"
 
-#: includes/class-wpto-admin-page.php:438
+#: includes/class-wpto-admin-page.php:449
 msgid "Search tags"
 msgstr "Cerca tag"
 
-#: includes/class-wpto-admin-page.php:465
+#: includes/class-wpto-admin-page.php:476
 msgid "Name A→Z"
 msgstr "Nome A→Z"
 
-#: includes/class-wpto-admin-page.php:470
+#: includes/class-wpto-admin-page.php:481
 msgid "Name Z→A"
 msgstr "Nome Z→A"
 
-#: includes/class-wpto-admin-page.php:475
+#: includes/class-wpto-admin-page.php:486
 msgid "Most used"
 msgstr "Più usati"
 
-#: includes/class-wpto-admin-page.php:480
+#: includes/class-wpto-admin-page.php:491
 msgid "Least used"
 msgstr "Meno usati"
 
-#: includes/class-wpto-admin-page.php:489
+#: includes/class-wpto-admin-page.php:500
 msgid "Quick sort:"
 msgstr "Ordina rapido:"
 
-#: includes/class-wpto-admin-page.php:519
+#: includes/class-wpto-admin-page.php:530
 #, php-format
 msgid "Merged %1$d tag into \"%2$s\"."
 msgid_plural "Merged %1$d tags into \"%2$s\"."
 msgstr[0] "Unito %1$d tag in \"%2$s\"."
 msgstr[1] "Uniti %1$d tag in \"%2$s\"."
 
-#: includes/class-wpto-admin-page.php:531
+#: includes/class-wpto-admin-page.php:542
 msgid "The merge could not be completed. Please try again."
 msgstr "Impossibile completare l'unione. Riprova."
 
-#: includes/class-wpto-admin-page.php:543
+#: includes/class-wpto-admin-page.php:554
 #, php-format
 msgid "%d tag deleted."
 msgid_plural "%d tags deleted."
 msgstr[0] "%d tag eliminato."
 msgstr[1] "%d tag eliminati."
 
-#: includes/class-wpto-admin-page.php:554
+#: includes/class-wpto-admin-page.php:565
 msgid "The tag could not be deleted. Please try again."
 msgstr "Impossibile eliminare il tag. Riprova."
 
-#: includes/class-wpto-admin-page.php:569
-#: includes/class-wpto-admin-page.php:605
+#: includes/class-wpto-admin-page.php:636
+#, php-format
+msgid "Merge selection (%1$d): %2$s"
+msgid_plural "Merge selection (%1$d): %2$s"
+msgstr[0] "Selezione per il merge (%1$d): %2$s"
+msgstr[1] "Selezione per il merge (%1$d): %2$s"
+
+#: includes/class-wpto-admin-page.php:647
+msgid "Prepare merge"
+msgstr "Prepara unione"
+
+#: includes/class-wpto-admin-page.php:649
+msgid "Clear selection"
+msgstr "Svuota selezione"
+
+#: includes/class-wpto-admin-page.php:664
+#: includes/class-wpto-admin-page.php:700
 msgid "Confirm merge"
 msgstr "Conferma unione"
 
-#: includes/class-wpto-admin-page.php:570
+#: includes/class-wpto-admin-page.php:665
 msgid ""
 "These tags will be merged into the one you choose below; the others will be "
 "deleted and all their posts re-tagged with it."
@@ -343,59 +374,60 @@ msgstr ""
 "Questi tag verranno uniti in quello che scegli qui sotto; gli altri verranno "
 "eliminati e tutti i loro post ri-taggati con quello scelto."
 
-#: includes/class-wpto-admin-page.php:576
+#: includes/class-wpto-admin-page.php:671
 #: includes/class-wpto-tag-stats-table.php:29
 msgid "Assigned posts"
 msgstr "Post assegnati"
 
-#: includes/class-wpto-admin-page.php:597
-#: includes/class-wpto-admin-page.php:800
+#: includes/class-wpto-admin-page.php:692
+#: includes/class-wpto-admin-page.php:919
 msgid "Merge into"
 msgstr "Unisci in"
 
-#: includes/class-wpto-admin-page.php:606
-msgid "Cancel"
-msgstr "Annulla"
-
-#: includes/class-wpto-admin-page.php:639
+#: includes/class-wpto-admin-page.php:734
 msgid "Usage distribution"
 msgstr "Distribuzione utilizzo"
 
-#: includes/class-wpto-admin-page.php:798
+#: includes/class-wpto-admin-page.php:917
 msgid "Restore"
 msgstr "Ripristina"
 
-#: includes/class-wpto-admin-page.php:806
+#: includes/class-wpto-admin-page.php:925
 msgid "Approve"
 msgstr "Approva"
 
-#: includes/class-wpto-admin-page.php:807
+#: includes/class-wpto-admin-page.php:926
 msgid "Reject"
 msgstr "Rifiuta"
 
-#: includes/class-wpto-admin-page.php:818
-#: includes/class-wpto-admin-page.php:836
-#: includes/class-wpto-admin-page.php:848
-#: includes/class-wpto-admin-page.php:872 includes/class-wpto-queue.php:24
+#: includes/class-wpto-admin-page.php:937
+#: includes/class-wpto-admin-page.php:955
+#: includes/class-wpto-admin-page.php:967
+#: includes/class-wpto-admin-page.php:1008
+#: includes/class-wpto-admin-page.php:1032 includes/class-wpto-queue.php:24
 #: includes/class-wpto-queue.php:45 includes/class-wpto-queue.php:57
 #: includes/class-wpto-queue.php:70 includes/class-wpto-settings.php:102
 msgid "Insufficient permissions."
 msgstr "Permessi insufficienti."
 
-#: includes/class-wpto-admin-page.php:824
+#: includes/class-wpto-admin-page.php:943
 msgid "No tags selected."
 msgstr "Nessun tag selezionato."
 
-#: includes/class-wpto-admin-page.php:856
-#: includes/class-wpto-admin-page.php:880
+#: includes/class-wpto-admin-page.php:975
+msgid "The tag name cannot be empty."
+msgstr "Il nome del tag non può essere vuoto."
+
+#: includes/class-wpto-admin-page.php:1016
+#: includes/class-wpto-admin-page.php:1040
 msgid "Invalid request."
 msgstr "Richiesta non valida."
 
-#: includes/class-wpto-admin-page.php:913
+#: includes/class-wpto-admin-page.php:1073
 msgid "Suggestion not found."
 msgstr "Suggerimento non trovato."
 
-#: includes/class-wpto-admin-page.php:931
+#: includes/class-wpto-admin-page.php:1091
 msgid "Invalid target selection."
 msgstr "Selezione di destinazione non valida."
 
@@ -534,11 +566,11 @@ msgstr ""
 "copyright esistenti."
 
 #: includes/class-wpto-tag-stats-table.php:42
-msgid "Prepare merge"
-msgstr "Prepara unione"
+msgid "Add to merge selection"
+msgstr "Aggiungi alla selezione per il merge"
 
 #: includes/class-wpto-tag-stats-table.php:43
-#: includes/class-wpto-tag-stats-table.php:84
+#: includes/class-wpto-tag-stats-table.php:91
 msgid "Delete"
 msgstr "Elimina"
 
@@ -546,11 +578,15 @@ msgstr "Elimina"
 msgid "No tags found."
 msgstr "Nessun tag trovato."
 
-#: includes/class-wpto-tag-stats-table.php:79
+#: includes/class-wpto-tag-stats-table.php:84
+msgid "Quick Edit"
+msgstr "Modifica rapida"
+
+#: includes/class-wpto-tag-stats-table.php:86
 msgid "Edit"
 msgstr "Modifica"
 
-#: includes/class-wpto-tag-stats-table.php:83
+#: includes/class-wpto-tag-stats-table.php:90
 msgid "Delete this tag? This cannot be undone."
 msgstr "Eliminare questo tag? L'operazione non è reversibile."
 

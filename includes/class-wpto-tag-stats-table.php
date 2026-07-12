@@ -39,8 +39,8 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 
 	protected function get_bulk_actions() {
 		return array(
-			'prepare_merge' => __( 'Prepare merge', 'ai-tags-optimizer' ),
-			'delete'        => __( 'Delete', 'ai-tags-optimizer' ),
+			'add_to_merge' => __( 'Add to merge selection', 'ai-tags-optimizer' ),
+			'delete'       => __( 'Delete', 'ai-tags-optimizer' ),
 		);
 	}
 
@@ -76,8 +76,15 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 		);
 
 		$row_actions = array(
-			'edit'   => sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), esc_html__( 'Edit', 'ai-tags-optimizer' ) ),
-			'delete' => sprintf(
+			'quick_edit' => sprintf(
+				'<a href="#" class="wpto-quick-edit" data-id="%d" data-name="%s" data-slug="%s">%s</a>',
+				$item['id'],
+				esc_attr( $item['name'] ),
+				esc_attr( $item['slug'] ),
+				esc_html__( 'Quick Edit', 'ai-tags-optimizer' )
+			),
+			'edit'       => sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), esc_html__( 'Edit', 'ai-tags-optimizer' ) ),
+			'delete'     => sprintf(
 				'<a href="%s" class="submitdelete" onclick="return confirm(\'%s\');">%s</a>',
 				esc_url( $delete_url ),
 				esc_js( __( 'Delete this tag? This cannot be undone.', 'ai-tags-optimizer' ) ),
@@ -109,6 +116,12 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 
 	protected function column_default( $item, $column_name ) {
 		return isset( $item[ $column_name ] ) ? esc_html( $item[ $column_name ] ) : '';
+	}
+
+	public function single_row( $item ) {
+		printf( '<tr id="wpto-tag-row-%d">', (int) $item['id'] );
+		$this->single_row_columns( $item );
+		echo '</tr>';
 	}
 
 	public function prepare_items() {

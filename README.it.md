@@ -52,7 +52,8 @@ La tab **"Manage Tags"** (accanto a "AI Analysis" sulla stessa pagina) raccoglie
 - La tabella **"Unused tags (0 posts)"**, con un'opzione di cancellazione multipla; usa **"Recount tag counts"** se i conteggi sembrano sbagliati (es. dopo un'importazione).
 - Una tabella di tutti i tag in uso, cercabile, ordinabile e paginata, con ogni tag collegato direttamente alla lista articoli filtrata. Usa il pannello opzioni schermata (in alto a destra) per cambiare quanti tag mostrare per pagina.
 - **Cancella** qualsiasi tag singolarmente (azione di riga) o in blocco.
-- **Unisci** 2 o più tag indipendentemente da quanto i loro nomi differiscano: selezionali con le checkbox, scegli quale deve sopravvivere da una dropdown "Merge into" e conferma. Non serve più dare ai tag un termine di ricerca comune solo per trovarli insieme, come richiede invece la schermata Tag nativa di WordPress — e qui non è coinvolta l'IA.
+- **Quick Edit** su ogni tag (azione di riga) per rinominarlo o cambiarne lo slug senza uscire dalla pagina.
+- **Unisci** 2 o più tag indipendentemente da quanto i loro nomi differiscano, anche se li trovi con ricerche separate: seleziona i tag con le checkbox e usa **"Add to merge selection"** per costruire una selezione persistente (mostrata in una barra sopra la tabella, che sopravvive a ricerche/pagine/ordinamenti diversi), poi **"Prepare merge"**, scegli quale tag deve sopravvivere da una dropdown "Merge into" e conferma. Non serve più dare ai tag un termine di ricerca comune solo per trovarli insieme, come richiede invece la schermata Tag nativa di WordPress — e qui non è coinvolta l'IA.
 
 ## Aggiornamenti
 

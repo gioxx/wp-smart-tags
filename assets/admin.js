@@ -299,4 +299,83 @@
 			processTick();
 		}
 	}
+
+	$( document ).on( 'click', '.wpto-quick-edit', function ( e ) {
+		e.preventDefault();
+
+		var $link = $( this );
+		var $row = $( '#wpto-tag-row-' + $link.data( 'id' ) );
+
+		if ( $row.next( '.wpto-quick-edit-row' ).length ) {
+			return;
+		}
+
+		var colspan = $row.children( 'td, th' ).length;
+		var $editRow = $( '<tr class="wpto-quick-edit-row"></tr>' );
+		var $cell = $( '<td></td>' ).attr( 'colspan', colspan );
+
+		$cell.append( $( '<p></p>' ).append(
+			$( '<label></label>' ).text( wptoData.i18n.quickEditName + ' ' ).append(
+				$( '<input type="text" class="wpto-qe-name regular-text" />' ).val( $link.data( 'name' ) )
+			)
+		) );
+		$cell.append( $( '<p></p>' ).append(
+			$( '<label></label>' ).text( wptoData.i18n.quickEditSlug + ' ' ).append(
+				$( '<input type="text" class="wpto-qe-slug regular-text" />' ).val( $link.data( 'slug' ) )
+			)
+		) );
+		$cell.append(
+			$( '<p></p>' )
+				.append( $( '<button type="button" class="button button-primary wpto-qe-save"></button>' ).text( wptoData.i18n.quickEditSave ) )
+				.append( ' ' )
+				.append( $( '<button type="button" class="button wpto-qe-cancel"></button>' ).text( wptoData.i18n.quickEditCancel ) )
+				.append( ' ' )
+				.append( '<span class="wpto-qe-status"></span>' )
+		);
+
+		$editRow.append( $cell );
+		$editRow.data( 'tag-id', $link.data( 'id' ) );
+		$editRow.data( 'row', $row );
+		$editRow.data( 'link', $link );
+
+		$row.hide().after( $editRow );
+		$editRow.find( '.wpto-qe-name' ).trigger( 'focus' );
+	} );
+
+	$( document ).on( 'click', '.wpto-qe-cancel', function () {
+		var $editRow = $( this ).closest( 'tr' );
+		$editRow.data( 'row' ).show();
+		$editRow.remove();
+	} );
+
+	$( document ).on( 'click', '.wpto-qe-save', function () {
+		var $editRow = $( this ).closest( 'tr' );
+		var $row = $editRow.data( 'row' );
+		var $link = $editRow.data( 'link' );
+		var tagId = $editRow.data( 'tag-id' );
+		var name = $editRow.find( '.wpto-qe-name' ).val();
+		var slug = $editRow.find( '.wpto-qe-slug' ).val();
+		var $status = $editRow.find( '.wpto-qe-status' );
+
+		$status.text( '' );
+		$editRow.find( 'button' ).prop( 'disabled', true );
+
+		ajax( { action: 'wpto_update_tag', tag_id: tagId, name: name, slug: slug } ).done( function ( response ) {
+			if ( ! response.success ) {
+				$status.text( response.data && response.data.message ? response.data.message : wptoData.i18n.error );
+				$editRow.find( 'button' ).prop( 'disabled', false );
+				return;
+			}
+
+			$row.find( '.column-name strong' ).first().text( response.data.name );
+			$row.find( '.column-slug' ).text( response.data.slug );
+			$link.data( 'name', response.data.name ).data( 'slug', response.data.slug );
+
+			$row.show();
+			$editRow.remove();
+		} ).fail( function () {
+			$status.text( wptoData.i18n.error );
+			$editRow.find( 'button' ).prop( 'disabled', false );
+		} );
+	} );
 } )( jQuery );

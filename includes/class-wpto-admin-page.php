@@ -27,6 +27,7 @@ class WPTO_Admin_Page {
 		add_action( 'wp_ajax_wpto_suggestion_action', array( __CLASS__, 'ajax_suggestion_action' ) );
 		add_action( 'wp_ajax_wpto_bulk_suggestion_action', array( __CLASS__, 'ajax_bulk_suggestion_action' ) );
 		add_action( 'wp_ajax_wpto_recount_tags', array( __CLASS__, 'ajax_recount_tags' ) );
+		add_action( 'wp_ajax_wpto_update_tag', array( __CLASS__, 'ajax_update_tag' ) );
 	}
 
 	public static function register_menu() {
@@ -110,6 +111,10 @@ class WPTO_Admin_Page {
 					'processing'         => __( 'Processing batch, this can take up to two minutes...', 'ai-tags-optimizer' ),
 					'enterApiKey'        => __( 'Enter an API key first.', 'ai-tags-optimizer' ),
 					'testingApiKey'      => __( 'Testing...', 'ai-tags-optimizer' ),
+					'quickEditName'      => __( 'Name', 'ai-tags-optimizer' ),
+					'quickEditSlug'      => __( 'Slug', 'ai-tags-optimizer' ),
+					'quickEditSave'      => __( 'Save', 'ai-tags-optimizer' ),
+					'quickEditCancel'    => __( 'Cancel', 'ai-tags-optimizer' ),
 				),
 			)
 		);
@@ -344,24 +349,28 @@ class WPTO_Admin_Page {
 	private static function render_stats_tab() {
 		self::render_stats_notices();
 
-		$table = new WPTO_Tag_Stats_Table();
+		$table  = new WPTO_Tag_Stats_Table();
+		$action = $table->current_action();
 
-		if ( 'prepare_merge' === $table->current_action() ) {
+		if ( 'add_to_merge' === $action ) {
 			check_admin_referer( 'bulk-tags' );
 
 			$ids = isset( $_POST['tag_id'] ) ? array_map( 'absint', (array) $_POST['tag_id'] ) : array();
 			$ids = array_values( array_unique( array_filter( $ids ) ) );
 
-			$valid_terms = array();
-			foreach ( $ids as $id ) {
-				$term = get_term( $id, 'post_tag' );
-				if ( $term && ! is_wp_error( $term ) ) {
-					$valid_terms[] = $term;
-				}
+			if ( ! empty( $ids ) ) {
+				self::add_to_merge_basket( $ids );
+				?>
+				<div class="notice notice-success"><p><?php esc_html_e( 'Added to the merge selection below.', 'ai-tags-optimizer' ); ?></p></div>
+				<?php
 			}
+		}
 
-			if ( count( $valid_terms ) >= 2 ) {
-				self::render_merge_confirmation( $valid_terms );
+		if ( isset( $_POST['wpto_prepare_merge_basket'] ) ) {
+			$basket_terms = self::get_merge_basket_terms();
+
+			if ( count( $basket_terms ) >= 2 ) {
+				self::render_merge_confirmation( $basket_terms );
 				return;
 			}
 
@@ -369,6 +378,8 @@ class WPTO_Admin_Page {
 			<div class="notice notice-error"><p><?php esc_html_e( 'Select at least two tags to merge.', 'ai-tags-optimizer' ); ?></p></div>
 			<?php
 		}
+
+		self::render_merge_basket_bar();
 
 		$unused_terms = WPTO_Unused_Tags::get_unused_terms();
 		$in_use_count = (int) wp_count_terms(
@@ -557,6 +568,90 @@ class WPTO_Admin_Page {
 		}
 	}
 
+	private static function get_merge_basket_terms() {
+		$user_id = get_current_user_id();
+
+		if ( ! $user_id ) {
+			return array();
+		}
+
+		$ids = array_map( 'absint', (array) get_user_meta( $user_id, 'wpto_merge_basket', true ) );
+		$ids = array_values( array_unique( array_filter( $ids ) ) );
+
+		$terms     = array();
+		$valid_ids = array();
+
+		foreach ( $ids as $id ) {
+			$term = get_term( $id, 'post_tag' );
+			if ( $term && ! is_wp_error( $term ) ) {
+				$terms[]     = $term;
+				$valid_ids[] = $id;
+			}
+		}
+
+		if ( $valid_ids !== $ids ) {
+			update_user_meta( $user_id, 'wpto_merge_basket', $valid_ids );
+		}
+
+		return $terms;
+	}
+
+	private static function add_to_merge_basket( array $ids ) {
+		$user_id = get_current_user_id();
+
+		if ( ! $user_id ) {
+			return;
+		}
+
+		$existing = array_map( 'absint', (array) get_user_meta( $user_id, 'wpto_merge_basket', true ) );
+		$merged   = array_values( array_unique( array_merge( $existing, array_map( 'absint', $ids ) ) ) );
+
+		update_user_meta( $user_id, 'wpto_merge_basket', $merged );
+	}
+
+	private static function clear_merge_basket() {
+		$user_id = get_current_user_id();
+
+		if ( $user_id ) {
+			delete_user_meta( $user_id, 'wpto_merge_basket' );
+		}
+	}
+
+	private static function render_merge_basket_bar() {
+		$terms = self::get_merge_basket_terms();
+
+		if ( empty( $terms ) ) {
+			return;
+		}
+
+		$names = wp_list_pluck( $terms, 'name' );
+		$count = count( $terms );
+		?>
+		<div class="notice notice-info wpto-merge-basket">
+			<p>
+				<?php
+				printf(
+					/* translators: 1: number of tags selected for merge, 2: comma-separated tag names */
+					esc_html(
+						_n( 'Merge selection (%1$d): %2$s', 'Merge selection (%1$d): %2$s', $count, 'ai-tags-optimizer' )
+					),
+					$count,
+					esc_html( implode( ', ', $names ) )
+				);
+				?>
+			</p>
+			<p>
+				<form method="post" style="display:inline;">
+					<input type="hidden" name="page" value="<?php echo esc_attr( self::MAIN_SLUG ); ?>" />
+					<input type="hidden" name="tab" value="stats" />
+					<button type="submit" name="wpto_prepare_merge_basket" value="1" class="button button-primary" <?php disabled( $count < 2 ); ?>><?php esc_html_e( 'Prepare merge', 'ai-tags-optimizer' ); ?></button>
+				</form>
+				<a href="<?php echo esc_url( wp_nonce_url( add_query_arg( array( 'page' => self::MAIN_SLUG, 'tab' => 'stats', 'wpto_clear_merge_basket' => 1 ), admin_url( 'edit.php' ) ), 'wpto_clear_merge_basket' ) ); ?>" class="button"><?php esc_html_e( 'Clear selection', 'ai-tags-optimizer' ); ?></a>
+			</p>
+		</div>
+		<?php
+	}
+
 	private static function render_merge_confirmation( array $terms ) {
 		usort(
 			$terms,
@@ -668,6 +763,11 @@ class WPTO_Admin_Page {
 			return;
 		}
 
+		if ( isset( $_GET['wpto_clear_merge_basket'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			self::process_clear_merge_basket();
+			return;
+		}
+
 		$bulk_action = '';
 		if ( isset( $_POST['action'] ) && '-1' !== $_POST['action'] ) {
 			$bulk_action = sanitize_key( $_POST['action'] );
@@ -713,11 +813,30 @@ class WPTO_Admin_Page {
 			exit;
 		}
 
+		self::clear_merge_basket();
+
 		$redirect_args['wpto_merged']        = 1;
 		$redirect_args['wpto_merged_target'] = rawurlencode( $result['target_name'] );
 		$redirect_args['wpto_merged_count']  = count( $result['source_names'] );
 
 		wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
+		exit;
+	}
+
+	private static function process_clear_merge_basket() {
+		check_admin_referer( 'wpto_clear_merge_basket' );
+
+		self::clear_merge_basket();
+
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page' => self::MAIN_SLUG,
+					'tab'  => 'stats',
+				),
+				admin_url( 'edit.php' )
+			)
+		);
 		exit;
 	}
 
@@ -839,6 +958,47 @@ class WPTO_Admin_Page {
 		$count = WPTO_Unused_Tags::recount_all();
 
 		wp_send_json_success( array( 'count' => $count ) );
+	}
+
+	public static function ajax_update_tag() {
+		check_ajax_referer( 'wpto_admin_action', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'ai-tags-optimizer' ) ), 403 );
+		}
+
+		$tag_id = isset( $_POST['tag_id'] ) ? absint( $_POST['tag_id'] ) : 0;
+		$name   = isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '';
+		$slug   = isset( $_POST['slug'] ) ? sanitize_title( wp_unslash( $_POST['slug'] ) ) : '';
+
+		if ( ! $tag_id || '' === $name ) {
+			wp_send_json_error( array( 'message' => __( 'The tag name cannot be empty.', 'ai-tags-optimizer' ) ) );
+		}
+
+		$args = array( 'name' => $name );
+
+		if ( '' !== $slug ) {
+			$args['slug'] = $slug;
+		}
+
+		$result = wp_update_term( $tag_id, 'post_tag', $args );
+
+		if ( is_wp_error( $result ) ) {
+			wp_send_json_error( array( 'message' => $result->get_error_message() ) );
+		}
+
+		$term = get_term( $result['term_id'], 'post_tag' );
+
+		if ( ! $term || is_wp_error( $term ) ) {
+			wp_send_json_error( array( 'message' => __( 'Something went wrong.', 'ai-tags-optimizer' ) ) );
+		}
+
+		wp_send_json_success(
+			array(
+				'name' => $term->name,
+				'slug' => $term->slug,
+			)
+		);
 	}
 
 	public static function ajax_suggestion_action() {

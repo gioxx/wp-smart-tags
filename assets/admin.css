@@ -141,3 +141,22 @@
 	font-weight: 600;
 	margin-right: 4px;
 }
+
+.wpto-quick-edit-row td {
+	background: #f6f7f7;
+	padding: 12px;
+}
+
+.wpto-quick-edit-row p {
+	margin: 0 0 8px;
+}
+
+.wpto-quick-edit-row label {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.wpto-merge-basket p {
+	margin: 0.5em 0;
+}
