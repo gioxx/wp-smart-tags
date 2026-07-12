@@ -38,8 +38,8 @@ class WPTO_Admin_Page {
 		);
 
 		add_management_page(
-			__( 'AI Tags Optimizer - Settings', 'ai-tags-optimizer' ),
-			__( 'AI Tags Optimizer - Settings', 'ai-tags-optimizer' ),
+			__( 'AI Tags Optimizer: Settings', 'ai-tags-optimizer' ),
+			__( 'AI Tags Optimizer: Settings', 'ai-tags-optimizer' ),
 			'manage_options',
 			self::SETTINGS_SLUG,
 			array( 'WPTO_Settings', 'render_page' )

@@ -124,7 +124,7 @@ class WPTO_Settings {
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'AI Tags Optimizer - Settings', 'ai-tags-optimizer' ); ?></h1>
+			<h1><?php esc_html_e( 'AI Tags Optimizer: Settings', 'ai-tags-optimizer' ); ?></h1>
 			<p>
 				<?php
 				printf(

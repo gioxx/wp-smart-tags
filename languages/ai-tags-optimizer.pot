@@ -24,7 +24,7 @@ msgstr ""
 
 #: includes/class-wpto-admin-page.php:29 includes/class-wpto-admin-page.php:30
 #: includes/class-wpto-settings.php:103
-msgid "AI Tags Optimizer - Settings"
+msgid "AI Tags Optimizer: Settings"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:52

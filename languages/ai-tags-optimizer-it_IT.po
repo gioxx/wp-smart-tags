@@ -14,8 +14,8 @@ msgstr ""
 msgid "AI Tags Optimizer"
 msgstr "AI Tags Optimizer"
 
-msgid "AI Tags Optimizer - Settings"
-msgstr "AI Tags Optimizer - Impostazioni"
+msgid "AI Tags Optimizer: Settings"
+msgstr "AI Tags Optimizer: Impostazioni"
 
 msgid "Delete the selected tags?"
 msgstr "Confermi la cancellazione dei tag selezionati?"

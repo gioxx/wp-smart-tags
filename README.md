@@ -21,7 +21,7 @@ The plugin interface is in English by default; if your WordPress is set to Itali
 
 ## Configuration
 
-Go to **Tools → AI Tags Optimizer - Settings** and fill in:
+Go to **Tools → AI Tags Optimizer: Settings** and fill in:
 
 | Field | Description |
 |---|---|
