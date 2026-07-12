@@ -2,6 +2,10 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.15.3] - 2026-07-12
+
+- Fixed the release workflow still building the zip artifact under the old `ai-tags-optimizer` slug; it's now `smart-tags-for-wordpress` to match the plugin's current name. The main plugin file, text domain, and install path inside `wp-content/plugins/` are unaffected.
+
 ## [0.15.2] - 2026-07-12
 
 - Added a "Quick sort" row of one-click presets (Name A→Z / Z→A, Most/Least used) above the "Manage Tags" tag table, as a shortcut to the existing sortable column headers.

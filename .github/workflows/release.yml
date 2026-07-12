@@ -37,7 +37,7 @@ jobs:
       - name: Build plugin zip
         if: steps.check.outputs.exists == 'false'
         run: |
-          SLUG=ai-tags-optimizer
+          SLUG=smart-tags-for-wordpress
           STAGING="/tmp/$SLUG"
           rm -rf "$STAGING"
           mkdir -p "$STAGING"
@@ -73,6 +73,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release create "${{ steps.version.outputs.tag }}" \
-            "/tmp/ai-tags-optimizer-${{ steps.version.outputs.version }}.zip" \
+            "/tmp/smart-tags-for-wordpress-${{ steps.version.outputs.version }}.zip" \
             --title "${{ steps.version.outputs.tag }}" \
             --notes-file /tmp/release-notes.md

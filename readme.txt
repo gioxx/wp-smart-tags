@@ -43,6 +43,9 @@ It's kept in a "Rejected suggestions" list and can be restored to pending at any
 Yes, the "Unused tags" table lists them with a bulk delete option.
 
 == Changelog ==
+= 0.15.3 =
+* Fixed the release workflow still building the zip artifact under the old "ai-tags-optimizer" slug; it's now "smart-tags-for-wordpress".
+
 = 0.15.2 =
 * Added a "Quick sort" row of one-click presets above the "Manage Tags" tag table, and the chosen sort order is now remembered per user.
 * Fixed the Settings page/menu title dropping "for WordPress" after the plugin rename.

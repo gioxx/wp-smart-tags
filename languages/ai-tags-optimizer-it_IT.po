@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: AI Tags Optimizer for WordPress 0.15.0\n"
+"Project-Id-Version: Smart Tags for WordPress 0.15.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-12 23:00+0200\n"
 "PO-Revision-Date: 2026-07-12 23:00+0200\n"
