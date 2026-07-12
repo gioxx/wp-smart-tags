@@ -137,7 +137,7 @@ class WPTO_Admin_Page {
 					<table class="wp-list-table widefat fixed striped">
 						<thead>
 							<tr>
-								<td class="check-column"><input type="checkbox" id="wpto-select-all-unused" /></td>
+								<td class="check-column"><input type="checkbox" id="wpto-select-all-unused" autocomplete="off" /></td>
 								<th><?php esc_html_e( 'Name', 'ai-tags-optimizer' ); ?></th>
 								<th><?php esc_html_e( 'Slug', 'ai-tags-optimizer' ); ?></th>
 							</tr>
@@ -145,7 +145,7 @@ class WPTO_Admin_Page {
 						<tbody>
 							<?php foreach ( $unused_terms as $term ) : ?>
 								<tr>
-									<th class="check-column"><input type="checkbox" class="wpto-unused-checkbox" value="<?php echo esc_attr( $term->term_id ); ?>" /></th>
+									<th class="check-column"><input type="checkbox" class="wpto-unused-checkbox" value="<?php echo esc_attr( $term->term_id ); ?>" autocomplete="off" /></th>
 									<td><?php echo esc_html( $term->name ); ?></td>
 									<td><?php echo esc_html( $term->slug ); ?></td>
 								</tr>
@@ -235,7 +235,7 @@ class WPTO_Admin_Page {
 				<table class="wp-list-table widefat fixed striped">
 					<thead>
 						<tr>
-							<td class="check-column"><input type="checkbox" class="wpto-select-all-suggestions" data-group="<?php echo esc_attr( $type ); ?>" /></td>
+							<td class="check-column"><input type="checkbox" class="wpto-select-all-suggestions" data-group="<?php echo esc_attr( $type ); ?>" autocomplete="off" /></td>
 							<th><?php esc_html_e( 'Source tag(s)', 'ai-tags-optimizer' ); ?></th>
 							<th><?php esc_html_e( 'Target tag', 'ai-tags-optimizer' ); ?></th>
 							<th><?php esc_html_e( 'Reason', 'ai-tags-optimizer' ); ?></th>
@@ -259,7 +259,7 @@ class WPTO_Admin_Page {
 				<table class="wp-list-table widefat fixed striped">
 					<thead>
 						<tr>
-							<td class="check-column"><input type="checkbox" class="wpto-select-all-suggestions" data-group="rejected" /></td>
+							<td class="check-column"><input type="checkbox" class="wpto-select-all-suggestions" data-group="rejected" autocomplete="off" /></td>
 							<th><?php esc_html_e( 'Source tag(s)', 'ai-tags-optimizer' ); ?></th>
 							<th><?php esc_html_e( 'Target tag', 'ai-tags-optimizer' ); ?></th>
 							<th><?php esc_html_e( 'Reason', 'ai-tags-optimizer' ); ?></th>
@@ -324,7 +324,7 @@ class WPTO_Admin_Page {
 		$all_terms   = array( $target_id => $target_name ) + $source_terms;
 		?>
 		<tr>
-			<th class="check-column"><input type="checkbox" class="wpto-suggestion-checkbox" data-group="<?php echo esc_attr( $group ); ?>" value="<?php echo esc_attr( $row['id'] ); ?>" /></th>
+			<th class="check-column"><input type="checkbox" class="wpto-suggestion-checkbox" data-group="<?php echo esc_attr( $group ); ?>" value="<?php echo esc_attr( $row['id'] ); ?>" autocomplete="off" /></th>
 			<td><?php echo esc_html( implode( ', ', $source_terms ) ); ?></td>
 			<td><?php echo esc_html( $target_name ); ?></td>
 			<td><?php echo esc_html( $row['reason'] ); ?></td>
