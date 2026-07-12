@@ -274,6 +274,16 @@
 		}
 	} );
 
+	$( '#wpto-tags-filter' ).on( 'submit', function ( e ) {
+		var action = $( this ).find( 'select[name="action"]' ).val();
+		if ( '-1' === action ) {
+			action = $( this ).find( 'select[name="action2"]' ).val();
+		}
+		if ( 'delete' === action && ! window.confirm( wptoData.i18n.confirmDeleteTags ) ) {
+			e.preventDefault();
+		}
+	} );
+
 	$( document ).on( 'click', '.wpto-retry-batch', function () {
 		var batchId = $( this ).data( 'batch-id' );
 		ajax( { action: 'wpto_retry_batch', batch_id: batchId } ).done( function () {

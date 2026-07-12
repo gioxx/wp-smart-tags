@@ -2,6 +2,13 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.15.0] - 2026-07-12
+
+- Fixed the usage-distribution histogram always showing zero: `get_terms()` was called with the unsupported `fields => 'id=>count'`, silently dropping the `count` property; now uses `fields => 'all'`.
+- Renamed the two tabs for clarity: "Optimizer" is now "AI Analysis" (purely AI-driven), "Tag Statistics" is now "Manage Tags" (all non-AI tag housekeeping). The "Unused tags (0 posts)" section moved from "AI Analysis" into "Manage Tags", alongside a new quick-stats row (tags in use / unused tags).
+- Added tag deletion to "Manage Tags": a per-row "Delete" action and a "Delete" bulk action, both with confirmation.
+- The tags-per-page count on "Manage Tags" is now configurable via the native WordPress "Screen Options" panel (default stays 20), instead of being hardcoded.
+
 ## [0.14.0] - 2026-07-12
 
 - Added a "Tag Statistics" tab (no AI involved): a searchable, sortable, paginated table of tags in use (name, slug, assigned-post count linking to the filtered post list) plus a usage-distribution histogram for an at-a-glance read of the taxonomy.

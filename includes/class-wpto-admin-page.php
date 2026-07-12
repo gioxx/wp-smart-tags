@@ -21,7 +21,8 @@ class WPTO_Admin_Page {
 	public static function init() {
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
-		add_action( 'admin_init', array( __CLASS__, 'maybe_process_manual_merge' ) );
+		add_action( 'admin_init', array( __CLASS__, 'maybe_process_stats_tab_actions' ) );
+		add_filter( 'set_screen_option', array( __CLASS__, 'save_screen_options' ), 10, 3 );
 		add_action( 'wp_ajax_wpto_delete_unused', array( __CLASS__, 'ajax_delete_unused' ) );
 		add_action( 'wp_ajax_wpto_suggestion_action', array( __CLASS__, 'ajax_suggestion_action' ) );
 		add_action( 'wp_ajax_wpto_bulk_suggestion_action', array( __CLASS__, 'ajax_bulk_suggestion_action' ) );
@@ -29,13 +30,15 @@ class WPTO_Admin_Page {
 	}
 
 	public static function register_menu() {
-		add_posts_page(
+		$main_hook = add_posts_page(
 			__( 'AI Tags Optimizer', 'ai-tags-optimizer' ),
 			__( 'AI Tags Optimizer', 'ai-tags-optimizer' ),
 			'manage_options',
 			self::MAIN_SLUG,
 			array( __CLASS__, 'render_main_page' )
 		);
+
+		add_action( "load-{$main_hook}", array( __CLASS__, 'maybe_add_screen_options' ) );
 
 		add_management_page(
 			__( 'AI Tags Optimizer: Settings', 'ai-tags-optimizer' ),
@@ -44,6 +47,29 @@ class WPTO_Admin_Page {
 			self::SETTINGS_SLUG,
 			array( 'WPTO_Settings', 'render_page' )
 		);
+	}
+
+	public static function maybe_add_screen_options() {
+		if ( ! isset( $_GET['tab'] ) || 'stats' !== $_GET['tab'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			return;
+		}
+
+		add_screen_option(
+			'per_page',
+			array(
+				'label'   => __( 'Tags per page', 'ai-tags-optimizer' ),
+				'default' => 20,
+				'option'  => 'wpto_tags_per_page',
+			)
+		);
+	}
+
+	public static function save_screen_options( $status, $option, $value ) {
+		if ( 'wpto_tags_per_page' === $option ) {
+			return (int) $value;
+		}
+
+		return $status;
 	}
 
 	public static function main_page_url() {
@@ -73,6 +99,7 @@ class WPTO_Admin_Page {
 				'i18n'    => array(
 					'confirmDelete'      => __( 'Delete the selected tags?', 'ai-tags-optimizer' ),
 					'confirmMerge'       => __( 'Confirm this merge? This action cannot be undone.', 'ai-tags-optimizer' ),
+					'confirmDeleteTags'  => __( 'Delete the selected tags? This action cannot be undone.', 'ai-tags-optimizer' ),
 					'confirmBulkApprove' => __( 'Approve the selected suggestions? This action cannot be undone.', 'ai-tags-optimizer' ),
 					'confirmBulkReject'  => __( 'Reject the selected suggestions?', 'ai-tags-optimizer' ),
 					'confirmBulkRestore' => __( 'Restore the selected suggestions to pending?', 'ai-tags-optimizer' ),
@@ -109,8 +136,8 @@ class WPTO_Admin_Page {
 			</p>
 
 			<h2 class="nav-tab-wrapper">
-				<a href="<?php echo esc_url( self::main_page_url() ); ?>" class="nav-tab <?php echo esc_attr( 'optimizer' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'Optimizer', 'ai-tags-optimizer' ); ?></a>
-				<a href="<?php echo esc_url( add_query_arg( 'tab', 'stats', self::main_page_url() ) ); ?>" class="nav-tab <?php echo esc_attr( 'stats' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'Tag Statistics', 'ai-tags-optimizer' ); ?></a>
+				<a href="<?php echo esc_url( self::main_page_url() ); ?>" class="nav-tab <?php echo esc_attr( 'optimizer' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'AI Analysis', 'ai-tags-optimizer' ); ?></a>
+				<a href="<?php echo esc_url( add_query_arg( 'tab', 'stats', self::main_page_url() ) ); ?>" class="nav-tab <?php echo esc_attr( 'stats' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'Manage Tags', 'ai-tags-optimizer' ); ?></a>
 			</h2>
 
 			<?php if ( 'stats' === $active_tab ) : ?>
@@ -126,7 +153,6 @@ class WPTO_Admin_Page {
 		WPTO_Suggestions_Repo::prune_orphaned_rejected();
 		WPTO_Suggestions_Repo::prune_orphaned_pending();
 
-		$unused_terms = WPTO_Unused_Tags::get_unused_terms();
 		$suggestions  = WPTO_Suggestions_Repo::get_suggestions( 'pending' );
 		$rejected     = WPTO_Suggestions_Repo::get_suggestions( 'rejected' );
 		$progress     = WPTO_Suggestions_Repo::get_batch_progress();
@@ -165,46 +191,7 @@ class WPTO_Admin_Page {
 					<span class="wpto-stat-number"><?php echo esc_html( $counts['rejected'] ); ?></span>
 					<span class="wpto-stat-label"><?php esc_html_e( 'Rejected suggestions', 'ai-tags-optimizer' ); ?></span>
 				</div>
-				<div class="wpto-stat-tile">
-					<span class="wpto-stat-number"><?php echo esc_html( count( $unused_terms ) ); ?></span>
-					<span class="wpto-stat-label"><?php esc_html_e( 'Unused tags', 'ai-tags-optimizer' ); ?></span>
-				</div>
 			</div>
-
-			<h2><?php esc_html_e( 'Unused tags (0 posts)', 'ai-tags-optimizer' ); ?></h2>
-			<p>
-				<button type="button" class="button" id="wpto-recount-tags"><?php esc_html_e( 'Recount tag counts', 'ai-tags-optimizer' ); ?></button>
-				<span class="description"><?php esc_html_e( 'Fixes the per-tag post count if it has drifted out of sync with the actual associations (e.g. after an import).', 'ai-tags-optimizer' ); ?></span>
-			</p>
-			<?php if ( empty( $unused_terms ) ) : ?>
-				<p><?php esc_html_e( 'No unused tags found.', 'ai-tags-optimizer' ); ?></p>
-			<?php else : ?>
-				<form id="wpto-unused-form">
-					<table class="wp-list-table widefat fixed striped">
-						<thead>
-							<tr>
-								<td class="check-column"><input type="checkbox" id="wpto-select-all-unused" autocomplete="off" /></td>
-								<th><?php esc_html_e( 'Name', 'ai-tags-optimizer' ); ?></th>
-								<th><?php esc_html_e( 'Slug', 'ai-tags-optimizer' ); ?></th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php foreach ( $unused_terms as $term ) : ?>
-								<tr>
-									<th class="check-column"><input type="checkbox" class="wpto-unused-checkbox" value="<?php echo esc_attr( $term->term_id ); ?>" autocomplete="off" /></th>
-									<td><?php echo esc_html( $term->name ); ?></td>
-									<td><?php echo esc_html( $term->slug ); ?></td>
-								</tr>
-							<?php endforeach; ?>
-						</tbody>
-					</table>
-					<p>
-						<button type="button" class="button button-secondary" id="wpto-delete-unused"><?php esc_html_e( 'Delete selected', 'ai-tags-optimizer' ); ?></button>
-					</p>
-				</form>
-			<?php endif; ?>
-
-			<hr />
 
 			<h2><?php esc_html_e( 'AI Analysis', 'ai-tags-optimizer' ); ?></h2>
 			<p>
@@ -355,7 +342,7 @@ class WPTO_Admin_Page {
 	}
 
 	private static function render_stats_tab() {
-		self::render_merge_notices();
+		self::render_stats_notices();
 
 		$table = new WPTO_Tag_Stats_Table();
 
@@ -383,11 +370,67 @@ class WPTO_Admin_Page {
 			<?php
 		}
 
-		self::render_usage_histogram();
+		$unused_terms = WPTO_Unused_Tags::get_unused_terms();
+		$in_use_count = (int) wp_count_terms(
+			array(
+				'taxonomy'   => 'post_tag',
+				'hide_empty' => true,
+			)
+		);
+		?>
+		<div class="wpto-stats">
+			<div class="wpto-stat-tile">
+				<span class="wpto-stat-number"><?php echo esc_html( number_format_i18n( $in_use_count ) ); ?></span>
+				<span class="wpto-stat-label"><?php esc_html_e( 'Tags in use', 'ai-tags-optimizer' ); ?></span>
+			</div>
+			<div class="wpto-stat-tile">
+				<span class="wpto-stat-number"><?php echo esc_html( number_format_i18n( count( $unused_terms ) ) ); ?></span>
+				<span class="wpto-stat-label"><?php esc_html_e( 'Unused tags', 'ai-tags-optimizer' ); ?></span>
+			</div>
+		</div>
 
+		<h2><?php esc_html_e( 'Unused tags (0 posts)', 'ai-tags-optimizer' ); ?></h2>
+		<p>
+			<button type="button" class="button" id="wpto-recount-tags"><?php esc_html_e( 'Recount tag counts', 'ai-tags-optimizer' ); ?></button>
+			<span class="description"><?php esc_html_e( 'Fixes the per-tag post count if it has drifted out of sync with the actual associations (e.g. after an import).', 'ai-tags-optimizer' ); ?></span>
+		</p>
+		<?php if ( empty( $unused_terms ) ) : ?>
+			<p><?php esc_html_e( 'No unused tags found.', 'ai-tags-optimizer' ); ?></p>
+		<?php else : ?>
+			<form id="wpto-unused-form">
+				<table class="wp-list-table widefat fixed striped">
+					<thead>
+						<tr>
+							<td class="check-column"><input type="checkbox" id="wpto-select-all-unused" autocomplete="off" /></td>
+							<th><?php esc_html_e( 'Name', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Slug', 'ai-tags-optimizer' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ( $unused_terms as $term ) : ?>
+							<tr>
+								<th class="check-column"><input type="checkbox" class="wpto-unused-checkbox" value="<?php echo esc_attr( $term->term_id ); ?>" autocomplete="off" /></th>
+								<td><?php echo esc_html( $term->name ); ?></td>
+								<td><?php echo esc_html( $term->slug ); ?></td>
+							</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+				<p>
+					<button type="button" class="button button-secondary" id="wpto-delete-unused"><?php esc_html_e( 'Delete selected', 'ai-tags-optimizer' ); ?></button>
+				</p>
+			</form>
+		<?php endif; ?>
+
+		<hr />
+
+		<?php self::render_usage_histogram(); ?>
+
+		<h2><?php esc_html_e( 'All tags', 'ai-tags-optimizer' ); ?></h2>
+		<?php
 		$table->prepare_items();
 		?>
-		<form method="post">
+		<form method="post" id="wpto-tags-filter">
 			<input type="hidden" name="page" value="<?php echo esc_attr( self::MAIN_SLUG ); ?>" />
 			<input type="hidden" name="tab" value="stats" />
 			<?php
@@ -398,7 +441,7 @@ class WPTO_Admin_Page {
 		<?php
 	}
 
-	private static function render_merge_notices() {
+	private static function render_stats_notices() {
 		if ( isset( $_GET['wpto_merged'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$target = isset( $_GET['wpto_merged_target'] ) ? sanitize_text_field( wp_unslash( $_GET['wpto_merged_target'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			$count  = isset( $_GET['wpto_merged_count'] ) ? absint( $_GET['wpto_merged_count'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -422,6 +465,29 @@ class WPTO_Admin_Page {
 			?>
 			<div class="notice notice-error is-dismissible">
 				<p><?php esc_html_e( 'The merge could not be completed. Please try again.', 'ai-tags-optimizer' ); ?></p>
+			</div>
+			<?php
+		} elseif ( isset( $_GET['wpto_deleted'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$count = absint( $_GET['wpto_deleted'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			?>
+			<div class="notice notice-success is-dismissible">
+				<p>
+					<?php
+					echo esc_html(
+						sprintf(
+							/* translators: %d: number of deleted tags */
+							_n( '%d tag deleted.', '%d tags deleted.', $count, 'ai-tags-optimizer' ),
+							$count
+						)
+					);
+					?>
+				</p>
+			</div>
+			<?php
+		} elseif ( isset( $_GET['wpto_delete_error'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			?>
+			<div class="notice notice-error is-dismissible">
+				<p><?php esc_html_e( 'The tag could not be deleted. Please try again.', 'ai-tags-optimizer' ); ?></p>
 			</div>
 			<?php
 		}
@@ -480,22 +546,22 @@ class WPTO_Admin_Page {
 	}
 
 	private static function render_usage_histogram() {
-		$counts = get_terms(
+		$terms = get_terms(
 			array(
 				'taxonomy'   => 'post_tag',
 				'hide_empty' => true,
-				'fields'     => 'id=>count',
+				'fields'     => 'all',
 			)
 		);
 
-		if ( is_wp_error( $counts ) ) {
-			$counts = array();
+		if ( is_wp_error( $terms ) ) {
+			$terms = array();
 		}
 
 		$buckets = array_fill_keys( array_keys( self::USAGE_BUCKETS ), 0 );
 
-		foreach ( $counts as $count ) {
-			$count = (int) $count;
+		foreach ( $terms as $term ) {
+			$count = (int) $term->count;
 			foreach ( self::USAGE_BUCKETS as $label => $range ) {
 				if ( $count >= $range[0] && $count <= $range[1] ) {
 					++$buckets[ $label ];
@@ -519,11 +585,7 @@ class WPTO_Admin_Page {
 		<?php
 	}
 
-	public static function maybe_process_manual_merge() {
-		if ( ! isset( $_POST['wpto_confirm_merge'] ) ) {
-			return;
-		}
-
+	public static function maybe_process_stats_tab_actions() {
 		if ( ! isset( $_REQUEST['page'] ) || self::MAIN_SLUG !== $_REQUEST['page'] ) {
 			return;
 		}
@@ -532,6 +594,29 @@ class WPTO_Admin_Page {
 			return;
 		}
 
+		if ( isset( $_POST['wpto_confirm_merge'] ) ) {
+			self::process_confirm_merge();
+			return;
+		}
+
+		if ( isset( $_GET['wpto_delete_tag'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			self::process_single_delete();
+			return;
+		}
+
+		$bulk_action = '';
+		if ( isset( $_POST['action'] ) && '-1' !== $_POST['action'] ) {
+			$bulk_action = sanitize_key( $_POST['action'] );
+		} elseif ( isset( $_POST['action2'] ) && '-1' !== $_POST['action2'] ) {
+			$bulk_action = sanitize_key( $_POST['action2'] );
+		}
+
+		if ( 'delete' === $bulk_action ) {
+			self::process_bulk_delete();
+		}
+	}
+
+	private static function process_confirm_merge() {
 		check_admin_referer( 'wpto_confirm_merge' );
 
 		$target_id  = isset( $_POST['wpto_merge_target'] ) ? absint( $_POST['wpto_merge_target'] ) : 0;
@@ -567,6 +652,58 @@ class WPTO_Admin_Page {
 		$redirect_args['wpto_merged']        = 1;
 		$redirect_args['wpto_merged_target'] = rawurlencode( $result['target_name'] );
 		$redirect_args['wpto_merged_count']  = count( $result['source_names'] );
+
+		wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
+		exit;
+	}
+
+	private static function process_single_delete() {
+		$tag_id = absint( $_GET['wpto_delete_tag'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+		check_admin_referer( 'wpto_delete_tag_' . $tag_id );
+
+		$redirect_args = array(
+			'page' => self::MAIN_SLUG,
+			'tab'  => 'stats',
+		);
+
+		$deleted = $tag_id && true === wp_delete_term( $tag_id, 'post_tag' );
+
+		$redirect_args[ $deleted ? 'wpto_deleted' : 'wpto_delete_error' ] = 1;
+
+		wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
+		exit;
+	}
+
+	private static function process_bulk_delete() {
+		check_admin_referer( 'bulk-tags' );
+
+		$ids = isset( $_POST['tag_id'] ) ? array_map( 'absint', (array) $_POST['tag_id'] ) : array();
+		$ids = array_values( array_unique( array_filter( $ids ) ) );
+
+		$redirect_args = array(
+			'page' => self::MAIN_SLUG,
+			'tab'  => 'stats',
+		);
+
+		if ( empty( $ids ) ) {
+			$redirect_args['wpto_delete_error'] = 1;
+			wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
+			exit;
+		}
+
+		$deleted_count = 0;
+		foreach ( $ids as $id ) {
+			if ( true === wp_delete_term( $id, 'post_tag' ) ) {
+				++$deleted_count;
+			}
+		}
+
+		if ( $deleted_count > 0 ) {
+			$redirect_args['wpto_deleted'] = $deleted_count;
+		} else {
+			$redirect_args['wpto_delete_error'] = 1;
+		}
 
 		wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
 		exit;

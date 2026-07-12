@@ -40,6 +40,7 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 	protected function get_bulk_actions() {
 		return array(
 			'prepare_merge' => __( 'Prepare merge', 'ai-tags-optimizer' ),
+			'delete'        => __( 'Delete', 'ai-tags-optimizer' ),
 		);
 	}
 
@@ -54,15 +55,42 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 	public function column_name( $item ) {
 		$edit_url = add_query_arg(
 			array(
-				'action'   => 'edit',
-				'taxonomy' => 'post_tag',
-				'tag_ID'   => $item['id'],
+				'action'    => 'edit',
+				'taxonomy'  => 'post_tag',
+				'tag_ID'    => $item['id'],
 				'post_type' => 'post',
 			),
 			admin_url( 'edit-tags.php' )
 		);
 
-		return sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), esc_html( $item['name'] ) );
+		$delete_url = wp_nonce_url(
+			add_query_arg(
+				array(
+					'page'            => WPTO_Admin_Page::MAIN_SLUG,
+					'tab'             => 'stats',
+					'wpto_delete_tag' => $item['id'],
+				),
+				admin_url( 'edit.php' )
+			),
+			'wpto_delete_tag_' . $item['id']
+		);
+
+		$row_actions = array(
+			'edit'   => sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), esc_html__( 'Edit', 'ai-tags-optimizer' ) ),
+			'delete' => sprintf(
+				'<a href="%s" class="submitdelete" onclick="return confirm(\'%s\');">%s</a>',
+				esc_url( $delete_url ),
+				esc_js( __( 'Delete this tag? This cannot be undone.', 'ai-tags-optimizer' ) ),
+				esc_html__( 'Delete', 'ai-tags-optimizer' )
+			),
+		);
+
+		return sprintf(
+			'<a href="%s"><strong>%s</strong></a>%s',
+			esc_url( $edit_url ),
+			esc_html( $item['name'] ),
+			$this->row_actions( $row_actions )
+		);
 	}
 
 	public function column_slug( $item ) {
@@ -95,7 +123,7 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 			$order = 'desc';
 		}
 
-		$per_page     = self::PER_PAGE;
+		$per_page     = $this->get_items_per_page( 'wpto_tags_per_page', self::PER_PAGE );
 		$current_page = $this->get_pagenum();
 
 		$total_items = (int) wp_count_terms(

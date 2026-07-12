@@ -1,266 +1,530 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: AI Tags Optimizer for WordPress 0.4.0\n"
+"Project-Id-Version: AI Tags Optimizer for WordPress 0.15.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2026-07-12 12:00+0200\n"
+"POT-Creation-Date: 2026-07-12 22:00+0200\n"
+"PO-Revision-Date: 2026-07-12 22:00+0200\n"
 "Last-Translator: Gioxx <https://gioxx.org>\n"
 "Language-Team: Italiano\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Domain: ai-tags-optimizer\n"
 
+#: ai-tags-optimizer.php:62
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: includes/class-wpto-admin-page.php:34 includes/class-wpto-admin-page.php:35
+#: includes/class-wpto-admin-page.php:126
 msgid "AI Tags Optimizer"
 msgstr "AI Tags Optimizer"
 
+#: includes/class-wpto-admin-page.php:44 includes/class-wpto-admin-page.php:45
+#: includes/class-wpto-settings.php:127
 msgid "AI Tags Optimizer: Settings"
 msgstr "AI Tags Optimizer: Impostazioni"
 
+#: includes/class-wpto-admin-page.php:60
+msgid "Tags per page"
+msgstr "Tag per pagina"
+
+#: includes/class-wpto-admin-page.php:100
 msgid "Delete the selected tags?"
 msgstr "Confermi la cancellazione dei tag selezionati?"
 
+#: includes/class-wpto-admin-page.php:101
 msgid "Confirm this merge? This action cannot be undone."
 msgstr "Confermi questo merge? L'operazione non è reversibile."
 
-msgid "Approve the selected suggestions? This action cannot be undone."
-msgstr "Confermi l'approvazione dei suggerimenti selezionati? L'operazione non è reversibile."
+#: includes/class-wpto-admin-page.php:102
+msgid "Delete the selected tags? This action cannot be undone."
+msgstr "Cancellare i tag selezionati? L'operazione non è reversibile."
 
+#: includes/class-wpto-admin-page.php:103
+msgid "Approve the selected suggestions? This action cannot be undone."
+msgstr ""
+"Confermi l'approvazione dei suggerimenti selezionati? L'operazione non è "
+"reversibile."
+
+#: includes/class-wpto-admin-page.php:104
 msgid "Reject the selected suggestions?"
 msgstr "Confermi il rifiuto dei suggerimenti selezionati?"
 
+#: includes/class-wpto-admin-page.php:105
 msgid "Restore the selected suggestions to pending?"
 msgstr "Ripristinare come in sospeso i suggerimenti selezionati?"
 
-msgid "Starting a new analysis will clear any unreviewed pending suggestions and re-analyze your current tags. Rejected and previously applied suggestions are kept. Continue?"
-msgstr "L'avvio di una nuova analisi cancellerà i suggerimenti in sospeso non ancora revisionati e rianalizzerà i tag attuali. I suggerimenti rifiutati e quelli già applicati vengono mantenuti. Continuare?"
+#: includes/class-wpto-admin-page.php:106
+msgid ""
+"Starting a new analysis will clear any unreviewed pending suggestions and re-"
+"analyze your current tags. Rejected and previously applied suggestions are "
+"kept. Continue?"
+msgstr ""
+"L'avvio di una nuova analisi cancellerà i suggerimenti in sospeso non ancora "
+"revisionati e rianalizzerà i tag attuali. I suggerimenti rifiutati e quelli "
+"già applicati vengono mantenuti. Continuare?"
 
+#: includes/class-wpto-admin-page.php:107
 msgid "Select at least one row first."
 msgstr "Seleziona almeno una riga."
 
+#: includes/class-wpto-admin-page.php:108
 msgid "Some items could not be processed:"
 msgstr "Alcuni elementi non sono stati elaborati:"
 
+#: includes/class-wpto-admin-page.php:109
 msgid "Something went wrong."
 msgstr "Si è verificato un errore."
 
+#: includes/class-wpto-admin-page.php:110
 msgid "Processing batch, this can take up to two minutes..."
 msgstr "Elaborazione batch in corso, può richiedere fino a due minuti..."
 
-msgid "Near-duplicates"
-msgstr "Quasi-duplicati"
+#: includes/class-wpto-admin-page.php:111 includes/class-wpto-settings.php:108
+msgid "Enter an API key first."
+msgstr "Inserisci prima una API key."
 
-msgid "Semantic overlaps"
-msgstr "Sovrapposizioni semantiche"
+#: includes/class-wpto-admin-page.php:112
+msgid "Testing..."
+msgstr "Verifica in corso..."
 
-msgid "Low-usage tags"
-msgstr "Tag a basso utilizzo"
+#: includes/class-wpto-admin-page.php:132
+#, php-format
+msgid "Need to change the API key, model, or other options? Head over to %s."
+msgstr "Vuoi cambiare API key, modello o altre opzioni? Vai su %s."
 
-msgid "Unused tags (0 posts)"
-msgstr "Tag inutilizzati (0 post)"
+#: includes/class-wpto-admin-page.php:133
+msgid "the plugin settings"
+msgstr "le impostazioni del plugin"
 
-msgid "Recount tag counts"
-msgstr "Ricalcola conteggi tag"
-
-msgid ""
-"Fixes the per-tag post count if it has drifted out of sync with the actual "
-"associations (e.g. after an import)."
-msgstr "Corregge il conteggio post per tag se risulta disallineato rispetto alle associazioni reali (es. dopo un import)."
-
-msgid "No unused tags found."
-msgstr "Nessun tag inutilizzato trovato."
-
-msgid "Name"
-msgstr "Nome"
-
-msgid "Slug"
-msgstr "Slug"
-
-msgid "Delete selected"
-msgstr "Elimina selezionati"
-
+#: includes/class-wpto-admin-page.php:139
+#: includes/class-wpto-admin-page.php:196
 msgid "AI Analysis"
 msgstr "Analisi AI"
 
+#: includes/class-wpto-admin-page.php:140
+msgid "Manage Tags"
+msgstr "Gestisci tag"
+
+#: includes/class-wpto-admin-page.php:175
+msgid "Near-duplicates"
+msgstr "Quasi-duplicati"
+
+#: includes/class-wpto-admin-page.php:176
+msgid "Semantic overlaps"
+msgstr "Sovrapposizioni semantiche"
+
+#: includes/class-wpto-admin-page.php:177
+msgid "Low-usage tags"
+msgstr "Tag a basso utilizzo"
+
+#: includes/class-wpto-admin-page.php:184
+msgid "Pending suggestions"
+msgstr "Suggerimenti in sospeso"
+
+#: includes/class-wpto-admin-page.php:188
+msgid "Merges applied"
+msgstr "Unioni applicate"
+
+#: includes/class-wpto-admin-page.php:192
+#: includes/class-wpto-admin-page.php:288
+msgid "Rejected suggestions"
+msgstr "Suggerimenti rifiutati"
+
+#: includes/class-wpto-admin-page.php:198
 msgid "Start analysis"
 msgstr "Avvia analisi"
 
+#: includes/class-wpto-admin-page.php:199
 msgid "Stop analysis"
 msgstr "Ferma analisi"
 
+#: includes/class-wpto-admin-page.php:206
 #, php-format
 msgid "Batches completed: %1$d / %2$d"
 msgstr "Batch completati: %1$d / %2$d"
 
+#: includes/class-wpto-admin-page.php:215
 msgid "Processing log"
 msgstr "Log elaborazione"
 
+#: includes/class-wpto-admin-page.php:222
 #, php-format
 msgid "Batch #%1$d - %2$s (%3$s)"
 msgstr "Batch #%1$d - %2$s (%3$s)"
 
+#: includes/class-wpto-admin-page.php:236
 msgid "Failed batches"
 msgstr "Batch falliti"
 
+#: includes/class-wpto-admin-page.php:240
 msgid "Batch ID"
 msgstr "ID batch"
 
+#: includes/class-wpto-admin-page.php:241
 msgid "Error"
 msgstr "Errore"
 
+#: includes/class-wpto-admin-page.php:250
 msgid "Retry"
 msgstr "Riprova"
 
+#: includes/class-wpto-admin-page.php:259
 msgid "Suggestions"
 msgstr "Suggerimenti"
 
-msgid "Source tag(s)"
-msgstr "Tag sorgente"
-
-msgid "Target tag"
-msgstr "Tag destinazione"
-
-msgid "Reason"
-msgstr "Motivazione"
-
-msgid "Confidence"
-msgstr "Confidenza"
-
-msgid "Actions"
-msgstr "Azioni"
-
-msgid "Rejected suggestions"
-msgstr "Suggerimenti rifiutati"
-
-msgid "Pending suggestions"
-msgstr "Suggerimenti in sospeso"
-
-msgid "Merges applied"
-msgstr "Unioni applicate"
-
-msgid "Unused tags"
-msgstr "Tag inutilizzati"
-
-msgid "Applied suggestions (history)"
-msgstr "Suggerimenti applicati (storico)"
-
-msgid "The most recent merges applied to your tags, read-only."
-msgstr "Le unioni più recenti applicate ai tuoi tag, in sola lettura."
-
-msgid "Applied on"
-msgstr "Applicato il"
-
+#: includes/class-wpto-admin-page.php:265
 msgid "Approve selected"
 msgstr "Approva selezionati"
 
+#: includes/class-wpto-admin-page.php:266
 msgid "Reject selected"
 msgstr "Rifiuta selezionati"
 
+#: includes/class-wpto-admin-page.php:272
+#: includes/class-wpto-admin-page.php:296
+#: includes/class-wpto-admin-page.php:318
+msgid "Source tag(s)"
+msgstr "Tag sorgente"
+
+#: includes/class-wpto-admin-page.php:273
+#: includes/class-wpto-admin-page.php:297
+#: includes/class-wpto-admin-page.php:319
+msgid "Target tag"
+msgstr "Tag destinazione"
+
+#: includes/class-wpto-admin-page.php:274
+#: includes/class-wpto-admin-page.php:298
+#: includes/class-wpto-admin-page.php:320
+msgid "Reason"
+msgstr "Motivazione"
+
+#: includes/class-wpto-admin-page.php:275
+#: includes/class-wpto-admin-page.php:299
+#: includes/class-wpto-admin-page.php:321
+msgid "Confidence"
+msgstr "Confidenza"
+
+#: includes/class-wpto-admin-page.php:276
+#: includes/class-wpto-admin-page.php:300
+msgid "Actions"
+msgstr "Azioni"
+
+#: includes/class-wpto-admin-page.php:290
 msgid "Restore selected"
 msgstr "Ripristina selezionati"
 
+#: includes/class-wpto-admin-page.php:313
+msgid "Applied suggestions (history)"
+msgstr "Suggerimenti applicati (storico)"
+
+#: includes/class-wpto-admin-page.php:314
+msgid "The most recent merges applied to your tags, read-only."
+msgstr "Le unioni più recenti applicate ai tuoi tag, in sola lettura."
+
+#: includes/class-wpto-admin-page.php:322
+msgid "Applied on"
+msgstr "Applicato il"
+
+#: includes/class-wpto-admin-page.php:369
+msgid "Select at least two tags to merge."
+msgstr "Seleziona almeno due tag da unire."
+
+#: includes/class-wpto-admin-page.php:384
+msgid "Tags in use"
+msgstr "Tag in uso"
+
+#: includes/class-wpto-admin-page.php:388
+msgid "Unused tags"
+msgstr "Tag inutilizzati"
+
+#: includes/class-wpto-admin-page.php:392
+msgid "Unused tags (0 posts)"
+msgstr "Tag inutilizzati (0 post)"
+
+#: includes/class-wpto-admin-page.php:394
+msgid "Recount tag counts"
+msgstr "Ricalcola conteggi tag"
+
+#: includes/class-wpto-admin-page.php:395
+msgid ""
+"Fixes the per-tag post count if it has drifted out of sync with the actual "
+"associations (e.g. after an import)."
+msgstr ""
+"Corregge il conteggio post per tag se risulta disallineato rispetto alle "
+"associazioni reali (es. dopo un import)."
+
+#: includes/class-wpto-admin-page.php:398
+msgid "No unused tags found."
+msgstr "Nessun tag inutilizzato trovato."
+
+#: includes/class-wpto-admin-page.php:405
+#: includes/class-wpto-admin-page.php:510
+#: includes/class-wpto-tag-stats-table.php:27
+msgid "Name"
+msgstr "Nome"
+
+#: includes/class-wpto-admin-page.php:406
+#: includes/class-wpto-admin-page.php:511
+#: includes/class-wpto-tag-stats-table.php:28
+msgid "Slug"
+msgstr "Slug"
+
+#: includes/class-wpto-admin-page.php:420
+msgid "Delete selected"
+msgstr "Elimina selezionati"
+
+#: includes/class-wpto-admin-page.php:429
+msgid "All tags"
+msgstr "Tutti i tag"
+
+#: includes/class-wpto-admin-page.php:437
+msgid "Search tags"
+msgstr "Cerca tag"
+
+#: includes/class-wpto-admin-page.php:455
+#, php-format
+msgid "Merged %1$d tag into \"%2$s\"."
+msgid_plural "Merged %1$d tags into \"%2$s\"."
+msgstr[0] "Unito %1$d tag in \"%2$s\"."
+msgstr[1] "Uniti %1$d tag in \"%2$s\"."
+
+#: includes/class-wpto-admin-page.php:467
+msgid "The merge could not be completed. Please try again."
+msgstr "Impossibile completare l'unione. Riprova."
+
+#: includes/class-wpto-admin-page.php:479
+#, php-format
+msgid "%d tag deleted."
+msgid_plural "%d tags deleted."
+msgstr[0] "%d tag eliminato."
+msgstr[1] "%d tag eliminati."
+
+#: includes/class-wpto-admin-page.php:490
+msgid "The tag could not be deleted. Please try again."
+msgstr "Impossibile eliminare il tag. Riprova."
+
+#: includes/class-wpto-admin-page.php:505
+#: includes/class-wpto-admin-page.php:541
+msgid "Confirm merge"
+msgstr "Conferma unione"
+
+#: includes/class-wpto-admin-page.php:506
+msgid ""
+"These tags will be merged into the one you choose below; the others will be "
+"deleted and all their posts re-tagged with it."
+msgstr "Questi tag verranno uniti in quello che scegli qui sotto; gli altri verranno eliminati e tutti i loro post ri-taggati con quello scelto."
+
+#: includes/class-wpto-admin-page.php:512
+#: includes/class-wpto-tag-stats-table.php:29
+msgid "Assigned posts"
+msgstr "Post assegnati"
+
+#: includes/class-wpto-admin-page.php:533
+#: includes/class-wpto-admin-page.php:736
+msgid "Merge into"
+msgstr "Unisci in"
+
+#: includes/class-wpto-admin-page.php:542
+msgid "Cancel"
+msgstr "Annulla"
+
+#: includes/class-wpto-admin-page.php:575
+msgid "Usage distribution"
+msgstr "Distribuzione utilizzo"
+
+#: includes/class-wpto-admin-page.php:734
 msgid "Restore"
 msgstr "Ripristina"
 
+#: includes/class-wpto-admin-page.php:742
 msgid "Approve"
 msgstr "Approva"
 
+#: includes/class-wpto-admin-page.php:743
 msgid "Reject"
 msgstr "Rifiuta"
 
+#: includes/class-wpto-admin-page.php:754
+#: includes/class-wpto-admin-page.php:772
+#: includes/class-wpto-admin-page.php:784
+#: includes/class-wpto-admin-page.php:808 includes/class-wpto-queue.php:24
+#: includes/class-wpto-queue.php:45 includes/class-wpto-queue.php:57
+#: includes/class-wpto-queue.php:70 includes/class-wpto-settings.php:102
 msgid "Insufficient permissions."
 msgstr "Permessi insufficienti."
 
+#: includes/class-wpto-admin-page.php:760
 msgid "No tags selected."
 msgstr "Nessun tag selezionato."
 
+#: includes/class-wpto-admin-page.php:792
+#: includes/class-wpto-admin-page.php:816
 msgid "Invalid request."
 msgstr "Richiesta non valida."
 
+#: includes/class-wpto-admin-page.php:849
 msgid "Suggestion not found."
 msgstr "Suggerimento non trovato."
 
+#: includes/class-wpto-admin-page.php:867
+msgid "Invalid target selection."
+msgstr "Selezione di destinazione non valida."
+
+#: includes/class-wpto-api-client.php:23 includes/class-wpto-api-client.php:89
 msgid "No API key configured."
 msgstr "Nessuna API key configurata."
 
+#: includes/class-wpto-api-client.php:65 includes/class-wpto-api-client.php:130
 #, php-format
 msgid "Claude API error (HTTP %1$d): %2$s"
 msgstr "Errore API Claude (HTTP %1$d): %2$s"
 
+#: includes/class-wpto-api-client.php:75
 msgid "Unexpected API response format."
 msgstr "Risposta API in un formato inatteso."
 
+#: includes/class-wpto-api-client.php:174
 msgid "The model response does not contain valid JSON."
 msgstr "La risposta del modello non contiene JSON valido."
 
+#: includes/class-wpto-merge-handler.php:22
 msgid "The target tag no longer exists."
 msgstr "Il tag di destinazione non esiste più."
 
+#: includes/class-wpto-merge-handler.php:28
 msgid "No valid source tag in the suggestion."
 msgstr "Nessun tag sorgente valido nel suggerimento."
 
+#: includes/class-wpto-queue.php:76
 msgid "Invalid batch."
 msgstr "Batch non valido."
 
+#: includes/class-wpto-queue.php:186
 msgid "Batch tag list is empty or invalid."
 msgstr "Elenco tag del batch vuoto o non valido."
 
+#: includes/class-wpto-queue.php:204
 msgid "No valid tags found for this batch."
 msgstr "Nessun tag valido trovato per questo batch."
 
-msgid "Anthropic API Key"
-msgstr "Anthropic API Key"
-
-msgid "Model"
-msgstr "Modello"
-
-msgid "E.g. claude-haiku-4-5, claude-sonnet-5."
-msgstr "Es. claude-haiku-4-5, claude-sonnet-5."
-
-msgid "Batch size"
-msgstr "Dimensione batch"
-
-msgid "Number of tags sent per API call (10-500)."
-msgstr "Numero di tag inviati per ogni chiamata API (10-500)."
-
-msgid "AI response language"
-msgstr "Lingua delle risposte AI"
-
-msgid "e.g. Italian, English..."
-msgstr "es. Italiano, Inglese..."
-
-msgid "Language Claude should use for the \"reason\" it gives on each suggestion. Leave blank to let it match the language of your tag names automatically. This only affects Claude's output, not the plugin's own interface language."
-msgstr "Lingua che Claude deve usare per la motivazione di ogni suggerimento. Lascia vuoto per farla corrispondere automaticamente alla lingua dei nomi dei tuoi tag. Questa impostazione riguarda solo l'output di Claude, non la lingua dell'interfaccia del plugin."
-
-msgid "Full cleanup on uninstall"
-msgstr "Pulizia completa alla disinstallazione"
-
-msgid "Remove all plugin data (database tables and settings) when the plugin is deleted."
-msgstr "Rimuovi tutti i dati del plugin (tabelle del database e impostazioni) quando il plugin viene eliminato."
-
-msgid "Uncheck this if you want batch history and suggestions to survive a delete-and-reinstall of the plugin."
-msgstr "Deseleziona questa opzione se vuoi che lo storico dei batch e i suggerimenti sopravvivano a una disinstallazione e reinstallazione del plugin."
-
-msgid "Test API key"
-msgstr "Testa API key"
-
-msgid "Enter an API key first."
-msgstr "Inserisci prima una API key."
-
-msgid "Testing..."
-msgstr "Verifica in corso..."
-
-msgid "Merge into"
-msgstr "Unisci in"
-
-msgid "Invalid target selection."
-msgstr "Selezione di destinazione non valida."
-
+#: includes/class-wpto-settings.php:118
 msgid "Connection successful."
 msgstr "Connessione riuscita."
 
+#: includes/class-wpto-settings.php:132
+#, php-format
+msgid "Looking to run an analysis or review suggestions? Head over to %s."
+msgstr "Vuoi avviare un'analisi o rivedere i suggerimenti? Vai su %s."
+
+#: includes/class-wpto-settings.php:133
+msgid "Posts &rsaquo; AI Tags Optimizer"
+msgstr "Articoli &rsaquo; AI Tags Optimizer"
+
+#: includes/class-wpto-settings.php:141
+msgid "Anthropic API Key"
+msgstr "Anthropic API Key"
+
+#: includes/class-wpto-settings.php:144
+msgid "Test API key"
+msgstr "Testa API key"
+
+#: includes/class-wpto-settings.php:149
+msgid "Model"
+msgstr "Modello"
+
+#: includes/class-wpto-settings.php:152
+msgid "E.g. claude-haiku-4-5, claude-sonnet-5."
+msgstr "Es. claude-haiku-4-5, claude-sonnet-5."
+
+#: includes/class-wpto-settings.php:156
+msgid "Batch size"
+msgstr "Dimensione batch"
+
+#: includes/class-wpto-settings.php:159
+msgid "Number of tags sent per API call (10-500)."
+msgstr "Numero di tag inviati per ogni chiamata API (10-500)."
+
+#: includes/class-wpto-settings.php:163
+msgid "AI response language"
+msgstr "Lingua delle risposte AI"
+
+#: includes/class-wpto-settings.php:165
+msgid "e.g. Italian, English..."
+msgstr "es. Italiano, Inglese..."
+
+#: includes/class-wpto-settings.php:166
+msgid ""
+"Language Claude should use for the \"reason\" it gives on each suggestion. "
+"Leave blank to let it match the language of your tag names automatically. "
+"This only affects Claude's output, not the plugin's own interface language."
+msgstr ""
+"Lingua che Claude deve usare per la motivazione di ogni suggerimento. Lascia "
+"vuoto per farla corrispondere automaticamente alla lingua dei nomi dei tuoi "
+"tag. Questa impostazione riguarda solo l'output di Claude, non la lingua "
+"dell'interfaccia del plugin."
+
+#: includes/class-wpto-settings.php:170
+msgid "Full cleanup on uninstall"
+msgstr "Pulizia completa alla disinstallazione"
+
+#: includes/class-wpto-settings.php:175
+msgid ""
+"Remove all plugin data (database tables and settings) when the plugin is "
+"deleted."
+msgstr ""
+"Rimuovi tutti i dati del plugin (tabelle del database e impostazioni) quando "
+"il plugin viene eliminato."
+
+#: includes/class-wpto-settings.php:177
+msgid ""
+"Uncheck this if you want batch history and suggestions to survive a delete-"
+"and-reinstall of the plugin."
+msgstr ""
+"Deseleziona questa opzione se vuoi che lo storico dei batch e i suggerimenti "
+"sopravvivano a una disinstallazione e reinstallazione del plugin."
+
+#: includes/class-wpto-settings.php:195
+#, php-format
 msgid "AI Tags Optimizer for WordPress by %1$s, source on %2$s."
 msgstr "AI Tags Optimizer for WordPress di %1$s, sorgente su %2$s."
 
-msgid "All trademarks mentioned are the property of their respective owners. Third-party trademarks, product names, trade names, corporate names and companies mentioned may be trademarks of their respective owners or registered trademarks of other companies and have been used for explanatory purposes only and for the benefit of the owner, without any intent to infringe existing copyright."
-msgstr "Tutti i marchi citati sono di proprietà dei rispettivi titolari. Marchi di terzi, nomi di prodotti, nomi commerciali, ragioni sociali e aziende citate possono essere marchi dei rispettivi proprietari o marchi registrati di altre società e sono stati utilizzati a scopo esplicativo esclusivamente a beneficio del titolare, senza alcuna intenzione di violare diritti di copyright esistenti."
+#: includes/class-wpto-settings.php:202
+msgid ""
+"All trademarks mentioned are the property of their respective owners. Third-"
+"party trademarks, product names, trade names, corporate names and companies "
+"mentioned may be trademarks of their respective owners or registered "
+"trademarks of other companies and have been used for explanatory purposes "
+"only and for the benefit of the owner, without any intent to infringe "
+"existing copyright."
+msgstr ""
+"Tutti i marchi citati sono di proprietà dei rispettivi titolari. Marchi di "
+"terzi, nomi di prodotti, nomi commerciali, ragioni sociali e aziende citate "
+"possono essere marchi dei rispettivi proprietari o marchi registrati di "
+"altre società e sono stati utilizzati a scopo esplicativo esclusivamente a "
+"beneficio del titolare, senza alcuna intenzione di violare diritti di "
+"copyright esistenti."
+
+#: includes/class-wpto-tag-stats-table.php:42
+msgid "Prepare merge"
+msgstr "Prepara unione"
+
+#: includes/class-wpto-tag-stats-table.php:43
+#: includes/class-wpto-tag-stats-table.php:84
+msgid "Delete"
+msgstr "Elimina"
+
+#: includes/class-wpto-tag-stats-table.php:48
+msgid "No tags found."
+msgstr "Nessun tag trovato."
+
+#: includes/class-wpto-tag-stats-table.php:79
+msgid "Edit"
+msgstr "Modifica"
+
+#: includes/class-wpto-tag-stats-table.php:83
+msgid "Delete this tag? This cannot be undone."
+msgstr "Eliminare questo tag? L'operazione non è reversibile."

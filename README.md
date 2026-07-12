@@ -33,7 +33,7 @@ Go to **Tools → AI Tags Optimizer: Settings** and fill in:
 
 ## Running an analysis
 
-1. Go to **Posts → AI Tags Optimizer**.
+1. Go to **Posts → AI Tags Optimizer**, on the **"AI Analysis"** tab.
 2. Click **"Start analysis"**. Tags are processed in batches, with a live processing log and progress indicator; use **"Stop analysis"** to interrupt it.
 3. Once batches complete, suggestions appear grouped by type:
    - **Near-duplicates** — textual near-duplicates (typos, plurals, casing, hyphens/spaces)
@@ -44,13 +44,15 @@ Go to **Tools → AI Tags Optimizer: Settings** and fill in:
 
 Each suggestion can be **Approved** (merges the source tag(s) into the target tag), **Rejected**, or later **Restored** from the "Rejected suggestions" list back to pending. Every table also supports multi-select with a "select all" checkbox and bulk **Approve selected / Reject selected / Restore selected** actions — selection and bulk actions are scoped independently per table.
 
-## Unused tags
+## Managing tags without AI
 
-The "Unused tags (0 posts)" table lists tags with no post associations, with a bulk delete option. If counts look wrong (e.g. after an import), use **"Recount tag counts"** to fix them.
+The **"Manage Tags"** tab (next to "AI Analysis" on the same page) is where all the non-AI, manual tag housekeeping lives:
 
-## Tag Statistics and manual merge
-
-The **"Tag Statistics"** tab (next to "Optimizer" on the same page) shows a usage-distribution histogram plus a searchable, sortable, paginated table of every tag in use, each linking straight to its filtered post list. No AI is involved here: select any 2+ tags via checkbox — regardless of how their names differ — choose which one should survive from a "Merge into" dropdown, and confirm. This skips the need to give unrelated tags a common search term just to find them together, which WordPress's native Tags screen requires.
+- A usage-distribution histogram for an at-a-glance read of your taxonomy.
+- The **"Unused tags (0 posts)"** table, with a bulk delete option; use **"Recount tag counts"** if counts look wrong (e.g. after an import).
+- A searchable, sortable, paginated table of every tag in use, each linking straight to its filtered post list. Use the screen options panel (top right) to change how many tags are shown per page.
+- **Delete** any tag individually (row action) or in bulk.
+- **Merge** any 2+ tags regardless of how their names differ: select them via checkbox, choose which one should survive from a "Merge into" dropdown, and confirm. This skips the need to give unrelated tags a common search term just to find them together, which WordPress's native Tags screen requires — and no AI is involved.
 
 ## Updates
 

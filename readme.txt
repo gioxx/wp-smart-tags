@@ -19,6 +19,7 @@ Features:
 * Merge suggestions grouped by type: near-duplicates, semantic overlaps, low-usage tags
 * Per-suggestion Approve/Reject/Restore, plus multi-select bulk actions (bulk approve, bulk reject, bulk restore) on each suggestions table
 * Rejected suggestions are kept (not discarded) and can be restored to pending at any time
+* A "Manage Tags" tab for non-AI tag housekeeping: a usage-distribution histogram, a searchable/sortable/paginated table of every tag in use (each linking to its filtered post list), individual or bulk tag deletion, and a manual merge tool to combine any 2+ tags regardless of naming
 * Unused tag detection (0 posts) with a bulk delete and a "recount tag counts" tool to fix drifted counts
 * Configurable AI model, batch size, and response language for Claude's suggestion "reason" text, independent of the plugin's own UI language
 * "Test API key" button to verify the Anthropic API key before saving

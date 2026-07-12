@@ -33,7 +33,7 @@ Vai su **Strumenti → AI Tags Optimizer: Settings** e compila:
 
 ## Avviare un'analisi
 
-1. Vai su **Articoli → AI Tags Optimizer**.
+1. Vai su **Articoli → AI Tags Optimizer**, nella tab **"AI Analysis"**.
 2. Clicca **"Start analysis"**. I tag vengono elaborati a batch, con un log di elaborazione live e un indicatore di avanzamento; usa **"Stop analysis"** per interromperla.
 3. Al termine dei batch, i suggerimenti compaiono raggruppati per tipo:
    - **Near-duplicates** — quasi-duplicati testuali (refusi, plurali, maiuscole/minuscole, trattini/spazi)
@@ -44,13 +44,15 @@ Vai su **Strumenti → AI Tags Optimizer: Settings** e compila:
 
 Ogni suggerimento può essere **Approvato** (unisce il/i tag sorgente nel tag target), **Rifiutato**, oppure in seguito **Ripristinato** dalla lista "Rejected suggestions" per tornare in sospeso. Ogni tabella supporta anche la selezione multipla con checkbox "seleziona tutto" e azioni bulk **Approve selected / Reject selected / Restore selected** — selezione e azioni bulk sono indipendenti per ciascuna tabella.
 
-## Tag inutilizzati
+## Gestire i tag senza IA
 
-La tabella "Unused tags (0 posts)" elenca i tag senza post associati, con un'opzione di cancellazione multipla. Se i conteggi sembrano sbagliati (es. dopo un'importazione), usa **"Recount tag counts"** per correggerli.
+La tab **"Manage Tags"** (accanto a "AI Analysis" sulla stessa pagina) raccoglie tutta la gestione manuale, non-IA, dei tag:
 
-## Statistiche tag e merge manuale
-
-La tab **"Tag Statistics"** (accanto a "Optimizer" sulla stessa pagina) mostra un istogramma di distribuzione dell'utilizzo e una tabella di tutti i tag in uso, cercabile, ordinabile e paginata, con ogni tag collegato direttamente alla lista articoli filtrata. Qui non è coinvolta l'IA: seleziona 2 o più tag con le checkbox — indipendentemente da quanto i loro nomi differiscano — scegli quale deve sopravvivere da una dropdown "Merge into" e conferma. Non serve più dare ai tag un termine di ricerca comune solo per trovarli insieme, come richiede invece la schermata Tag nativa di WordPress.
+- Un istogramma di distribuzione dell'utilizzo per un colpo d'occhio immediato sulla tua tassonomia.
+- La tabella **"Unused tags (0 posts)"**, con un'opzione di cancellazione multipla; usa **"Recount tag counts"** se i conteggi sembrano sbagliati (es. dopo un'importazione).
+- Una tabella di tutti i tag in uso, cercabile, ordinabile e paginata, con ogni tag collegato direttamente alla lista articoli filtrata. Usa il pannello opzioni schermata (in alto a destra) per cambiare quanti tag mostrare per pagina.
+- **Cancella** qualsiasi tag singolarmente (azione di riga) o in blocco.
+- **Unisci** 2 o più tag indipendentemente da quanto i loro nomi differiscano: selezionali con le checkbox, scegli quale deve sopravvivere da una dropdown "Merge into" e conferma. Non serve più dare ai tag un termine di ricerca comune solo per trovarli insieme, come richiede invece la schermata Tag nativa di WordPress — e qui non è coinvolta l'IA.
 
 ## Aggiornamenti
 
