@@ -19,13 +19,13 @@ class WPTO_Merge_Handler {
 		$target    = get_term( $target_id, 'post_tag' );
 
 		if ( ! $target || is_wp_error( $target ) ) {
-			return new WP_Error( 'wpto_missing_target', __( 'Il tag di destinazione non esiste piu\'.', 'wp-tags-optimizer' ) );
+			return new WP_Error( 'wpto_missing_target', __( 'The target tag no longer exists.', 'ai-tags-optimizer' ) );
 		}
 
 		$source_ids = json_decode( $suggestion['source_term_ids'], true );
 
 		if ( ! is_array( $source_ids ) || empty( $source_ids ) ) {
-			return new WP_Error( 'wpto_missing_source', __( 'Nessun tag sorgente valido nel suggerimento.', 'wp-tags-optimizer' ) );
+			return new WP_Error( 'wpto_missing_source', __( 'No valid source tag in the suggestion.', 'ai-tags-optimizer' ) );
 		}
 
 		foreach ( $source_ids as $source_id ) {

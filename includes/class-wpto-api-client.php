@@ -20,7 +20,7 @@ class WPTO_Api_Client {
 		$api_key = WPTO_Settings::get_api_key();
 
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'wpto_no_api_key', __( 'Nessuna API key configurata.', 'wp-tags-optimizer' ) );
+			return new WP_Error( 'wpto_no_api_key', __( 'No API key configured.', 'ai-tags-optimizer' ) );
 		}
 
 		$valid_ids = wp_list_pluck( $tags, 'id' );
@@ -62,7 +62,7 @@ class WPTO_Api_Client {
 				'wpto_api_error',
 				sprintf(
 					/* translators: 1: HTTP status code, 2: response body */
-					__( 'Errore API Claude (HTTP %1$d): %2$s', 'wp-tags-optimizer' ),
+					__( 'Claude API error (HTTP %1$d): %2$s', 'ai-tags-optimizer' ),
 					$status_code,
 					$raw_body
 				)
@@ -72,21 +72,21 @@ class WPTO_Api_Client {
 		$decoded = json_decode( $raw_body, true );
 
 		if ( ! is_array( $decoded ) || empty( $decoded['content'][0]['text'] ) ) {
-			return new WP_Error( 'wpto_bad_response', __( 'Risposta API in un formato inatteso.', 'wp-tags-optimizer' ) );
+			return new WP_Error( 'wpto_bad_response', __( 'Unexpected API response format.', 'ai-tags-optimizer' ) );
 		}
 
 		return $this->parse_suggestions( $decoded['content'][0]['text'], $valid_ids );
 	}
 
 	private function build_system_prompt() {
-		return "Sei un assistente che analizza un elenco di tag di WordPress (formato JSON: id, name, count) per individuare:\n"
-			. "1) near_duplicate: quasi-duplicati testuali (refusi, plurali, maiuscole/minuscole, trattini/spazi)\n"
-			. "2) semantic_overlap: tag diversi nel testo ma con significato sovrapponibile\n"
-			. "3) low_usage_merge: tag con count molto basso che potrebbero confluire in un tag piu' ampio gia' presente nell'elenco\n\n"
-			. "Rispondi SOLO con JSON valido, nessun testo aggiuntivo, nessun blocco di codice, nel formato esatto:\n"
+		return "You are an assistant analyzing a list of WordPress tags (JSON format: id, name, count) to identify:\n"
+			. "1) near_duplicate: textual near-duplicates (typos, plurals, casing, hyphens/spaces)\n"
+			. "2) semantic_overlap: tags with different wording but overlapping meaning\n"
+			. "3) low_usage_merge: tags with a very low count that could merge into a broader tag already present in the list\n\n"
+			. "Reply with ONLY valid JSON, no extra text, no code block, in this exact format:\n"
 			. '{"suggestions":[{"type":"near_duplicate|semantic_overlap|low_usage_merge","source_tag_ids":[123],"target_tag_id":456,"reason":"...","confidence":0.0}]}' . "\n\n"
-			. "Regole: usa solo gli id presenti nell'elenco fornito; target_tag_id deve essere diverso da tutti i source_tag_ids; "
-			. "se non trovi suggerimenti significativi restituisci {\"suggestions\":[]}.";
+			. "Rules: only use ids present in the given list; target_tag_id must differ from every source_tag_id; "
+			. "if you find no meaningful suggestions, return {\"suggestions\":[]}. Write the \"reason\" field in the same language as the tag names.";
 	}
 
 	private function parse_suggestions( $text, array $valid_ids ) {
@@ -102,7 +102,7 @@ class WPTO_Api_Client {
 		$decoded = json_decode( $text, true );
 
 		if ( ! is_array( $decoded ) || ! isset( $decoded['suggestions'] ) || ! is_array( $decoded['suggestions'] ) ) {
-			return new WP_Error( 'wpto_invalid_json', __( 'La risposta del modello non contiene JSON valido.', 'wp-tags-optimizer' ) );
+			return new WP_Error( 'wpto_invalid_json', __( 'The model response does not contain valid JSON.', 'ai-tags-optimizer' ) );
 		}
 
 		$valid_ids_flip = array_flip( array_map( 'intval', $valid_ids ) );

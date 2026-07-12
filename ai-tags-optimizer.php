@@ -1,20 +1,21 @@
 <?php
 /**
- * Plugin Name: WP Tags Optimizer
- * Description: Analizza i tag di WordPress con l'aiuto dell'API Claude (Anthropic) per suggerire merge di duplicati/sinonimi e individuare tag inutilizzati. Richiede sempre approvazione manuale prima di ogni modifica.
- * Version: 0.4.0
+ * Plugin Name: AI Tags Optimizer for WordPress
+ * Description: Analyzes WordPress tags with the help of the Claude API (Anthropic) to suggest merges for duplicates/synonyms and flag unused tags. Always requires manual approval before any change.
+ * Version: 0.5.0
  * Author: Gioxx
  * Author URI: https://gioxx.org
- * Plugin URI: https://github.com/gioxx/wp-tags-optimizer
+ * Plugin URI: https://github.com/gioxx/ai-tags-optimizer
  * License: GPL-2.0-or-later
- * Text Domain: wp-tags-optimizer
+ * Text Domain: ai-tags-optimizer
+ * Domain Path: /languages
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WPTO_VERSION', '0.4.0' );
+define( 'WPTO_VERSION', '0.5.0' );
 define( 'WPTO_PLUGIN_FILE', __FILE__ );
 define( 'WPTO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPTO_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -39,6 +40,8 @@ register_deactivation_hook(
 add_action(
 	'plugins_loaded',
 	function () {
+		load_plugin_textdomain( 'ai-tags-optimizer', false, dirname( plugin_basename( WPTO_PLUGIN_FILE ) ) . '/languages' );
+
 		WPTO_Settings::init();
 		WPTO_Queue::init();
 		WPTO_Admin_Page::init();

@@ -1,0 +1,179 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: AI Tags Optimizer for WordPress 0.4.0\n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: 2026-07-12 12:00+0200\n"
+"Last-Translator: Gioxx <https://gioxx.org>\n"
+"Language-Team: Italiano\n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Domain: ai-tags-optimizer\n"
+
+msgid "AI Tags Optimizer"
+msgstr "AI Tags Optimizer"
+
+msgid "AI Tags Optimizer - Settings"
+msgstr "AI Tags Optimizer - Impostazioni"
+
+msgid "Delete the selected tags?"
+msgstr "Confermi la cancellazione dei tag selezionati?"
+
+msgid "Confirm this merge? This action cannot be undone."
+msgstr "Confermi questo merge? L'operazione non è reversibile."
+
+msgid "Something went wrong."
+msgstr "Si è verificato un errore."
+
+msgid "Processing batch, this can take up to two minutes..."
+msgstr "Elaborazione batch in corso, può richiedere fino a due minuti..."
+
+msgid "Near-duplicates"
+msgstr "Quasi-duplicati"
+
+msgid "Semantic overlaps"
+msgstr "Sovrapposizioni semantiche"
+
+msgid "Low-usage tags"
+msgstr "Tag a basso utilizzo"
+
+msgid "Unused tags (0 posts)"
+msgstr "Tag inutilizzati (0 post)"
+
+msgid "Recount tag counts"
+msgstr "Ricalcola conteggi tag"
+
+msgid ""
+"Fixes the per-tag post count if it has drifted out of sync with the actual "
+"associations (e.g. after an import)."
+msgstr "Corregge il conteggio post per tag se risulta disallineato rispetto alle associazioni reali (es. dopo un import)."
+
+msgid "No unused tags found."
+msgstr "Nessun tag inutilizzato trovato."
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Slug"
+msgstr "Slug"
+
+msgid "Delete selected"
+msgstr "Elimina selezionati"
+
+msgid "AI Analysis"
+msgstr "Analisi AI"
+
+msgid "Start analysis"
+msgstr "Avvia analisi"
+
+msgid "Stop analysis"
+msgstr "Ferma analisi"
+
+#, php-format
+msgid "Batches completed: %1$d / %2$d"
+msgstr "Batch completati: %1$d / %2$d"
+
+msgid "Processing log"
+msgstr "Log elaborazione"
+
+#, php-format
+msgid "Batch #%1$d - %2$s (%3$s)"
+msgstr "Batch #%1$d - %2$s (%3$s)"
+
+msgid "Failed batches"
+msgstr "Batch falliti"
+
+msgid "Batch ID"
+msgstr "ID batch"
+
+msgid "Error"
+msgstr "Errore"
+
+msgid "Retry"
+msgstr "Riprova"
+
+msgid "Suggestions"
+msgstr "Suggerimenti"
+
+msgid "Source tag(s)"
+msgstr "Tag sorgente"
+
+msgid "Target tag"
+msgstr "Tag destinazione"
+
+msgid "Reason"
+msgstr "Motivazione"
+
+msgid "Confidence"
+msgstr "Confidenza"
+
+msgid "Actions"
+msgstr "Azioni"
+
+msgid "Rejected suggestions"
+msgstr "Suggerimenti rifiutati"
+
+msgid "Restore"
+msgstr "Ripristina"
+
+msgid "Approve"
+msgstr "Approva"
+
+msgid "Reject"
+msgstr "Rifiuta"
+
+msgid "Insufficient permissions."
+msgstr "Permessi insufficienti."
+
+msgid "No tags selected."
+msgstr "Nessun tag selezionato."
+
+msgid "Invalid request."
+msgstr "Richiesta non valida."
+
+msgid "Suggestion not found."
+msgstr "Suggerimento non trovato."
+
+msgid "No API key configured."
+msgstr "Nessuna API key configurata."
+
+#, php-format
+msgid "Claude API error (HTTP %1$d): %2$s"
+msgstr "Errore API Claude (HTTP %1$d): %2$s"
+
+msgid "Unexpected API response format."
+msgstr "Risposta API in un formato inatteso."
+
+msgid "The model response does not contain valid JSON."
+msgstr "La risposta del modello non contiene JSON valido."
+
+msgid "The target tag no longer exists."
+msgstr "Il tag di destinazione non esiste più."
+
+msgid "No valid source tag in the suggestion."
+msgstr "Nessun tag sorgente valido nel suggerimento."
+
+msgid "Invalid batch."
+msgstr "Batch non valido."
+
+msgid "Batch tag list is empty or invalid."
+msgstr "Elenco tag del batch vuoto o non valido."
+
+msgid "No valid tags found for this batch."
+msgstr "Nessun tag valido trovato per questo batch."
+
+msgid "Anthropic API Key"
+msgstr "Anthropic API Key"
+
+msgid "Model"
+msgstr "Modello"
+
+msgid "E.g. claude-haiku-4-5, claude-sonnet-5."
+msgstr "Es. claude-haiku-4-5, claude-sonnet-5."
+
+msgid "Batch size"
+msgstr "Dimensione batch"
+
+msgid "Number of tags sent per API call (10-500)."
+msgstr "Numero di tag inviati per ogni chiamata API (10-500)."

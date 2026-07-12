@@ -70,28 +70,28 @@ class WPTO_Settings {
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Tags Optimizer - Impostazioni', 'wp-tags-optimizer' ); ?></h1>
+			<h1><?php esc_html_e( 'AI Tags Optimizer - Settings', 'ai-tags-optimizer' ); ?></h1>
 			<form method="post" action="options.php">
 				<?php settings_fields( self::OPTION_GROUP ); ?>
 				<table class="form-table" role="presentation">
 					<tr>
-						<th scope="row"><label for="wpto_api_key"><?php esc_html_e( 'Anthropic API Key', 'wp-tags-optimizer' ); ?></label></th>
+						<th scope="row"><label for="wpto_api_key"><?php esc_html_e( 'Anthropic API Key', 'ai-tags-optimizer' ); ?></label></th>
 						<td>
 							<input type="password" id="wpto_api_key" name="wpto_api_key" value="<?php echo esc_attr( self::get_api_key() ); ?>" class="regular-text" autocomplete="off" />
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="wpto_model"><?php esc_html_e( 'Modello', 'wp-tags-optimizer' ); ?></label></th>
+						<th scope="row"><label for="wpto_model"><?php esc_html_e( 'Model', 'ai-tags-optimizer' ); ?></label></th>
 						<td>
 							<input type="text" id="wpto_model" name="wpto_model" value="<?php echo esc_attr( self::get_model() ); ?>" class="regular-text" placeholder="claude-haiku-4-5" />
-							<p class="description"><?php esc_html_e( 'Es. claude-haiku-4-5, claude-sonnet-5.', 'wp-tags-optimizer' ); ?></p>
+							<p class="description"><?php esc_html_e( 'E.g. claude-haiku-4-5, claude-sonnet-5.', 'ai-tags-optimizer' ); ?></p>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="wpto_batch_size"><?php esc_html_e( 'Dimensione batch', 'wp-tags-optimizer' ); ?></label></th>
+						<th scope="row"><label for="wpto_batch_size"><?php esc_html_e( 'Batch size', 'ai-tags-optimizer' ); ?></label></th>
 						<td>
 							<input type="number" min="10" max="500" id="wpto_batch_size" name="wpto_batch_size" value="<?php echo esc_attr( self::get_batch_size() ); ?>" class="small-text" />
-							<p class="description"><?php esc_html_e( 'Numero di tag inviati per ogni chiamata API (10-500).', 'wp-tags-optimizer' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Number of tags sent per API call (10-500).', 'ai-tags-optimizer' ); ?></p>
 						</td>
 					</tr>
 				</table>

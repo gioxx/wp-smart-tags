@@ -1,0 +1,250 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the AI Tags Optimizer for WordPress package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: AI Tags Optimizer for WordPress 0.4.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-12 11:32+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: includes/class-wpto-admin-page.php:21 includes/class-wpto-admin-page.php:22
+#: includes/class-wpto-admin-page.php:91
+msgid "AI Tags Optimizer"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:29 includes/class-wpto-admin-page.php:30
+#: includes/class-wpto-settings.php:73
+msgid "AI Tags Optimizer - Settings"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:52
+msgid "Delete the selected tags?"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:53
+msgid "Confirm this merge? This action cannot be undone."
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:54
+msgid "Something went wrong."
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:55
+msgid "Processing batch, this can take up to two minutes..."
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:84
+msgid "Near-duplicates"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:85
+msgid "Semantic overlaps"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:86
+msgid "Low-usage tags"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:93
+msgid "Unused tags (0 posts)"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:95
+msgid "Recount tag counts"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:96
+msgid ""
+"Fixes the per-tag post count if it has drifted out of sync with the actual "
+"associations (e.g. after an import)."
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:99
+msgid "No unused tags found."
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:106
+msgid "Name"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:107
+msgid "Slug"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:121
+msgid "Delete selected"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:128
+msgid "AI Analysis"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:130
+msgid "Start analysis"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:131
+msgid "Stop analysis"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:138
+#, php-format
+msgid "Batches completed: %1$d / %2$d"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:147
+msgid "Processing log"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:154
+#, php-format
+msgid "Batch #%1$d - %2$s (%3$s)"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:168
+msgid "Failed batches"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:172
+msgid "Batch ID"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:173
+msgid "Error"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:182
+msgid "Retry"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:191
+msgid "Suggestions"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:199
+#: includes/class-wpto-admin-page.php:219
+msgid "Source tag(s)"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:200
+#: includes/class-wpto-admin-page.php:220
+msgid "Target tag"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:201
+#: includes/class-wpto-admin-page.php:221
+msgid "Reason"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:202
+#: includes/class-wpto-admin-page.php:222
+msgid "Confidence"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:203
+#: includes/class-wpto-admin-page.php:223
+msgid "Actions"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:215
+msgid "Rejected suggestions"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:256
+msgid "Restore"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:258
+msgid "Approve"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:259
+msgid "Reject"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:270
+#: includes/class-wpto-admin-page.php:288
+#: includes/class-wpto-admin-page.php:300 includes/class-wpto-queue.php:23
+#: includes/class-wpto-queue.php:43 includes/class-wpto-queue.php:55
+#: includes/class-wpto-queue.php:68
+msgid "Insufficient permissions."
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:276
+msgid "No tags selected."
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:307
+msgid "Invalid request."
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:313
+msgid "Suggestion not found."
+msgstr ""
+
+#: includes/class-wpto-api-client.php:23
+msgid "No API key configured."
+msgstr ""
+
+#: includes/class-wpto-api-client.php:65
+#, php-format
+msgid "Claude API error (HTTP %1$d): %2$s"
+msgstr ""
+
+#: includes/class-wpto-api-client.php:75
+msgid "Unexpected API response format."
+msgstr ""
+
+#: includes/class-wpto-api-client.php:105
+msgid "The model response does not contain valid JSON."
+msgstr ""
+
+#: includes/class-wpto-merge-handler.php:22
+msgid "The target tag no longer exists."
+msgstr ""
+
+#: includes/class-wpto-merge-handler.php:28
+msgid "No valid source tag in the suggestion."
+msgstr ""
+
+#: includes/class-wpto-queue.php:74
+msgid "Invalid batch."
+msgstr ""
+
+#: includes/class-wpto-queue.php:157
+msgid "Batch tag list is empty or invalid."
+msgstr ""
+
+#: includes/class-wpto-queue.php:175
+msgid "No valid tags found for this batch."
+msgstr ""
+
+#: includes/class-wpto-settings.php:78
+msgid "Anthropic API Key"
+msgstr ""
+
+#: includes/class-wpto-settings.php:84
+msgid "Model"
+msgstr ""
+
+#: includes/class-wpto-settings.php:87
+msgid "E.g. claude-haiku-4-5, claude-sonnet-5."
+msgstr ""
+
+#: includes/class-wpto-settings.php:91
+msgid "Batch size"
+msgstr ""
+
+#: includes/class-wpto-settings.php:94
+msgid "Number of tags sent per API call (10-500)."
+msgstr ""

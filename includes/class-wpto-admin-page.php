@@ -18,16 +18,16 @@ class WPTO_Admin_Page {
 
 	public static function register_menu() {
 		add_management_page(
-			__( 'Tags Optimizer', 'wp-tags-optimizer' ),
-			__( 'Tags Optimizer', 'wp-tags-optimizer' ),
+			__( 'AI Tags Optimizer', 'ai-tags-optimizer' ),
+			__( 'AI Tags Optimizer', 'ai-tags-optimizer' ),
 			'manage_options',
 			self::MAIN_SLUG,
 			array( __CLASS__, 'render_main_page' )
 		);
 
 		add_management_page(
-			__( 'Tags Optimizer - Impostazioni', 'wp-tags-optimizer' ),
-			__( 'Tags Optimizer - Impostazioni', 'wp-tags-optimizer' ),
+			__( 'AI Tags Optimizer - Settings', 'ai-tags-optimizer' ),
+			__( 'AI Tags Optimizer - Settings', 'ai-tags-optimizer' ),
 			'manage_options',
 			self::SETTINGS_SLUG,
 			array( 'WPTO_Settings', 'render_page' )
@@ -49,10 +49,10 @@ class WPTO_Admin_Page {
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 				'nonce'   => wp_create_nonce( 'wpto_admin_action' ),
 				'i18n'    => array(
-					'confirmDelete' => __( 'Confermi la cancellazione dei tag selezionati?', 'wp-tags-optimizer' ),
-					'confirmMerge'  => __( 'Confermi questo merge? L\'operazione non e\' reversibile.', 'wp-tags-optimizer' ),
-					'error'         => __( 'Si e\' verificato un errore.', 'wp-tags-optimizer' ),
-					'processing'    => __( 'Elaborazione batch in corso, puo\' richiedere fino a due minuti...', 'wp-tags-optimizer' ),
+					'confirmDelete' => __( 'Delete the selected tags?', 'ai-tags-optimizer' ),
+					'confirmMerge'  => __( 'Confirm this merge? This action cannot be undone.', 'ai-tags-optimizer' ),
+					'error'         => __( 'Something went wrong.', 'ai-tags-optimizer' ),
+					'processing'    => __( 'Processing batch, this can take up to two minutes...', 'ai-tags-optimizer' ),
 				),
 			)
 		);
@@ -81,30 +81,30 @@ class WPTO_Admin_Page {
 		}
 
 		$type_labels = array(
-			'near_duplicate'   => __( 'Quasi-duplicati', 'wp-tags-optimizer' ),
-			'semantic_overlap' => __( 'Sovrapposizioni semantiche', 'wp-tags-optimizer' ),
-			'low_usage_merge'  => __( 'Tag a basso utilizzo', 'wp-tags-optimizer' ),
+			'near_duplicate'   => __( 'Near-duplicates', 'ai-tags-optimizer' ),
+			'semantic_overlap' => __( 'Semantic overlaps', 'ai-tags-optimizer' ),
+			'low_usage_merge'  => __( 'Low-usage tags', 'ai-tags-optimizer' ),
 		);
 
 		?>
 		<div class="wrap wpto-wrap">
-			<h1><?php esc_html_e( 'Tags Optimizer', 'wp-tags-optimizer' ); ?></h1>
+			<h1><?php esc_html_e( 'AI Tags Optimizer', 'ai-tags-optimizer' ); ?></h1>
 
-			<h2><?php esc_html_e( 'Tag inutilizzati (0 post)', 'wp-tags-optimizer' ); ?></h2>
+			<h2><?php esc_html_e( 'Unused tags (0 posts)', 'ai-tags-optimizer' ); ?></h2>
 			<p>
-				<button type="button" class="button" id="wpto-recount-tags"><?php esc_html_e( 'Ricalcola conteggi tag', 'wp-tags-optimizer' ); ?></button>
-				<span class="description"><?php esc_html_e( 'Corregge il conteggio post per tag se risulta disallineato rispetto alle associazioni reali (es. dopo un import).', 'wp-tags-optimizer' ); ?></span>
+				<button type="button" class="button" id="wpto-recount-tags"><?php esc_html_e( 'Recount tag counts', 'ai-tags-optimizer' ); ?></button>
+				<span class="description"><?php esc_html_e( 'Fixes the per-tag post count if it has drifted out of sync with the actual associations (e.g. after an import).', 'ai-tags-optimizer' ); ?></span>
 			</p>
 			<?php if ( empty( $unused_terms ) ) : ?>
-				<p><?php esc_html_e( 'Nessun tag inutilizzato trovato.', 'wp-tags-optimizer' ); ?></p>
+				<p><?php esc_html_e( 'No unused tags found.', 'ai-tags-optimizer' ); ?></p>
 			<?php else : ?>
 				<form id="wpto-unused-form">
 					<table class="wp-list-table widefat fixed striped">
 						<thead>
 							<tr>
 								<td class="check-column"><input type="checkbox" id="wpto-select-all-unused" /></td>
-								<th><?php esc_html_e( 'Nome', 'wp-tags-optimizer' ); ?></th>
-								<th><?php esc_html_e( 'Slug', 'wp-tags-optimizer' ); ?></th>
+								<th><?php esc_html_e( 'Name', 'ai-tags-optimizer' ); ?></th>
+								<th><?php esc_html_e( 'Slug', 'ai-tags-optimizer' ); ?></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -118,24 +118,24 @@ class WPTO_Admin_Page {
 						</tbody>
 					</table>
 					<p>
-						<button type="button" class="button button-secondary" id="wpto-delete-unused"><?php esc_html_e( 'Elimina selezionati', 'wp-tags-optimizer' ); ?></button>
+						<button type="button" class="button button-secondary" id="wpto-delete-unused"><?php esc_html_e( 'Delete selected', 'ai-tags-optimizer' ); ?></button>
 					</p>
 				</form>
 			<?php endif; ?>
 
 			<hr />
 
-			<h2><?php esc_html_e( 'Analisi AI', 'wp-tags-optimizer' ); ?></h2>
+			<h2><?php esc_html_e( 'AI Analysis', 'ai-tags-optimizer' ); ?></h2>
 			<p>
-				<button type="button" class="button button-primary" id="wpto-start-analysis" <?php disabled( $progress['pending'] > 0 ); ?>><?php esc_html_e( 'Avvia analisi', 'wp-tags-optimizer' ); ?></button>
-				<button type="button" class="button" id="wpto-stop-analysis" <?php disabled( 0 === $progress['pending'] ); ?>><?php esc_html_e( 'Ferma analisi', 'wp-tags-optimizer' ); ?></button>
+				<button type="button" class="button button-primary" id="wpto-start-analysis" <?php disabled( $progress['pending'] > 0 ); ?>><?php esc_html_e( 'Start analysis', 'ai-tags-optimizer' ); ?></button>
+				<button type="button" class="button" id="wpto-stop-analysis" <?php disabled( 0 === $progress['pending'] ); ?>><?php esc_html_e( 'Stop analysis', 'ai-tags-optimizer' ); ?></button>
 			</p>
 			<div id="wpto-progress" data-total="<?php echo esc_attr( $progress['total'] ); ?>" data-done="<?php echo esc_attr( $progress['done'] ); ?>" data-pending="<?php echo esc_attr( $progress['pending'] ); ?>">
 				<?php if ( $progress['total'] > 0 ) : ?>
 					<p><?php
 						printf(
 							/* translators: 1: batches done, 2: total batches */
-							esc_html__( 'Batch completati: %1$d / %2$d', 'wp-tags-optimizer' ),
+							esc_html__( 'Batches completed: %1$d / %2$d', 'ai-tags-optimizer' ),
 							(int) $progress['done'],
 							(int) $progress['total']
 						);
@@ -144,14 +144,14 @@ class WPTO_Admin_Page {
 			</div>
 			<div id="wpto-current-status"></div>
 
-			<h3><?php esc_html_e( 'Log elaborazione', 'wp-tags-optimizer' ); ?></h3>
+			<h3><?php esc_html_e( 'Processing log', 'ai-tags-optimizer' ); ?></h3>
 			<ul id="wpto-log">
 				<?php foreach ( WPTO_Suggestions_Repo::get_recent_batches( 10 ) as $batch_row ) : ?>
 					<li data-batch-id="<?php echo esc_attr( $batch_row['id'] ); ?>">
 						<?php
 						printf(
 							/* translators: 1: batch id, 2: status, 3: timestamp */
-							esc_html__( 'Batch #%1$d - %2$s (%3$s)', 'wp-tags-optimizer' ),
+							esc_html__( 'Batch #%1$d - %2$s (%3$s)', 'ai-tags-optimizer' ),
 							(int) $batch_row['id'],
 							esc_html( $batch_row['status'] ),
 							esc_html( $batch_row['processed_at'] ? $batch_row['processed_at'] : $batch_row['created_at'] )
@@ -165,12 +165,12 @@ class WPTO_Admin_Page {
 			</ul>
 
 			<?php if ( ! empty( $failed ) ) : ?>
-				<h3><?php esc_html_e( 'Batch falliti', 'wp-tags-optimizer' ); ?></h3>
+				<h3><?php esc_html_e( 'Failed batches', 'ai-tags-optimizer' ); ?></h3>
 				<table class="wp-list-table widefat fixed striped">
 					<thead>
 						<tr>
-							<th><?php esc_html_e( 'ID batch', 'wp-tags-optimizer' ); ?></th>
-							<th><?php esc_html_e( 'Errore', 'wp-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Batch ID', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Error', 'ai-tags-optimizer' ); ?></th>
 							<th></th>
 						</tr>
 					</thead>
@@ -179,7 +179,7 @@ class WPTO_Admin_Page {
 							<tr>
 								<td><?php echo esc_html( $batch['id'] ); ?></td>
 								<td><?php echo esc_html( $batch['error_message'] ); ?></td>
-								<td><button type="button" class="button wpto-retry-batch" data-batch-id="<?php echo esc_attr( $batch['id'] ); ?>"><?php esc_html_e( 'Riprova', 'wp-tags-optimizer' ); ?></button></td>
+								<td><button type="button" class="button wpto-retry-batch" data-batch-id="<?php echo esc_attr( $batch['id'] ); ?>"><?php esc_html_e( 'Retry', 'ai-tags-optimizer' ); ?></button></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>
@@ -188,7 +188,7 @@ class WPTO_Admin_Page {
 
 			<hr />
 
-			<h2><?php esc_html_e( 'Suggerimenti', 'wp-tags-optimizer' ); ?></h2>
+			<h2><?php esc_html_e( 'Suggestions', 'ai-tags-optimizer' ); ?></h2>
 
 			<?php foreach ( $grouped as $type => $rows ) : ?>
 				<?php if ( empty( $rows ) ) { continue; } ?>
@@ -196,11 +196,11 @@ class WPTO_Admin_Page {
 				<table class="wp-list-table widefat fixed striped">
 					<thead>
 						<tr>
-							<th><?php esc_html_e( 'Tag sorgente', 'wp-tags-optimizer' ); ?></th>
-							<th><?php esc_html_e( 'Tag destinazione', 'wp-tags-optimizer' ); ?></th>
-							<th><?php esc_html_e( 'Motivazione', 'wp-tags-optimizer' ); ?></th>
-							<th><?php esc_html_e( 'Confidenza', 'wp-tags-optimizer' ); ?></th>
-							<th><?php esc_html_e( 'Azioni', 'wp-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Source tag(s)', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Target tag', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Reason', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Confidence', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Actions', 'ai-tags-optimizer' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -212,15 +212,15 @@ class WPTO_Admin_Page {
 			<?php endforeach; ?>
 
 			<?php if ( ! empty( $rejected ) ) : ?>
-				<h3><?php esc_html_e( 'Suggerimenti rifiutati', 'wp-tags-optimizer' ); ?></h3>
+				<h3><?php esc_html_e( 'Rejected suggestions', 'ai-tags-optimizer' ); ?></h3>
 				<table class="wp-list-table widefat fixed striped">
 					<thead>
 						<tr>
-							<th><?php esc_html_e( 'Tag sorgente', 'wp-tags-optimizer' ); ?></th>
-							<th><?php esc_html_e( 'Tag destinazione', 'wp-tags-optimizer' ); ?></th>
-							<th><?php esc_html_e( 'Motivazione', 'wp-tags-optimizer' ); ?></th>
-							<th><?php esc_html_e( 'Confidenza', 'wp-tags-optimizer' ); ?></th>
-							<th><?php esc_html_e( 'Azioni', 'wp-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Source tag(s)', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Target tag', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Reason', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Confidence', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Actions', 'ai-tags-optimizer' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -253,10 +253,10 @@ class WPTO_Admin_Page {
 			<td><?php echo esc_html( round( $row['confidence'] * 100 ) . '%' ); ?></td>
 			<td>
 				<?php if ( $rejected ) : ?>
-					<button type="button" class="button wpto-restore" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Ripristina', 'wp-tags-optimizer' ); ?></button>
+					<button type="button" class="button wpto-restore" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Restore', 'ai-tags-optimizer' ); ?></button>
 				<?php else : ?>
-					<button type="button" class="button button-primary wpto-approve" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Approva', 'wp-tags-optimizer' ); ?></button>
-					<button type="button" class="button wpto-reject" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Rifiuta', 'wp-tags-optimizer' ); ?></button>
+					<button type="button" class="button button-primary wpto-approve" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Approve', 'ai-tags-optimizer' ); ?></button>
+					<button type="button" class="button wpto-reject" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Reject', 'ai-tags-optimizer' ); ?></button>
 				<?php endif; ?>
 			</td>
 		</tr>
@@ -267,13 +267,13 @@ class WPTO_Admin_Page {
 		check_ajax_referer( 'wpto_admin_action', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permessi insufficienti.', 'wp-tags-optimizer' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'ai-tags-optimizer' ) ), 403 );
 		}
 
 		$term_ids = isset( $_POST['term_ids'] ) ? array_map( 'absint', (array) $_POST['term_ids'] ) : array();
 
 		if ( empty( $term_ids ) ) {
-			wp_send_json_error( array( 'message' => __( 'Nessun tag selezionato.', 'wp-tags-optimizer' ) ) );
+			wp_send_json_error( array( 'message' => __( 'No tags selected.', 'ai-tags-optimizer' ) ) );
 		}
 
 		$result = WPTO_Unused_Tags::delete_terms( $term_ids );
@@ -285,7 +285,7 @@ class WPTO_Admin_Page {
 		check_ajax_referer( 'wpto_admin_action', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permessi insufficienti.', 'wp-tags-optimizer' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'ai-tags-optimizer' ) ), 403 );
 		}
 
 		$count = WPTO_Unused_Tags::recount_all();
@@ -297,20 +297,20 @@ class WPTO_Admin_Page {
 		check_ajax_referer( 'wpto_admin_action', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Permessi insufficienti.', 'wp-tags-optimizer' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'ai-tags-optimizer' ) ), 403 );
 		}
 
 		$id     = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
 		$action = isset( $_POST['do'] ) ? sanitize_key( $_POST['do'] ) : '';
 
 		if ( ! $id || ! in_array( $action, array( 'approve', 'reject', 'restore' ), true ) ) {
-			wp_send_json_error( array( 'message' => __( 'Richiesta non valida.', 'wp-tags-optimizer' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Invalid request.', 'ai-tags-optimizer' ) ) );
 		}
 
 		$suggestion = WPTO_Suggestions_Repo::get_suggestion( $id );
 
 		if ( ! $suggestion ) {
-			wp_send_json_error( array( 'message' => __( 'Suggerimento non trovato.', 'wp-tags-optimizer' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Suggestion not found.', 'ai-tags-optimizer' ) ) );
 		}
 
 		if ( 'reject' === $action ) {
