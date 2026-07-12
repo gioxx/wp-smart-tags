@@ -158,7 +158,7 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 		$per_page     = $this->get_items_per_page( 'wpto_tags_per_page', self::PER_PAGE );
 		$current_page = $this->get_pagenum();
 
-		$bucket       = isset( $_REQUEST['bucket'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['bucket'] ) ) : '';
+		$bucket       = WPTO_Admin_Page::get_active_bucket();
 		$count_range  = isset( WPTO_Admin_Page::USAGE_BUCKETS[ $bucket ] ) ? WPTO_Admin_Page::USAGE_BUCKETS[ $bucket ] : null;
 		$range_filter = null;
 

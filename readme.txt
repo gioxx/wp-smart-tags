@@ -43,6 +43,9 @@ It's kept in a "Rejected suggestions" list and can be restored to pending at any
 Yes, the "Unused tags" table lists them with a bulk delete option.
 
 == Changelog ==
+= 0.16.2 =
+* The usage-bucket histogram filter is now remembered per user and survives a plain page reload, instead of resetting as soon as the URL parameter drops out.
+
 = 0.16.1 =
 * The usage-distribution histogram bars are now clickable, filtering the tag table to that range; the filter is preserved through search, sort, and paging.
 

@@ -445,8 +445,9 @@ class WPTO_Admin_Page {
 		<form method="post" id="wpto-tags-filter">
 			<input type="hidden" name="page" value="<?php echo esc_attr( self::MAIN_SLUG ); ?>" />
 			<input type="hidden" name="tab" value="stats" />
-			<?php if ( isset( $_GET['bucket'] ) ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
-				<input type="hidden" name="bucket" value="<?php echo esc_attr( sanitize_text_field( wp_unslash( $_GET['bucket'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>" />
+			<?php $current_bucket = self::get_active_bucket(); ?>
+			<?php if ( '' !== $current_bucket ) : ?>
+				<input type="hidden" name="bucket" value="<?php echo esc_attr( $current_bucket ); ?>" />
 			<?php endif; ?>
 			<?php
 			$table->search_box( __( 'Search tags', 'ai-tags-optimizer' ), 'wpto-tag-search' );
@@ -497,9 +498,10 @@ class WPTO_Admin_Page {
 			),
 		);
 
-		$base_url = add_query_arg( 'tab', 'stats', self::main_page_url() );
-		if ( isset( $_GET['bucket'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$base_url = add_query_arg( 'bucket', sanitize_text_field( wp_unslash( $_GET['bucket'] ) ), $base_url ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$base_url      = add_query_arg( 'tab', 'stats', self::main_page_url() );
+		$active_bucket = self::get_active_bucket();
+		if ( '' !== $active_bucket ) {
+			$base_url = add_query_arg( 'bucket', $active_bucket, $base_url );
 		}
 		?>
 		<p class="wpto-quick-sort">
@@ -710,6 +712,29 @@ class WPTO_Admin_Page {
 		<?php
 	}
 
+	/**
+	 * Resolves the active usage-bucket filter: an explicit ?bucket= in the
+	 * request always wins (and is remembered for next time, even if empty
+	 * i.e. an explicit "clear filter"); otherwise falls back to the value
+	 * remembered from a previous visit, so the filter survives a plain
+	 * page reload/reopen until the user clears it.
+	 */
+	public static function get_active_bucket() {
+		$user_id = get_current_user_id();
+
+		if ( isset( $_REQUEST['bucket'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$bucket = sanitize_text_field( wp_unslash( $_REQUEST['bucket'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+
+			if ( $user_id ) {
+				update_user_meta( $user_id, 'wpto_tags_bucket', $bucket );
+			}
+
+			return $bucket;
+		}
+
+		return $user_id ? get_user_meta( $user_id, 'wpto_tags_bucket', true ) : '';
+	}
+
 	private static function render_usage_histogram() {
 		$terms = get_terms(
 			array(
@@ -735,9 +760,9 @@ class WPTO_Admin_Page {
 			}
 		}
 
-		$max            = max( 1, max( $buckets ) );
-		$active_bucket  = isset( $_GET['bucket'] ) ? sanitize_text_field( wp_unslash( $_GET['bucket'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$base_url       = remove_query_arg( 'paged', add_query_arg( 'tab', 'stats', self::main_page_url() ) );
+		$max           = max( 1, max( $buckets ) );
+		$active_bucket = self::get_active_bucket();
+		$base_url      = remove_query_arg( 'paged', add_query_arg( 'tab', 'stats', self::main_page_url() ) );
 		?>
 		<h2><?php esc_html_e( 'Usage distribution', 'ai-tags-optimizer' ); ?></h2>
 		<p class="description"><?php esc_html_e( 'Click a bar to filter the table below to that range.', 'ai-tags-optimizer' ); ?></p>
@@ -764,7 +789,7 @@ class WPTO_Admin_Page {
 					esc_html( $active_bucket )
 				);
 				?>
-				<a href="<?php echo esc_url( remove_query_arg( 'bucket', $base_url ) ); ?>"><?php esc_html_e( 'Clear filter', 'ai-tags-optimizer' ); ?></a>
+				<a href="<?php echo esc_url( add_query_arg( 'bucket', '', $base_url ) ); ?>"><?php esc_html_e( 'Clear filter', 'ai-tags-optimizer' ); ?></a>
 			</p>
 		<?php endif; ?>
 		<?php

@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Smart Tags for WordPress package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Smart Tags for WordPress 0.16.1\n"
+"Project-Id-Version: Smart Tags for WordPress 0.16.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-13 00:00+0200\n"
-"PO-Revision-Date: 2026-07-13 00:00+0200\n"
+"POT-Creation-Date: 2026-07-13 00:20+0200\n"
+"PO-Revision-Date: 2026-07-13 00:20+0200\n"
 "Last-Translator: Gioxx <https://gioxx.org>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -76,7 +76,7 @@ msgid "Some items could not be processed:"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:110
-#: includes/class-wpto-admin-page.php:1019
+#: includes/class-wpto-admin-page.php:1044
 msgid "Something went wrong."
 msgstr ""
 
@@ -94,14 +94,14 @@ msgstr ""
 
 #: includes/class-wpto-admin-page.php:114
 #: includes/class-wpto-admin-page.php:416
-#: includes/class-wpto-admin-page.php:675
+#: includes/class-wpto-admin-page.php:677
 #: includes/class-wpto-tag-stats-table.php:27
 msgid "Name"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:115
 #: includes/class-wpto-admin-page.php:417
-#: includes/class-wpto-admin-page.php:676
+#: includes/class-wpto-admin-page.php:678
 #: includes/class-wpto-tag-stats-table.php:28
 msgid "Slug"
 msgstr ""
@@ -111,7 +111,7 @@ msgid "Save"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:117
-#: includes/class-wpto-admin-page.php:707
+#: includes/class-wpto-admin-page.php:709
 msgid "Cancel"
 msgstr ""
 
@@ -295,145 +295,145 @@ msgstr ""
 msgid "All tags"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:452
+#: includes/class-wpto-admin-page.php:453
 msgid "Search tags"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:479
+#: includes/class-wpto-admin-page.php:480
 msgid "Name A→Z"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:484
+#: includes/class-wpto-admin-page.php:485
 msgid "Name Z→A"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:489
+#: includes/class-wpto-admin-page.php:490
 msgid "Most used"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:494
+#: includes/class-wpto-admin-page.php:495
 msgid "Least used"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:506
+#: includes/class-wpto-admin-page.php:508
 msgid "Quick sort:"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:536
+#: includes/class-wpto-admin-page.php:538
 #, php-format
 msgid "Merged %1$d tag into \"%2$s\"."
 msgid_plural "Merged %1$d tags into \"%2$s\"."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-wpto-admin-page.php:548
+#: includes/class-wpto-admin-page.php:550
 msgid "The merge could not be completed. Please try again."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:560
+#: includes/class-wpto-admin-page.php:562
 #, php-format
 msgid "%d tag deleted."
 msgid_plural "%d tags deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-wpto-admin-page.php:571
+#: includes/class-wpto-admin-page.php:573
 msgid "The tag could not be deleted. Please try again."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:642
+#: includes/class-wpto-admin-page.php:644
 #, php-format
 msgid "Merge selection (%1$d): %2$s"
 msgid_plural "Merge selection (%1$d): %2$s"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-wpto-admin-page.php:653
+#: includes/class-wpto-admin-page.php:655
 msgid "Prepare merge"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:655
+#: includes/class-wpto-admin-page.php:657
 msgid "Clear selection"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:670
-#: includes/class-wpto-admin-page.php:706
+#: includes/class-wpto-admin-page.php:672
+#: includes/class-wpto-admin-page.php:708
 msgid "Confirm merge"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:671
+#: includes/class-wpto-admin-page.php:673
 msgid ""
 "These tags will be merged into the one you choose below; the others will be "
 "deleted and all their posts re-tagged with it."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:677
+#: includes/class-wpto-admin-page.php:679
 #: includes/class-wpto-tag-stats-table.php:29
 msgid "Assigned posts"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:698
-#: includes/class-wpto-admin-page.php:945
+#: includes/class-wpto-admin-page.php:700
+#: includes/class-wpto-admin-page.php:970
 msgid "Merge into"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:742
+#: includes/class-wpto-admin-page.php:767
 msgid "Usage distribution"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:743
+#: includes/class-wpto-admin-page.php:768
 msgid "Click a bar to filter the table below to that range."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:763
+#: includes/class-wpto-admin-page.php:788
 #, php-format
 msgid "Filtering by usage: %s posts."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:767
+#: includes/class-wpto-admin-page.php:792
 msgid "Clear filter"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:943
+#: includes/class-wpto-admin-page.php:968
 msgid "Restore"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:951
+#: includes/class-wpto-admin-page.php:976
 msgid "Approve"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:952
+#: includes/class-wpto-admin-page.php:977
 msgid "Reject"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:963
-#: includes/class-wpto-admin-page.php:981
-#: includes/class-wpto-admin-page.php:993
-#: includes/class-wpto-admin-page.php:1034
-#: includes/class-wpto-admin-page.php:1058 includes/class-wpto-queue.php:24
+#: includes/class-wpto-admin-page.php:988
+#: includes/class-wpto-admin-page.php:1006
+#: includes/class-wpto-admin-page.php:1018
+#: includes/class-wpto-admin-page.php:1059
+#: includes/class-wpto-admin-page.php:1083 includes/class-wpto-queue.php:24
 #: includes/class-wpto-queue.php:45 includes/class-wpto-queue.php:57
 #: includes/class-wpto-queue.php:70 includes/class-wpto-settings.php:102
 msgid "Insufficient permissions."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:969
+#: includes/class-wpto-admin-page.php:994
 msgid "No tags selected."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:1001
+#: includes/class-wpto-admin-page.php:1026
 msgid "The tag name cannot be empty."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:1042
-#: includes/class-wpto-admin-page.php:1066
+#: includes/class-wpto-admin-page.php:1067
+#: includes/class-wpto-admin-page.php:1091
 msgid "Invalid request."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:1099
+#: includes/class-wpto-admin-page.php:1124
 msgid "Suggestion not found."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:1117
+#: includes/class-wpto-admin-page.php:1142
 msgid "Invalid target selection."
 msgstr ""
 

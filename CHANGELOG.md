@@ -2,6 +2,10 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.16.2] - 2026-07-12
+
+- The usage-bucket histogram filter is now remembered per user (same mechanism already used for sort order), so it survives a plain page reload/reopen of "Manage Tags" instead of resetting as soon as `?bucket=` drops out of the URL. Clicking "Clear filter" explicitly forgets it.
+
 ## [0.16.1] - 2026-07-12
 
 - The usage-distribution histogram bars are now clickable: clicking one filters the tag table below to that exact range (e.g. "3-5" posts), with the active bar highlighted and a "Clear filter" link. The filter is preserved when searching, sorting, or paging within the table.
