@@ -180,15 +180,16 @@ class WPTO_Suggestions_Repo {
 
 	/**
 	 * Inserts suggestions, skipping any that duplicate an already-pending
-	 * one (same type/sources/target), and any that pair up two tags the
-	 * user has already rejected together, so a rejected pairing is never
-	 * re-proposed by a later analysis.
+	 * one (same type/sources/target), any that pair up two tags already
+	 * pending in the *other* direction (so "A -> B" and "B -> A" never
+	 * coexist as separate suggestions), and any that pair up two tags
+	 * the user has already rejected together.
 	 */
 	public static function insert_suggestions( $batch_id, array $suggestions ) {
 		global $wpdb;
 
-		$seen           = self::get_pending_signatures();
-		$rejected_pairs = self::get_rejected_pairs();
+		$seen          = self::get_pending_signatures();
+		$blocked_pairs = self::get_pairs_for_status( 'pending' ) + self::get_pairs_for_status( 'rejected' );
 
 		foreach ( $suggestions as $suggestion ) {
 			$signature = self::suggestion_signature( $suggestion['type'], $suggestion['source_term_ids'], $suggestion['target_term_id'] );
@@ -197,11 +198,14 @@ class WPTO_Suggestions_Repo {
 				continue;
 			}
 
-			if ( self::has_rejected_pair( $suggestion['source_term_ids'], $suggestion['target_term_id'], $rejected_pairs ) ) {
+			if ( self::has_pair( $suggestion['source_term_ids'], $suggestion['target_term_id'], $blocked_pairs ) ) {
 				continue;
 			}
 
 			$seen[ $signature ] = true;
+			foreach ( (array) $suggestion['source_term_ids'] as $source_id ) {
+				$blocked_pairs[ self::pair_key( (int) $source_id, (int) $suggestion['target_term_id'] ) ] = true;
+			}
 
 			$wpdb->insert(
 				self::suggestions_table(),
@@ -248,20 +252,22 @@ class WPTO_Suggestions_Repo {
 	}
 
 	/**
-	 * Every tag-pair (unordered) that appears in a currently rejected
-	 * suggestion, e.g. rejecting "Wii U" -> "Nintendo Wii U" remembers
+	 * Every tag-pair (unordered) that appears in a suggestion with the
+	 * given status, e.g. rejecting "Wii U" -> "Nintendo Wii U" remembers
 	 * that pair regardless of which one is source or target next time.
+	 * Also used for 'pending' to stop the API proposing both "A -> B"
+	 * and "B -> A" as two separate suggestions for the same pair.
 	 *
 	 * @return array<string,bool>
 	 */
-	private static function get_rejected_pairs() {
+	private static function get_pairs_for_status( $status ) {
 		global $wpdb;
 
 		$table = self::suggestions_table();
 		$rows  = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT source_term_ids, target_term_id FROM {$table} WHERE status = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
-				'rejected'
+				$status
 			),
 			ARRAY_A
 		);
@@ -277,11 +283,11 @@ class WPTO_Suggestions_Repo {
 		return $pairs;
 	}
 
-	private static function has_rejected_pair( $source_term_ids, $target_term_id, array $rejected_pairs ) {
+	private static function has_pair( $source_term_ids, $target_term_id, array $pairs ) {
 		$target_id = (int) $target_term_id;
 
 		foreach ( (array) $source_term_ids as $source_id ) {
-			if ( isset( $rejected_pairs[ self::pair_key( (int) $source_id, $target_id ) ] ) ) {
+			if ( isset( $pairs[ self::pair_key( (int) $source_id, $target_id ) ] ) ) {
 				return true;
 			}
 		}
@@ -301,13 +307,28 @@ class WPTO_Suggestions_Repo {
 	 * @return int Number of rows deleted.
 	 */
 	public static function prune_orphaned_rejected() {
+		return self::prune_orphaned( 'rejected' );
+	}
+
+	/**
+	 * Deletes pending suggestions whose target tag or every source tag
+	 * no longer exists, e.g. left behind when a different suggestion for
+	 * the same tag (in either direction) was approved first.
+	 *
+	 * @return int Number of rows deleted.
+	 */
+	public static function prune_orphaned_pending() {
+		return self::prune_orphaned( 'pending' );
+	}
+
+	private static function prune_orphaned( $status ) {
 		global $wpdb;
 
 		$table = self::suggestions_table();
 		$rows  = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT id, source_term_ids, target_term_id FROM {$table} WHERE status = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
-				'rejected'
+				$status
 			),
 			ARRAY_A
 		);

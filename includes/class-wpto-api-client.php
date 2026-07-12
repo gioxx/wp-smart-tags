@@ -154,6 +154,7 @@ class WPTO_Api_Client {
 			. "Reply with ONLY valid JSON, no extra text, no code block, in this exact format:\n"
 			. '{"suggestions":[{"type":"near_duplicate|semantic_overlap|low_usage_merge","source_tag_ids":[123],"target_tag_id":456,"reason":"...","confidence":0.0}]}' . "\n\n"
 			. "Rules: only use ids present in the given list; target_tag_id must differ from every source_tag_id; "
+			. "for any pair of tags, propose merging them in at most one direction, never both (e.g. if you suggest A into B, do not also suggest B into A); "
 			. "if you find no meaningful suggestions, return {\"suggestions\":[]}. {$language_instruction}";
 	}
 

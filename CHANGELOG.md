@@ -2,6 +2,11 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.13.2] - 2026-07-12
+
+- Fixed a bug where Claude could propose the same tag pair in both directions ("A into B" and "B into A") as two separate suggestions; only one direction is now kept. Added an explicit prompt rule against this, plus a code-level guard against both directions coexisting as pending or against a pair the user already rejected.
+- Pending suggestions whose target tag or every source tag no longer exists (e.g. left behind by approving the opposite-direction duplicate first) are now auto-pruned on page load, same as the existing rejected-suggestions cleanup.
+
 ## [0.13.1] - 2026-07-12
 
 - Rejected suggestions are now automatically pruned when they can no longer be meaningfully restored: their target tag was deleted/merged away, or every one of their source tags was. Keeps the "Rejected suggestions" list free of orphaned entries.
