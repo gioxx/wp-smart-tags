@@ -30,6 +30,10 @@
 	padding: 2px 0;
 }
 
+.wpto-target-select {
+	margin-right: 6px;
+}
+
 .wpto-stats {
 	display: flex;
 	flex-wrap: wrap;

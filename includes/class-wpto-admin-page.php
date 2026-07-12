@@ -308,19 +308,21 @@ class WPTO_Admin_Page {
 
 	private static function render_suggestion_row( array $row, $rejected = false, $group = '' ) {
 		$source_ids   = json_decode( $row['source_term_ids'], true );
-		$source_names = array();
+		$source_terms = array();
 		foreach ( (array) $source_ids as $sid ) {
 			$t = get_term( $sid, 'post_tag' );
 			if ( $t && ! is_wp_error( $t ) ) {
-				$source_names[] = $t->name;
+				$source_terms[ (int) $sid ] = $t->name;
 			}
 		}
-		$target_term = get_term( $row['target_term_id'], 'post_tag' );
+		$target_id   = (int) $row['target_term_id'];
+		$target_term = get_term( $target_id, 'post_tag' );
 		$target_name = ( $target_term && ! is_wp_error( $target_term ) ) ? $target_term->name : '';
+		$all_terms   = array( $target_id => $target_name ) + $source_terms;
 		?>
 		<tr>
 			<th class="check-column"><input type="checkbox" class="wpto-suggestion-checkbox" data-group="<?php echo esc_attr( $group ); ?>" value="<?php echo esc_attr( $row['id'] ); ?>" /></th>
-			<td><?php echo esc_html( implode( ', ', $source_names ) ); ?></td>
+			<td><?php echo esc_html( implode( ', ', $source_terms ) ); ?></td>
 			<td><?php echo esc_html( $target_name ); ?></td>
 			<td><?php echo esc_html( $row['reason'] ); ?></td>
 			<td><?php echo esc_html( round( $row['confidence'] * 100 ) . '%' ); ?></td>
@@ -328,6 +330,12 @@ class WPTO_Admin_Page {
 				<?php if ( $rejected ) : ?>
 					<button type="button" class="button wpto-restore" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Restore', 'ai-tags-optimizer' ); ?></button>
 				<?php else : ?>
+					<label class="screen-reader-text" for="wpto-target-<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Merge into', 'ai-tags-optimizer' ); ?></label>
+					<select class="wpto-target-select" id="wpto-target-<?php echo esc_attr( $row['id'] ); ?>">
+						<?php foreach ( $all_terms as $tid => $tname ) : ?>
+							<option value="<?php echo esc_attr( $tid ); ?>" <?php selected( $tid, $target_id ); ?>><?php echo esc_html( $tname ); ?></option>
+						<?php endforeach; ?>
+					</select>
 					<button type="button" class="button button-primary wpto-approve" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Approve', 'ai-tags-optimizer' ); ?></button>
 					<button type="button" class="button wpto-reject" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Reject', 'ai-tags-optimizer' ); ?></button>
 				<?php endif; ?>
@@ -373,14 +381,15 @@ class WPTO_Admin_Page {
 			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'ai-tags-optimizer' ) ), 403 );
 		}
 
-		$id     = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
-		$action = isset( $_POST['do'] ) ? sanitize_key( $_POST['do'] ) : '';
+		$id              = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
+		$action          = isset( $_POST['do'] ) ? sanitize_key( $_POST['do'] ) : '';
+		$target_override = isset( $_POST['target_id'] ) ? absint( $_POST['target_id'] ) : 0;
 
 		if ( ! $id || ! in_array( $action, array( 'approve', 'reject', 'restore' ), true ) ) {
 			wp_send_json_error( array( 'message' => __( 'Invalid request.', 'ai-tags-optimizer' ) ) );
 		}
 
-		$error = self::apply_suggestion_action( $id, $action );
+		$error = self::apply_suggestion_action( $id, $action, $target_override );
 
 		if ( null !== $error ) {
 			wp_send_json_error( array( 'message' => $error ) );
@@ -430,7 +439,7 @@ class WPTO_Admin_Page {
 	 *
 	 * @return string|null Error message, or null on success.
 	 */
-	private static function apply_suggestion_action( $id, $action ) {
+	private static function apply_suggestion_action( $id, $action, $target_override = 0 ) {
 		$suggestion = WPTO_Suggestions_Repo::get_suggestion( $id );
 
 		if ( ! $suggestion ) {
@@ -445,6 +454,18 @@ class WPTO_Admin_Page {
 		if ( 'restore' === $action ) {
 			WPTO_Suggestions_Repo::set_suggestion_status( $id, 'pending' );
 			return null;
+		}
+
+		if ( $target_override && $target_override !== (int) $suggestion['target_term_id'] ) {
+			$source_ids = array_map( 'intval', (array) json_decode( $suggestion['source_term_ids'], true ) );
+			$all_ids    = array_unique( array_merge( $source_ids, array( (int) $suggestion['target_term_id'] ) ) );
+
+			if ( ! in_array( $target_override, $all_ids, true ) ) {
+				return __( 'Invalid target selection.', 'ai-tags-optimizer' );
+			}
+
+			$suggestion['source_term_ids'] = wp_json_encode( array_values( array_diff( $all_ids, array( $target_override ) ) ) );
+			$suggestion['target_term_id']  = $target_override;
 		}
 
 		$result = WPTO_Merge_Handler::apply( $suggestion );

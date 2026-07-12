@@ -244,9 +244,16 @@
 
 	function handleSuggestion( $btn, action ) {
 		var id = $btn.data( 'id' );
-		$btn.closest( 'tr' ).find( 'button' ).prop( 'disabled', true );
+		var $row = $btn.closest( 'tr' );
+		$row.find( 'button' ).prop( 'disabled', true );
 
-		ajax( { action: 'wpto_suggestion_action', id: id, do: action } ).done( function ( response ) {
+		var payload = { action: 'wpto_suggestion_action', id: id, do: action };
+
+		if ( 'approve' === action ) {
+			payload.target_id = $row.find( '.wpto-target-select' ).val();
+		}
+
+		ajax( payload ).done( function ( response ) {
 			if ( response.success ) {
 				$btn.closest( 'tr' ).fadeOut( 200, function () {
 					$( this ).remove();

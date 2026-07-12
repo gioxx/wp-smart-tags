@@ -2,6 +2,11 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.12.0] - 2026-07-12
+
+- Analysis batches now always include the most-used tags ("anchors", up to 100) alongside a rotating slice of the rest, so low-usage/single-post tags are compared against real, popular candidates instead of whatever happens to sort near them alphabetically. Duplicate suggestions caused by anchor repetition across batches are automatically skipped.
+- Each pending suggestion now has a "Merge into" selector listing every tag involved (source(s) + proposed target): pick a different one before clicking Approve to merge everything else into that tag instead of the one Claude proposed.
+
 ## [0.11.0] - 2026-07-12
 
 - Starting a new analysis now clears any unreviewed pending suggestions and the batch log first, so results always reflect the current tag set instead of piling up on top of a stale previous run. Rejected suggestions and the applied-suggestions history are left untouched. A confirmation dialog was added before starting.

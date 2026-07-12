@@ -250,6 +250,12 @@ msgstr "Inserisci prima una API key."
 msgid "Testing..."
 msgstr "Verifica in corso..."
 
+msgid "Merge into"
+msgstr "Unisci in"
+
+msgid "Invalid target selection."
+msgstr "Selezione di destinazione non valida."
+
 msgid "Connection successful."
 msgstr "Connessione riuscita."
 

@@ -355,6 +355,14 @@ msgstr ""
 msgid "Testing..."
 msgstr ""
 
+#: includes/class-wpto-admin-page.php:333
+msgid "Merge into"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:472
+msgid "Invalid target selection."
+msgstr ""
+
 #: includes/class-wpto-settings.php:135
 msgid "Connection successful."
 msgstr ""

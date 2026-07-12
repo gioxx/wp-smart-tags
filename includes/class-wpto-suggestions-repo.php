@@ -178,10 +178,25 @@ class WPTO_Suggestions_Repo {
 		);
 	}
 
+	/**
+	 * Inserts suggestions, skipping any that duplicate an already-pending
+	 * one (same type/sources/target). Anchor tags are repeated across
+	 * batches to give low-usage tags real candidates, which can lead the
+	 * API to propose the same pairing more than once across batches.
+	 */
 	public static function insert_suggestions( $batch_id, array $suggestions ) {
 		global $wpdb;
 
+		$seen = self::get_pending_signatures();
+
 		foreach ( $suggestions as $suggestion ) {
+			$signature = self::suggestion_signature( $suggestion['type'], $suggestion['source_term_ids'], $suggestion['target_term_id'] );
+
+			if ( isset( $seen[ $signature ] ) ) {
+				continue;
+			}
+			$seen[ $signature ] = true;
+
 			$wpdb->insert(
 				self::suggestions_table(),
 				array(
@@ -197,6 +212,33 @@ class WPTO_Suggestions_Repo {
 				array( '%d', '%s', '%s', '%d', '%s', '%f', '%s', '%s' )
 			);
 		}
+	}
+
+	private static function get_pending_signatures() {
+		global $wpdb;
+
+		$table = self::suggestions_table();
+		$rows  = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT type, source_term_ids, target_term_id FROM {$table} WHERE status = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				'pending'
+			),
+			ARRAY_A
+		);
+
+		$signatures = array();
+		foreach ( (array) $rows as $row ) {
+			$signatures[ self::suggestion_signature( $row['type'], json_decode( $row['source_term_ids'], true ), $row['target_term_id'] ) ] = true;
+		}
+
+		return $signatures;
+	}
+
+	private static function suggestion_signature( $type, $source_term_ids, $target_term_id ) {
+		$source_ids = array_map( 'intval', (array) $source_term_ids );
+		sort( $source_ids );
+
+		return $type . ':' . implode( ',', $source_ids ) . '>' . (int) $target_term_id;
 	}
 
 	public static function get_suggestions( $status = 'pending' ) {

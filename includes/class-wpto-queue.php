@@ -7,6 +7,7 @@ class WPTO_Queue {
 
 	const CRON_HOOK = 'wpto_process_batch';
 	const LOCK_KEY = 'wpto_batch_processing_lock';
+	const MAX_ANCHOR_TAGS = 100;
 
 	public static function init() {
 		add_action( self::CRON_HOOK, array( __CLASS__, 'process_next_batch' ) );
@@ -88,6 +89,13 @@ class WPTO_Queue {
 		);
 	}
 
+	/**
+	 * Builds analysis batches. Every batch includes the most-used tags
+	 * ("anchors") alongside a rotating slice of the rest, so low-usage
+	 * (often single-post) tags are always compared against real, popular
+	 * candidates instead of only whichever tags happen to sort next to
+	 * them alphabetically.
+	 */
 	private static function enqueue_all_tags() {
 		$terms = get_terms(
 			array(
@@ -100,6 +108,16 @@ class WPTO_Queue {
 			return;
 		}
 
+		usort(
+			$terms,
+			function ( $a, $b ) {
+				if ( $a->count === $b->count ) {
+					return strcasecmp( $a->name, $b->name );
+				}
+				return $b->count - $a->count;
+			}
+		);
+
 		$tags = array();
 		foreach ( $terms as $term ) {
 			$tags[] = array(
@@ -109,12 +127,22 @@ class WPTO_Queue {
 			);
 		}
 
-		$batch_size = WPTO_Settings::get_batch_size();
-		$chunks     = array_chunk( $tags, $batch_size );
+		$batch_size   = WPTO_Settings::get_batch_size();
+		$anchor_count = min( self::MAX_ANCHOR_TAGS, (int) floor( $batch_size / 2 ), count( $tags ) );
+		$anchors      = array_slice( $tags, 0, $anchor_count );
+		$remaining    = array_slice( $tags, $anchor_count );
 
-		foreach ( $chunks as $chunk ) {
-			$term_ids = wp_list_pluck( $chunk, 'id' );
-			WPTO_Suggestions_Repo::create_batch( $term_ids );
+		if ( empty( $remaining ) ) {
+			WPTO_Suggestions_Repo::create_batch( wp_list_pluck( $anchors, 'id' ) );
+			self::schedule_next_run();
+			return;
+		}
+
+		$rotating_size = max( 1, $batch_size - $anchor_count );
+
+		foreach ( array_chunk( $remaining, $rotating_size ) as $chunk ) {
+			$batch_tags = array_merge( $anchors, $chunk );
+			WPTO_Suggestions_Repo::create_batch( wp_list_pluck( $batch_tags, 'id' ) );
 		}
 
 		self::schedule_next_run();
