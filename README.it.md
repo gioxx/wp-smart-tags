@@ -48,6 +48,10 @@ Ogni suggerimento può essere **Approvato** (unisce il/i tag sorgente nel tag ta
 
 La tabella "Unused tags (0 posts)" elenca i tag senza post associati, con un'opzione di cancellazione multipla. Se i conteggi sembrano sbagliati (es. dopo un'importazione), usa **"Recount tag counts"** per correggerli.
 
+## Statistiche tag e merge manuale
+
+La tab **"Tag Statistics"** (accanto a "Optimizer" sulla stessa pagina) mostra un istogramma di distribuzione dell'utilizzo e una tabella di tutti i tag in uso, cercabile, ordinabile e paginata, con ogni tag collegato direttamente alla lista articoli filtrata. Qui non è coinvolta l'IA: seleziona 2 o più tag con le checkbox — indipendentemente da quanto i loro nomi differiscano — scegli quale deve sopravvivere da una dropdown "Merge into" e conferma. Non serve più dare ai tag un termine di ricerca comune solo per trovarli insieme, come richiede invece la schermata Tag nativa di WordPress.
+
 ## Aggiornamenti
 
 Il plugin è compatibile con [Git Updater](https://git-updater.com/), quindi può essere mantenuto aggiornato direttamente dal [repository GitHub](https://github.com/gioxx/wp-ai-tags-optimizer) senza passare da WordPress.org.

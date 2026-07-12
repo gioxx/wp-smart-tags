@@ -8,9 +8,20 @@ class WPTO_Admin_Page {
 	const MAIN_SLUG = 'wpto-tags-optimizer';
 	const SETTINGS_SLUG = 'wpto-settings';
 
+	const USAGE_BUCKETS = array(
+		'1'     => array( 1, 1 ),
+		'2'     => array( 2, 2 ),
+		'3-5'   => array( 3, 5 ),
+		'6-10'  => array( 6, 10 ),
+		'11-25' => array( 11, 25 ),
+		'26-50' => array( 26, 50 ),
+		'51+'   => array( 51, PHP_INT_MAX ),
+	);
+
 	public static function init() {
 		add_action( 'admin_menu', array( __CLASS__, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
+		add_action( 'admin_init', array( __CLASS__, 'maybe_process_manual_merge' ) );
 		add_action( 'wp_ajax_wpto_delete_unused', array( __CLASS__, 'ajax_delete_unused' ) );
 		add_action( 'wp_ajax_wpto_suggestion_action', array( __CLASS__, 'ajax_suggestion_action' ) );
 		add_action( 'wp_ajax_wpto_bulk_suggestion_action', array( __CLASS__, 'ajax_bulk_suggestion_action' ) );
@@ -82,6 +93,36 @@ class WPTO_Admin_Page {
 			return;
 		}
 
+		$active_tab = ( isset( $_GET['tab'] ) && 'stats' === $_GET['tab'] ) ? 'stats' : 'optimizer'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		?>
+		<div class="wrap wpto-wrap">
+			<h1><?php esc_html_e( 'AI Tags Optimizer', 'ai-tags-optimizer' ); ?></h1>
+
+			<p>
+				<?php
+				printf(
+					/* translators: %s: link to the plugin settings screen */
+					esc_html__( 'Need to change the API key, model, or other options? Head over to %s.', 'ai-tags-optimizer' ),
+					'<a href="' . esc_url( self::settings_page_url() ) . '">' . esc_html__( 'the plugin settings', 'ai-tags-optimizer' ) . '</a>'
+				);
+				?>
+			</p>
+
+			<h2 class="nav-tab-wrapper">
+				<a href="<?php echo esc_url( self::main_page_url() ); ?>" class="nav-tab <?php echo esc_attr( 'optimizer' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'Optimizer', 'ai-tags-optimizer' ); ?></a>
+				<a href="<?php echo esc_url( add_query_arg( 'tab', 'stats', self::main_page_url() ) ); ?>" class="nav-tab <?php echo esc_attr( 'stats' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'Tag Statistics', 'ai-tags-optimizer' ); ?></a>
+			</h2>
+
+			<?php if ( 'stats' === $active_tab ) : ?>
+				<?php self::render_stats_tab(); ?>
+			<?php else : ?>
+				<?php self::render_optimizer_tab(); ?>
+			<?php endif; ?>
+		</div>
+		<?php
+	}
+
+	private static function render_optimizer_tab() {
 		WPTO_Suggestions_Repo::prune_orphaned_rejected();
 		WPTO_Suggestions_Repo::prune_orphaned_pending();
 
@@ -111,19 +152,6 @@ class WPTO_Admin_Page {
 		);
 
 		?>
-		<div class="wrap wpto-wrap">
-			<h1><?php esc_html_e( 'AI Tags Optimizer', 'ai-tags-optimizer' ); ?></h1>
-
-			<p>
-				<?php
-				printf(
-					/* translators: %s: link to the plugin settings screen */
-					esc_html__( 'Need to change the API key, model, or other options? Head over to %s.', 'ai-tags-optimizer' ),
-					'<a href="' . esc_url( self::settings_page_url() ) . '">' . esc_html__( 'the plugin settings', 'ai-tags-optimizer' ) . '</a>'
-				);
-				?>
-			</p>
-
 			<div class="wpto-stats">
 				<div class="wpto-stat-tile">
 					<span class="wpto-stat-number"><?php echo esc_html( $counts['pending'] ); ?></span>
@@ -323,8 +351,225 @@ class WPTO_Admin_Page {
 					</tbody>
 				</table>
 			<?php endif; ?>
+		<?php
+	}
+
+	private static function render_stats_tab() {
+		self::render_merge_notices();
+
+		$table = new WPTO_Tag_Stats_Table();
+
+		if ( 'prepare_merge' === $table->current_action() ) {
+			check_admin_referer( 'bulk-tags' );
+
+			$ids = isset( $_POST['tag_id'] ) ? array_map( 'absint', (array) $_POST['tag_id'] ) : array();
+			$ids = array_values( array_unique( array_filter( $ids ) ) );
+
+			$valid_terms = array();
+			foreach ( $ids as $id ) {
+				$term = get_term( $id, 'post_tag' );
+				if ( $term && ! is_wp_error( $term ) ) {
+					$valid_terms[] = $term;
+				}
+			}
+
+			if ( count( $valid_terms ) >= 2 ) {
+				self::render_merge_confirmation( $valid_terms );
+				return;
+			}
+
+			?>
+			<div class="notice notice-error"><p><?php esc_html_e( 'Select at least two tags to merge.', 'ai-tags-optimizer' ); ?></p></div>
+			<?php
+		}
+
+		self::render_usage_histogram();
+
+		$table->prepare_items();
+		?>
+		<form method="post">
+			<input type="hidden" name="page" value="<?php echo esc_attr( self::MAIN_SLUG ); ?>" />
+			<input type="hidden" name="tab" value="stats" />
+			<?php
+			$table->search_box( __( 'Search tags', 'ai-tags-optimizer' ), 'wpto-tag-search' );
+			$table->display();
+			?>
+		</form>
+		<?php
+	}
+
+	private static function render_merge_notices() {
+		if ( isset( $_GET['wpto_merged'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$target = isset( $_GET['wpto_merged_target'] ) ? sanitize_text_field( wp_unslash( $_GET['wpto_merged_target'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$count  = isset( $_GET['wpto_merged_count'] ) ? absint( $_GET['wpto_merged_count'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			?>
+			<div class="notice notice-success is-dismissible">
+				<p>
+					<?php
+					printf(
+						/* translators: 1: number of merged tags, 2: target tag name */
+						esc_html(
+							_n( 'Merged %1$d tag into "%2$s".', 'Merged %1$d tags into "%2$s".', $count, 'ai-tags-optimizer' )
+						),
+						$count,
+						esc_html( $target )
+					);
+					?>
+				</p>
+			</div>
+			<?php
+		} elseif ( isset( $_GET['wpto_merge_error'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			?>
+			<div class="notice notice-error is-dismissible">
+				<p><?php esc_html_e( 'The merge could not be completed. Please try again.', 'ai-tags-optimizer' ); ?></p>
+			</div>
+			<?php
+		}
+	}
+
+	private static function render_merge_confirmation( array $terms ) {
+		usort(
+			$terms,
+			function ( $a, $b ) {
+				return $b->count - $a->count;
+			}
+		);
+		$default_target = $terms[0]->term_id;
+		?>
+		<h2><?php esc_html_e( 'Confirm merge', 'ai-tags-optimizer' ); ?></h2>
+		<p><?php esc_html_e( 'These tags will be merged into the one you choose below; the others will be deleted and all their posts re-tagged with it.', 'ai-tags-optimizer' ); ?></p>
+		<table class="wp-list-table widefat fixed striped">
+			<thead>
+				<tr>
+					<th><?php esc_html_e( 'Name', 'ai-tags-optimizer' ); ?></th>
+					<th><?php esc_html_e( 'Slug', 'ai-tags-optimizer' ); ?></th>
+					<th><?php esc_html_e( 'Assigned posts', 'ai-tags-optimizer' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ( $terms as $term ) : ?>
+					<tr>
+						<td><?php echo esc_html( $term->name ); ?></td>
+						<td><?php echo esc_html( $term->slug ); ?></td>
+						<td><?php echo esc_html( number_format_i18n( $term->count ) ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+		<form method="post" id="wpto-confirm-merge-form">
+			<?php wp_nonce_field( 'wpto_confirm_merge' ); ?>
+			<input type="hidden" name="page" value="<?php echo esc_attr( self::MAIN_SLUG ); ?>" />
+			<input type="hidden" name="tab" value="stats" />
+			<?php foreach ( $terms as $term ) : ?>
+				<input type="hidden" name="merge_tag_id[]" value="<?php echo esc_attr( $term->term_id ); ?>" />
+			<?php endforeach; ?>
+			<p>
+				<label for="wpto-merge-target"><?php esc_html_e( 'Merge into', 'ai-tags-optimizer' ); ?></label>
+				<select name="wpto_merge_target" id="wpto-merge-target">
+					<?php foreach ( $terms as $term ) : ?>
+						<option value="<?php echo esc_attr( $term->term_id ); ?>" <?php selected( $term->term_id, $default_target ); ?>><?php echo esc_html( $term->name ); ?></option>
+					<?php endforeach; ?>
+				</select>
+			</p>
+			<p>
+				<button type="submit" name="wpto_confirm_merge" value="1" class="button button-primary" id="wpto-confirm-merge-submit"><?php esc_html_e( 'Confirm merge', 'ai-tags-optimizer' ); ?></button>
+				<a href="<?php echo esc_url( add_query_arg( 'tab', 'stats', self::main_page_url() ) ); ?>" class="button"><?php esc_html_e( 'Cancel', 'ai-tags-optimizer' ); ?></a>
+			</p>
+		</form>
+		<?php
+	}
+
+	private static function render_usage_histogram() {
+		$counts = get_terms(
+			array(
+				'taxonomy'   => 'post_tag',
+				'hide_empty' => true,
+				'fields'     => 'id=>count',
+			)
+		);
+
+		if ( is_wp_error( $counts ) ) {
+			$counts = array();
+		}
+
+		$buckets = array_fill_keys( array_keys( self::USAGE_BUCKETS ), 0 );
+
+		foreach ( $counts as $count ) {
+			$count = (int) $count;
+			foreach ( self::USAGE_BUCKETS as $label => $range ) {
+				if ( $count >= $range[0] && $count <= $range[1] ) {
+					++$buckets[ $label ];
+					break;
+				}
+			}
+		}
+
+		$max = max( 1, max( $buckets ) );
+		?>
+		<h2><?php esc_html_e( 'Usage distribution', 'ai-tags-optimizer' ); ?></h2>
+		<div class="wpto-histogram">
+			<?php foreach ( $buckets as $label => $count ) : ?>
+				<div class="wpto-histogram-bar-wrap">
+					<span class="wpto-histogram-count"><?php echo esc_html( number_format_i18n( $count ) ); ?></span>
+					<div class="wpto-histogram-bar" style="height: <?php echo esc_attr( max( 2, round( ( $count / $max ) * 100 ) ) ); ?>%;"></div>
+					<span class="wpto-histogram-label"><?php echo esc_html( $label ); ?></span>
+				</div>
+			<?php endforeach; ?>
 		</div>
 		<?php
+	}
+
+	public static function maybe_process_manual_merge() {
+		if ( ! isset( $_POST['wpto_confirm_merge'] ) ) {
+			return;
+		}
+
+		if ( ! isset( $_REQUEST['page'] ) || self::MAIN_SLUG !== $_REQUEST['page'] ) {
+			return;
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		check_admin_referer( 'wpto_confirm_merge' );
+
+		$target_id  = isset( $_POST['wpto_merge_target'] ) ? absint( $_POST['wpto_merge_target'] ) : 0;
+		$source_ids = isset( $_POST['merge_tag_id'] ) ? array_map( 'absint', (array) $_POST['merge_tag_id'] ) : array();
+		$source_ids = array_values( array_diff( array_unique( $source_ids ), array( $target_id ) ) );
+
+		$redirect_args = array(
+			'page' => self::MAIN_SLUG,
+			'tab'  => 'stats',
+		);
+
+		$target = $target_id ? get_term( $target_id, 'post_tag' ) : null;
+
+		if ( ! $target_id || empty( $source_ids ) || ! $target || is_wp_error( $target ) ) {
+			$redirect_args['wpto_merge_error'] = 1;
+			wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
+			exit;
+		}
+
+		$result = WPTO_Merge_Handler::apply(
+			array(
+				'target_term_id'  => $target_id,
+				'source_term_ids' => wp_json_encode( $source_ids ),
+			)
+		);
+
+		if ( is_wp_error( $result ) ) {
+			$redirect_args['wpto_merge_error'] = 1;
+			wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
+			exit;
+		}
+
+		$redirect_args['wpto_merged']        = 1;
+		$redirect_args['wpto_merged_target'] = rawurlencode( $result['target_name'] );
+		$redirect_args['wpto_merged_count']  = count( $result['source_names'] );
+
+		wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
+		exit;
 	}
 
 	private static function render_suggestion_row( array $row, $rejected = false, $group = '' ) {

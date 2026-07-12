@@ -268,6 +268,12 @@
 		} );
 	}
 
+	$( '#wpto-confirm-merge-form' ).on( 'submit', function ( e ) {
+		if ( ! window.confirm( wptoData.i18n.confirmMerge ) ) {
+			e.preventDefault();
+		}
+	} );
+
 	$( document ).on( 'click', '.wpto-retry-batch', function () {
 		var batchId = $( this ).data( 'batch-id' );
 		ajax( { action: 'wpto_retry_batch', batch_id: batchId } ).done( function () {

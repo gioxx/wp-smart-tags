@@ -48,6 +48,10 @@ Each suggestion can be **Approved** (merges the source tag(s) into the target ta
 
 The "Unused tags (0 posts)" table lists tags with no post associations, with a bulk delete option. If counts look wrong (e.g. after an import), use **"Recount tag counts"** to fix them.
 
+## Tag Statistics and manual merge
+
+The **"Tag Statistics"** tab (next to "Optimizer" on the same page) shows a usage-distribution histogram plus a searchable, sortable, paginated table of every tag in use, each linking straight to its filtered post list. No AI is involved here: select any 2+ tags via checkbox — regardless of how their names differ — choose which one should survive from a "Merge into" dropdown, and confirm. This skips the need to give unrelated tags a common search term just to find them together, which WordPress's native Tags screen requires.
+
 ## Updates
 
 The plugin is compatible with [Git Updater](https://git-updater.com/), so it can be kept up to date directly from the [GitHub repository](https://github.com/gioxx/wp-ai-tags-optimizer) without going through WordPress.org.

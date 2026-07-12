@@ -2,6 +2,11 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.14.0] - 2026-07-12
+
+- Added a "Tag Statistics" tab (no AI involved): a searchable, sortable, paginated table of tags in use (name, slug, assigned-post count linking to the filtered post list) plus a usage-distribution histogram for an at-a-glance read of the taxonomy.
+- Added a manual merge workflow on the new tab: select any 2+ tags via checkbox regardless of name, confirm which one survives, and merge immediately — no need to give unrelated tags a common search term as required by WordPress's native Tags screen, and no AI involved.
+
 ## [0.13.4] - 2026-07-12
 
 - Moved the operational "AI Tags Optimizer" page from Tools to Posts (where tags are managed), keeping the Settings page under Tools. The two pages now cross-link to each other.

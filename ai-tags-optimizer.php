@@ -2,7 +2,7 @@
 /**
  * Plugin Name: AI Tags Optimizer for WordPress
  * Description: Analyzes WordPress tags with the help of the Claude API (Anthropic) to suggest merges for duplicates/synonyms and flag unused tags. Always requires manual approval before any change.
- * Version: 0.13.4
+ * Version: 0.14.0
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Gioxx
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WPTO_VERSION', '0.13.4' );
+define( 'WPTO_VERSION', '0.14.0' );
 define( 'WPTO_PLUGIN_FILE', __FILE__ );
 define( 'WPTO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPTO_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -33,6 +33,7 @@ require_once WPTO_PLUGIN_DIR . 'includes/class-wpto-api-client.php';
 require_once WPTO_PLUGIN_DIR . 'includes/class-wpto-suggestions-repo.php';
 require_once WPTO_PLUGIN_DIR . 'includes/class-wpto-queue.php';
 require_once WPTO_PLUGIN_DIR . 'includes/class-wpto-merge-handler.php';
+require_once WPTO_PLUGIN_DIR . 'includes/class-wpto-tag-stats-table.php';
 require_once WPTO_PLUGIN_DIR . 'includes/class-wpto-admin-page.php';
 
 register_activation_hook( __FILE__, array( 'WPTO_Activator', 'activate' ) );

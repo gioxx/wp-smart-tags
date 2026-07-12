@@ -85,3 +85,46 @@
 	font-size: 11px;
 	line-height: 1.5;
 }
+
+.wpto-histogram {
+	display: flex;
+	align-items: flex-end;
+	gap: 16px;
+	height: 160px;
+	margin: 16px 0 32px;
+	padding: 0 8px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+}
+
+.wpto-histogram-bar-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+	flex: 1;
+	height: 100%;
+	padding-top: 8px;
+}
+
+.wpto-histogram-count {
+	font-size: 12px;
+	font-weight: 600;
+	margin-bottom: 4px;
+}
+
+.wpto-histogram-bar {
+	width: 100%;
+	max-width: 48px;
+	background: #2271b1;
+	border-radius: 2px 2px 0 0;
+	min-height: 2px;
+}
+
+.wpto-histogram-label {
+	margin-top: 6px;
+	margin-bottom: 8px;
+	font-size: 11px;
+	color: #646970;
+}
