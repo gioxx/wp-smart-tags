@@ -41,8 +41,8 @@ class WPTO_Admin_Page {
 		add_action( "load-{$main_hook}", array( __CLASS__, 'maybe_add_screen_options' ) );
 
 		add_management_page(
-			__( 'Smart Tags: Settings', 'ai-tags-optimizer' ),
-			__( 'Smart Tags: Settings', 'ai-tags-optimizer' ),
+			__( 'Smart Tags for WordPress: Settings', 'ai-tags-optimizer' ),
+			__( 'Smart Tags for WordPress: Settings', 'ai-tags-optimizer' ),
 			'manage_options',
 			self::SETTINGS_SLUG,
 			array( 'WPTO_Settings', 'render_page' )
@@ -427,6 +427,7 @@ class WPTO_Admin_Page {
 		<?php self::render_usage_histogram(); ?>
 
 		<h2><?php esc_html_e( 'All tags', 'ai-tags-optimizer' ); ?></h2>
+		<?php self::render_quick_sort_links(); ?>
 		<?php
 		$table->prepare_items();
 		?>
@@ -438,6 +439,69 @@ class WPTO_Admin_Page {
 			$table->display();
 			?>
 		</form>
+		<?php
+	}
+
+	private static function render_quick_sort_links() {
+		$user_id = get_current_user_id();
+
+		if ( isset( $_GET['orderby'] ) || isset( $_GET['order'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$current_orderby = isset( $_GET['orderby'] ) ? sanitize_key( $_GET['orderby'] ) : 'count'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$current_order   = isset( $_GET['order'] ) ? strtolower( sanitize_key( $_GET['order'] ) ) : 'desc'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		} else {
+			$current_orderby = $user_id ? get_user_meta( $user_id, 'wpto_tags_orderby', true ) : '';
+			$current_order   = $user_id ? get_user_meta( $user_id, 'wpto_tags_order', true ) : '';
+		}
+
+		if ( ! in_array( $current_orderby, array( 'name', 'count' ), true ) ) {
+			$current_orderby = 'count';
+		}
+		if ( ! in_array( $current_order, array( 'asc', 'desc' ), true ) ) {
+			$current_order = 'desc';
+		}
+
+		$presets = array(
+			array(
+				'label'   => __( 'Name A→Z', 'ai-tags-optimizer' ),
+				'orderby' => 'name',
+				'order'   => 'asc',
+			),
+			array(
+				'label'   => __( 'Name Z→A', 'ai-tags-optimizer' ),
+				'orderby' => 'name',
+				'order'   => 'desc',
+			),
+			array(
+				'label'   => __( 'Most used', 'ai-tags-optimizer' ),
+				'orderby' => 'count',
+				'order'   => 'desc',
+			),
+			array(
+				'label'   => __( 'Least used', 'ai-tags-optimizer' ),
+				'orderby' => 'count',
+				'order'   => 'asc',
+			),
+		);
+
+		$base_url = add_query_arg( 'tab', 'stats', self::main_page_url() );
+		?>
+		<p class="wpto-quick-sort">
+			<span class="wpto-quick-sort-label"><?php esc_html_e( 'Quick sort:', 'ai-tags-optimizer' ); ?></span>
+			<?php foreach ( $presets as $preset ) : ?>
+				<?php
+				$is_active = ( $current_orderby === $preset['orderby'] && $current_order === $preset['order'] );
+				$url       = add_query_arg(
+					array(
+						'orderby' => $preset['orderby'],
+						'order'   => $preset['order'],
+					),
+					$base_url
+				);
+				$url       = remove_query_arg( 'paged', $url );
+				?>
+				<a href="<?php echo esc_url( $url ); ?>" class="button button-small<?php echo $is_active ? ' button-primary' : ''; ?>"><?php echo esc_html( $preset['label'] ); ?></a>
+			<?php endforeach; ?>
+		</p>
 		<?php
 	}
 

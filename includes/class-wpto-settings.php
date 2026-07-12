@@ -124,7 +124,7 @@ class WPTO_Settings {
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Smart Tags: Settings', 'ai-tags-optimizer' ); ?></h1>
+			<h1><?php esc_html_e( 'Smart Tags for WordPress: Settings', 'ai-tags-optimizer' ); ?></h1>
 			<p>
 				<?php
 				printf(

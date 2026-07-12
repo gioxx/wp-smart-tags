@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Smart Tags for WordPress package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Smart Tags for WordPress 0.15.1\n"
+"Project-Id-Version: Smart Tags for WordPress 0.15.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 22:11+0200\n"
-"PO-Revision-Date: 2026-07-12 22:11+0200\n"
+"POT-Creation-Date: 2026-07-12 23:00+0200\n"
+"PO-Revision-Date: 2026-07-12 23:00+0200\n"
 "Last-Translator: Gioxx <https://gioxx.org>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -29,7 +29,7 @@ msgstr ""
 
 #: includes/class-wpto-admin-page.php:44 includes/class-wpto-admin-page.php:45
 #: includes/class-wpto-settings.php:127
-msgid "Smart Tags: Settings"
+msgid "Smart Tags for WordPress: Settings"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:60
@@ -260,13 +260,13 @@ msgid "No unused tags found."
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:405
-#: includes/class-wpto-admin-page.php:510
+#: includes/class-wpto-admin-page.php:574
 #: includes/class-wpto-tag-stats-table.php:27
 msgid "Name"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:406
-#: includes/class-wpto-admin-page.php:511
+#: includes/class-wpto-admin-page.php:575
 #: includes/class-wpto-tag-stats-table.php:28
 msgid "Slug"
 msgstr ""
@@ -279,96 +279,116 @@ msgstr ""
 msgid "All tags"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:437
+#: includes/class-wpto-admin-page.php:438
 msgid "Search tags"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:455
+#: includes/class-wpto-admin-page.php:465
+msgid "Name A→Z"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:470
+msgid "Name Z→A"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:475
+msgid "Most used"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:480
+msgid "Least used"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:489
+msgid "Quick sort:"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:519
 #, php-format
 msgid "Merged %1$d tag into \"%2$s\"."
 msgid_plural "Merged %1$d tags into \"%2$s\"."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-wpto-admin-page.php:467
+#: includes/class-wpto-admin-page.php:531
 msgid "The merge could not be completed. Please try again."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:479
+#: includes/class-wpto-admin-page.php:543
 #, php-format
 msgid "%d tag deleted."
 msgid_plural "%d tags deleted."
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-wpto-admin-page.php:490
+#: includes/class-wpto-admin-page.php:554
 msgid "The tag could not be deleted. Please try again."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:505
-#: includes/class-wpto-admin-page.php:541
+#: includes/class-wpto-admin-page.php:569
+#: includes/class-wpto-admin-page.php:605
 msgid "Confirm merge"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:506
+#: includes/class-wpto-admin-page.php:570
 msgid ""
 "These tags will be merged into the one you choose below; the others will be "
 "deleted and all their posts re-tagged with it."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:512
+#: includes/class-wpto-admin-page.php:576
 #: includes/class-wpto-tag-stats-table.php:29
 msgid "Assigned posts"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:533
-#: includes/class-wpto-admin-page.php:736
+#: includes/class-wpto-admin-page.php:597
+#: includes/class-wpto-admin-page.php:800
 msgid "Merge into"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:542
+#: includes/class-wpto-admin-page.php:606
 msgid "Cancel"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:575
+#: includes/class-wpto-admin-page.php:639
 msgid "Usage distribution"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:734
+#: includes/class-wpto-admin-page.php:798
 msgid "Restore"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:742
+#: includes/class-wpto-admin-page.php:806
 msgid "Approve"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:743
+#: includes/class-wpto-admin-page.php:807
 msgid "Reject"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:754
-#: includes/class-wpto-admin-page.php:772
-#: includes/class-wpto-admin-page.php:784
-#: includes/class-wpto-admin-page.php:808 includes/class-wpto-queue.php:24
+#: includes/class-wpto-admin-page.php:818
+#: includes/class-wpto-admin-page.php:836
+#: includes/class-wpto-admin-page.php:848
+#: includes/class-wpto-admin-page.php:872 includes/class-wpto-queue.php:24
 #: includes/class-wpto-queue.php:45 includes/class-wpto-queue.php:57
 #: includes/class-wpto-queue.php:70 includes/class-wpto-settings.php:102
 msgid "Insufficient permissions."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:760
+#: includes/class-wpto-admin-page.php:824
 msgid "No tags selected."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:792
-#: includes/class-wpto-admin-page.php:816
+#: includes/class-wpto-admin-page.php:856
+#: includes/class-wpto-admin-page.php:880
 msgid "Invalid request."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:849
+#: includes/class-wpto-admin-page.php:913
 msgid "Suggestion not found."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:867
+#: includes/class-wpto-admin-page.php:931
 msgid "Invalid target selection."
 msgstr ""
 

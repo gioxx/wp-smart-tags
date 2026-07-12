@@ -21,7 +21,7 @@ The plugin interface is in English by default; if your WordPress is set to Itali
 
 ## Configuration
 
-Go to **Tools → Smart Tags: Settings** and fill in:
+Go to **Tools → Smart Tags for WordPress: Settings** and fill in:
 
 | Field | Description |
 |---|---|

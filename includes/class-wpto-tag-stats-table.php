@@ -113,14 +113,33 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 
 	public function prepare_items() {
 		$search  = isset( $_REQUEST['s'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) : '';
-		$orderby = isset( $_REQUEST['orderby'] ) ? sanitize_key( $_REQUEST['orderby'] ) : 'count';
-		$order   = isset( $_REQUEST['order'] ) ? strtolower( sanitize_key( $_REQUEST['order'] ) ) : 'desc';
+		$user_id = get_current_user_id();
 
-		if ( ! in_array( $orderby, array( 'name', 'count' ), true ) ) {
-			$orderby = 'count';
-		}
-		if ( ! in_array( $order, array( 'asc', 'desc' ), true ) ) {
-			$order = 'desc';
+		if ( isset( $_REQUEST['orderby'] ) || isset( $_REQUEST['order'] ) ) {
+			$orderby = isset( $_REQUEST['orderby'] ) ? sanitize_key( $_REQUEST['orderby'] ) : 'count';
+			$order   = isset( $_REQUEST['order'] ) ? strtolower( sanitize_key( $_REQUEST['order'] ) ) : 'desc';
+
+			if ( ! in_array( $orderby, array( 'name', 'count' ), true ) ) {
+				$orderby = 'count';
+			}
+			if ( ! in_array( $order, array( 'asc', 'desc' ), true ) ) {
+				$order = 'desc';
+			}
+
+			if ( $user_id ) {
+				update_user_meta( $user_id, 'wpto_tags_orderby', $orderby );
+				update_user_meta( $user_id, 'wpto_tags_order', $order );
+			}
+		} else {
+			$orderby = $user_id ? get_user_meta( $user_id, 'wpto_tags_orderby', true ) : '';
+			$order   = $user_id ? get_user_meta( $user_id, 'wpto_tags_order', true ) : '';
+
+			if ( ! in_array( $orderby, array( 'name', 'count' ), true ) ) {
+				$orderby = 'count';
+			}
+			if ( ! in_array( $order, array( 'asc', 'desc' ), true ) ) {
+				$order = 'desc';
+			}
 		}
 
 		$per_page     = $this->get_items_per_page( 'wpto_tags_per_page', self::PER_PAGE );

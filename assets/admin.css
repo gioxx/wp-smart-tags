@@ -128,3 +128,16 @@
 	font-size: 11px;
 	color: #646970;
 }
+
+.wpto-quick-sort {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 8px 0 12px;
+}
+
+.wpto-quick-sort-label {
+	font-weight: 600;
+	margin-right: 4px;
+}

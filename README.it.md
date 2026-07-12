@@ -21,7 +21,7 @@ L'interfaccia del plugin è in inglese di default; se il tuo WordPress è impost
 
 ## Configurazione
 
-Vai su **Strumenti → Smart Tags: Settings** e compila:
+Vai su **Strumenti → Smart Tags for WordPress: Settings** e compila:
 
 | Campo | Descrizione |
 |---|---|

@@ -2,6 +2,12 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.15.2] - 2026-07-12
+
+- Added a "Quick sort" row of one-click presets (Name A→Z / Z→A, Most/Least used) above the "Manage Tags" tag table, as a shortcut to the existing sortable column headers.
+- The chosen sort order is now remembered per user (stored in user meta) and used as the default the next time the tab is opened, instead of always resetting to "Most used".
+- Fixed the Settings page/menu title dropping "for WordPress" after the plugin rename ("Smart Tags: Settings" → "Smart Tags for WordPress: Settings").
+
 ## [0.15.1] - 2026-07-12
 
 - Renamed the plugin to "Smart Tags for WordPress" to reflect its broader scope (AI analysis plus manual tag management, not just AI-driven optimization). Display name only: the plugin folder, main file, text domain, and internal class/constant prefixes are unchanged.

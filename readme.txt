@@ -29,7 +29,7 @@ Features:
 == Installation ==
 1. Copy the whole plugin folder to `wp-content/plugins/ai-tags-optimizer/`.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Go to **Tools → Smart Tags: Settings** and enter your Anthropic API key.
+3. Go to **Tools → Smart Tags for WordPress: Settings** and enter your Anthropic API key.
 4. Go to **Posts → Smart Tags** and click "Start analysis".
 
 == Frequently Asked Questions ==
@@ -43,6 +43,10 @@ It's kept in a "Rejected suggestions" list and can be restored to pending at any
 Yes, the "Unused tags" table lists them with a bulk delete option.
 
 == Changelog ==
+= 0.15.2 =
+* Added a "Quick sort" row of one-click presets above the "Manage Tags" tag table, and the chosen sort order is now remembered per user.
+* Fixed the Settings page/menu title dropping "for WordPress" after the plugin rename.
+
 = 0.15.1 =
 * Renamed the plugin to "Smart Tags for WordPress" to reflect its broader scope (AI analysis plus manual tag management). Display name only: the plugin folder, main file, text domain, and settings are unchanged.
 
