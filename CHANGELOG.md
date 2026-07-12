@@ -2,6 +2,11 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.11.0] - 2026-07-12
+
+- Starting a new analysis now clears any unreviewed pending suggestions and the batch log first, so results always reflect the current tag set instead of piling up on top of a stale previous run. Rejected suggestions and the applied-suggestions history are left untouched. A confirmation dialog was added before starting.
+- Tightened the Claude system prompt for `semantic_overlap` and `low_usage_merge` suggestions (more prone to false positives than `near_duplicate`): now requires a confidence of 0.7+ and explicitly favors omitting a suggestion over a low-confidence one.
+
 ## [0.10.0] - 2026-07-12
 
 - Added an "Applied suggestions (history)" table showing the most recent merges (last 50), read-only, with source/target tag names snapshotted at approval time since the source tags are deleted by the merge.

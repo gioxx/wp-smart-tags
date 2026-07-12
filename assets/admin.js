@@ -66,6 +66,10 @@
 	var stopRequested = false;
 
 	$( '#wpto-start-analysis' ).on( 'click', function () {
+		if ( ! window.confirm( wptoData.i18n.confirmNewAnalysis ) ) {
+			return;
+		}
+
 		var $btn = $( this );
 		$btn.prop( 'disabled', true );
 		stopRequested = false;

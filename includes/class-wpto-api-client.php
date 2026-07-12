@@ -147,9 +147,10 @@ class WPTO_Api_Client {
 		}
 
 		return "You are an assistant analyzing a list of WordPress tags (JSON format: id, name, count) to identify:\n"
-			. "1) near_duplicate: textual near-duplicates (typos, plurals, casing, hyphens/spaces)\n"
-			. "2) semantic_overlap: tags with different wording but overlapping meaning\n"
-			. "3) low_usage_merge: tags with a very low count that could merge into a broader tag already present in the list\n\n"
+			. "1) near_duplicate: textual near-duplicates (typos, plurals, casing, hyphens/spaces) referring to the exact same thing, e.g. \"Wii U\" and \"Nintendo Wii U\"\n"
+			. "2) semantic_overlap: tags that are true synonyms describing the exact same underlying concept with different wording, NOT tags that are merely related, topically adjacent, or a broader/narrower category of each other\n"
+			. "3) low_usage_merge: tags with a very low count (typically 1-2 posts) that are a clear, unambiguous narrower case of a broader tag already present in the list, where merging loses no meaningful distinction\n\n"
+			. "Be conservative for types 2 and 3: these are far more prone to false positives than type 1. If you are not highly confident two tags mean the same thing, do not suggest merging them - omitting a suggestion is always better than a wrong one. Only use confidence 0.7 or higher for semantic_overlap and low_usage_merge; near_duplicate can use the full range.\n\n"
 			. "Reply with ONLY valid JSON, no extra text, no code block, in this exact format:\n"
 			. '{"suggestions":[{"type":"near_duplicate|semantic_overlap|low_usage_merge","source_tag_ids":[123],"target_tag_id":456,"reason":"...","confidence":0.0}]}' . "\n\n"
 			. "Rules: only use ids present in the given list; target_tag_id must differ from every source_tag_id; "

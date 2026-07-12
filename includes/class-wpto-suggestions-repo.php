@@ -151,6 +151,19 @@ class WPTO_Suggestions_Repo {
 		);
 	}
 
+	/**
+	 * Clears leftover unreviewed suggestions and the batch log before a
+	 * fresh analysis run, so results always reflect the current tag set
+	 * instead of piling up on top of a stale previous run. Rejected and
+	 * applied suggestions are historical records and are left untouched.
+	 */
+	public static function clear_for_new_analysis() {
+		global $wpdb;
+
+		$wpdb->delete( self::suggestions_table(), array( 'status' => 'pending' ), array( '%s' ) );
+		$wpdb->query( 'DELETE FROM ' . self::batches_table() ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+	}
+
 	public static function get_failed_batches() {
 		global $wpdb;
 

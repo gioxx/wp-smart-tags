@@ -48,6 +48,13 @@ msgid "Restore the selected suggestions to pending?"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:58
+msgid ""
+"Starting a new analysis will clear any unreviewed pending suggestions and "
+"re-analyze your current tags. Rejected and previously applied suggestions "
+"are kept. Continue?"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:58
 msgid "Select at least one row first."
 msgstr ""
 

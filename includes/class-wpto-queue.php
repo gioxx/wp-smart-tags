@@ -31,6 +31,7 @@ class WPTO_Queue {
 			wp_send_json_success( self::build_status_payload() );
 		}
 
+		WPTO_Suggestions_Repo::clear_for_new_analysis();
 		self::enqueue_all_tags();
 
 		wp_send_json_success( self::build_status_payload() );

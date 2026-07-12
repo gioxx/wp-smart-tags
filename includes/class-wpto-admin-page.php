@@ -57,6 +57,7 @@ class WPTO_Admin_Page {
 					'confirmBulkApprove' => __( 'Approve the selected suggestions? This action cannot be undone.', 'ai-tags-optimizer' ),
 					'confirmBulkReject'  => __( 'Reject the selected suggestions?', 'ai-tags-optimizer' ),
 					'confirmBulkRestore' => __( 'Restore the selected suggestions to pending?', 'ai-tags-optimizer' ),
+					'confirmNewAnalysis' => __( 'Starting a new analysis will clear any unreviewed pending suggestions and re-analyze your current tags. Rejected and previously applied suggestions are kept. Continue?', 'ai-tags-optimizer' ),
 					'noneSelected'       => __( 'Select at least one row first.', 'ai-tags-optimizer' ),
 					'bulkFailed'         => __( 'Some items could not be processed:', 'ai-tags-optimizer' ),
 					'error'              => __( 'Something went wrong.', 'ai-tags-optimizer' ),

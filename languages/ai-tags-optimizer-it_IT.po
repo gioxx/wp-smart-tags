@@ -32,6 +32,9 @@ msgstr "Confermi il rifiuto dei suggerimenti selezionati?"
 msgid "Restore the selected suggestions to pending?"
 msgstr "Ripristinare come in sospeso i suggerimenti selezionati?"
 
+msgid "Starting a new analysis will clear any unreviewed pending suggestions and re-analyze your current tags. Rejected and previously applied suggestions are kept. Continue?"
+msgstr "L'avvio di una nuova analisi cancellerà i suggerimenti in sospeso non ancora revisionati e rianalizzerà i tag attuali. I suggerimenti rifiutati e quelli già applicati vengono mantenuti. Continuare?"
+
 msgid "Select at least one row first."
 msgstr "Seleziona almeno una riga."
 
