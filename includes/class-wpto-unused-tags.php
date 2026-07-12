@@ -21,10 +21,11 @@ class WPTO_Unused_Tags {
 			array_filter(
 				$terms,
 				function ( $term ) {
-					// term->count only tallies posts with post_status = 'publish',
-					// so it can read 0 for a tag that's still attached to drafts,
-					// scheduled, pending, or private posts. Confirm there are truly
-					// no associated objects before treating it as unused.
+					// term->count is a cached column (wp_term_taxonomy.count) that can
+					// drift out of sync with the actual wp_term_relationships rows
+					// (stale post_status-based counting, imports, cache desync...).
+					// Confirm there are truly no associated objects before treating
+					// a tag as unused.
 					return self::has_no_objects( $term->term_id );
 				}
 			)
@@ -74,5 +75,31 @@ class WPTO_Unused_Tags {
 			'deleted' => $deleted,
 			'errors'  => $errors,
 		);
+	}
+
+	/**
+	 * Force-recalculate wp_term_taxonomy.count for every post_tag term, the
+	 * same fix WP-CLI's `wp term recount post_tag` applies. Useful when the
+	 * cached count has drifted out of sync with the real post associations.
+	 *
+	 * @return int Number of terms recounted.
+	 */
+	public static function recount_all() {
+		global $wpdb;
+
+		$tt_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				'post_tag'
+			)
+		);
+
+		if ( empty( $tt_ids ) ) {
+			return 0;
+		}
+
+		wp_update_term_count_now( array_map( 'intval', $tt_ids ), 'post_tag' );
+
+		return count( $tt_ids );
 	}
 }

@@ -13,6 +13,7 @@ class WPTO_Admin_Page {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
 		add_action( 'wp_ajax_wpto_delete_unused', array( __CLASS__, 'ajax_delete_unused' ) );
 		add_action( 'wp_ajax_wpto_suggestion_action', array( __CLASS__, 'ajax_suggestion_action' ) );
+		add_action( 'wp_ajax_wpto_recount_tags', array( __CLASS__, 'ajax_recount_tags' ) );
 	}
 
 	public static function register_menu() {
@@ -88,6 +89,10 @@ class WPTO_Admin_Page {
 			<h1><?php esc_html_e( 'Tags Optimizer', 'wp-tags-optimizer' ); ?></h1>
 
 			<h2><?php esc_html_e( 'Tag inutilizzati (0 post)', 'wp-tags-optimizer' ); ?></h2>
+			<p>
+				<button type="button" class="button" id="wpto-recount-tags"><?php esc_html_e( 'Ricalcola conteggi tag', 'wp-tags-optimizer' ); ?></button>
+				<span class="description"><?php esc_html_e( 'Corregge il conteggio post per tag se risulta disallineato rispetto alle associazioni reali (es. dopo un import).', 'wp-tags-optimizer' ); ?></span>
+			</p>
 			<?php if ( empty( $unused_terms ) ) : ?>
 				<p><?php esc_html_e( 'Nessun tag inutilizzato trovato.', 'wp-tags-optimizer' ); ?></p>
 			<?php else : ?>
@@ -222,6 +227,18 @@ class WPTO_Admin_Page {
 		$result = WPTO_Unused_Tags::delete_terms( $term_ids );
 
 		wp_send_json_success( $result );
+	}
+
+	public static function ajax_recount_tags() {
+		check_ajax_referer( 'wpto_admin_action', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Permessi insufficienti.', 'wp-tags-optimizer' ) ), 403 );
+		}
+
+		$count = WPTO_Unused_Tags::recount_all();
+
+		wp_send_json_success( array( 'count' => $count ) );
 	}
 
 	public static function ajax_suggestion_action() {

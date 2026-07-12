@@ -5,6 +5,18 @@
 		return $.post( wptoData.ajaxUrl, $.extend( { nonce: wptoData.nonce }, data ) );
 	}
 
+	$( '#wpto-recount-tags' ).on( 'click', function () {
+		var $btn = $( this );
+		$btn.prop( 'disabled', true );
+
+		ajax( { action: 'wpto_recount_tags' } ).done( function () {
+			window.location.reload();
+		} ).fail( function () {
+			window.alert( wptoData.i18n.error );
+			$btn.prop( 'disabled', false );
+		} );
+	} );
+
 	$( '#wpto-select-all-unused' ).on( 'change', function () {
 		$( '.wpto-unused-checkbox' ).prop( 'checked', $( this ).prop( 'checked' ) );
 	} );
