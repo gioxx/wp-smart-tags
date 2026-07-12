@@ -1,11 +1,11 @@
 # Copyright (C) 2026 Gioxx
-# This file is distributed under the same license as the AI Tags Optimizer for WordPress package.
+# This file is distributed under the same license as the Smart Tags for WordPress package.
 msgid ""
 msgstr ""
-"Project-Id-Version: AI Tags Optimizer for WordPress 0.15.0\n"
+"Project-Id-Version: Smart Tags for WordPress 0.15.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 22:00+0200\n"
-"PO-Revision-Date: 2026-07-12 22:00+0200\n"
+"POT-Creation-Date: 2026-07-12 22:11+0200\n"
+"PO-Revision-Date: 2026-07-12 22:11+0200\n"
 "Last-Translator: Gioxx <https://gioxx.org>\n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -19,14 +19,17 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:34 includes/class-wpto-admin-page.php:35
-#: includes/class-wpto-admin-page.php:126
-msgid "AI Tags Optimizer"
+#: includes/class-wpto-admin-page.php:34 includes/class-wpto-admin-page.php:126
+msgid "Smart Tags for WordPress"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:35
+msgid "Smart Tags"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:44 includes/class-wpto-admin-page.php:45
 #: includes/class-wpto-settings.php:127
-msgid "AI Tags Optimizer: Settings"
+msgid "Smart Tags: Settings"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:60
@@ -416,7 +419,7 @@ msgid "Looking to run an analysis or review suggestions? Head over to %s."
 msgstr ""
 
 #: includes/class-wpto-settings.php:133
-msgid "Posts &rsaquo; AI Tags Optimizer"
+msgid "Posts &rsaquo; Smart Tags"
 msgstr ""
 
 #: includes/class-wpto-settings.php:141
@@ -476,7 +479,7 @@ msgstr ""
 
 #: includes/class-wpto-settings.php:195
 #, php-format
-msgid "AI Tags Optimizer for WordPress by %1$s, source on %2$s."
+msgid "Smart Tags for WordPress by %1$s, source on %2$s."
 msgstr ""
 
 #: includes/class-wpto-settings.php:202

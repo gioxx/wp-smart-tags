@@ -31,8 +31,8 @@ class WPTO_Admin_Page {
 
 	public static function register_menu() {
 		$main_hook = add_posts_page(
-			__( 'AI Tags Optimizer', 'ai-tags-optimizer' ),
-			__( 'AI Tags Optimizer', 'ai-tags-optimizer' ),
+			__( 'Smart Tags for WordPress', 'ai-tags-optimizer' ),
+			__( 'Smart Tags', 'ai-tags-optimizer' ),
 			'manage_options',
 			self::MAIN_SLUG,
 			array( __CLASS__, 'render_main_page' )
@@ -41,8 +41,8 @@ class WPTO_Admin_Page {
 		add_action( "load-{$main_hook}", array( __CLASS__, 'maybe_add_screen_options' ) );
 
 		add_management_page(
-			__( 'AI Tags Optimizer: Settings', 'ai-tags-optimizer' ),
-			__( 'AI Tags Optimizer: Settings', 'ai-tags-optimizer' ),
+			__( 'Smart Tags: Settings', 'ai-tags-optimizer' ),
+			__( 'Smart Tags: Settings', 'ai-tags-optimizer' ),
 			'manage_options',
 			self::SETTINGS_SLUG,
 			array( 'WPTO_Settings', 'render_page' )
@@ -123,7 +123,7 @@ class WPTO_Admin_Page {
 		$active_tab = ( isset( $_GET['tab'] ) && 'stats' === $_GET['tab'] ) ? 'stats' : 'optimizer'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		?>
 		<div class="wrap wpto-wrap">
-			<h1><?php esc_html_e( 'AI Tags Optimizer', 'ai-tags-optimizer' ); ?></h1>
+			<h1><?php esc_html_e( 'Smart Tags for WordPress', 'ai-tags-optimizer' ); ?></h1>
 
 			<p>
 				<?php

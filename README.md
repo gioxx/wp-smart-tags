@@ -1,8 +1,8 @@
-# AI Tags Optimizer for WordPress
+# Smart Tags for WordPress
 
 *[README disponibile anche in italiano](README.it.md)*
 
-A WordPress plugin that analyzes your post tags with the Claude API (Anthropic) to suggest merges for duplicates/synonyms and to flag unused tags. Nothing is changed automatically — every suggestion requires manual approval.
+A WordPress plugin to manage your post tags with or without AI: get Claude (Anthropic) suggestions for merging duplicates/synonyms and flagging unused tags, or search, merge, and delete tags manually. Nothing is changed automatically — every AI suggestion requires manual approval.
 
 ## Requirements
 
@@ -13,7 +13,7 @@ A WordPress plugin that analyzes your post tags with the Claude API (Anthropic) 
 ## Installation
 
 1. Copy the whole plugin folder to `wp-content/plugins/ai-tags-optimizer/` on your WordPress site.
-2. Go to **Plugins** in the WordPress dashboard and activate "AI Tags Optimizer for WordPress".
+2. Go to **Plugins** in the WordPress dashboard and activate "Smart Tags for WordPress".
 
 ## Language
 
@@ -21,7 +21,7 @@ The plugin interface is in English by default; if your WordPress is set to Itali
 
 ## Configuration
 
-Go to **Tools → AI Tags Optimizer: Settings** and fill in:
+Go to **Tools → Smart Tags: Settings** and fill in:
 
 | Field | Description |
 |---|---|
@@ -33,7 +33,7 @@ Go to **Tools → AI Tags Optimizer: Settings** and fill in:
 
 ## Running an analysis
 
-1. Go to **Posts → AI Tags Optimizer**, on the **"AI Analysis"** tab.
+1. Go to **Posts → Smart Tags**, on the **"AI Analysis"** tab.
 2. Click **"Start analysis"**. Tags are processed in batches, with a live processing log and progress indicator; use **"Stop analysis"** to interrupt it.
 3. Once batches complete, suggestions appear grouped by type:
    - **Near-duplicates** — textual near-duplicates (typos, plurals, casing, hyphens/spaces)
@@ -56,4 +56,4 @@ The **"Manage Tags"** tab (next to "AI Analysis" on the same page) is where all 
 
 ## Updates
 
-The plugin is compatible with [Git Updater](https://git-updater.com/), so it can be kept up to date directly from the [GitHub repository](https://github.com/gioxx/wp-ai-tags-optimizer) without going through WordPress.org.
+The plugin is compatible with [Git Updater](https://git-updater.com/), so it can be kept up to date directly from the [GitHub repository](https://github.com/gioxx/wp-smart-tags) without going through WordPress.org.

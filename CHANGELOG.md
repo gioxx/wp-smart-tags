@@ -2,6 +2,11 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.15.1] - 2026-07-12
+
+- Renamed the plugin to "Smart Tags for WordPress" to reflect its broader scope (AI analysis plus manual tag management, not just AI-driven optimization). Display name only: the plugin folder, main file, text domain, and internal class/constant prefixes are unchanged.
+- Renamed the GitHub repository from `wp-ai-tags-optimizer` to `wp-smart-tags` and updated the `GitHub Plugin URI`/`Plugin URI` headers accordingly. The plugin was not yet public, so no migration/redirect handling was needed.
+
 ## [0.15.0] - 2026-07-12
 
 - Fixed the usage-distribution histogram always showing zero: `get_terms()` was called with the unsupported `fields => 'id=>count'`, silently dropping the `count` property; now uses `fields => 'all'`.

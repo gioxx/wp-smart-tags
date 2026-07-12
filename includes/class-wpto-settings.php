@@ -124,13 +124,13 @@ class WPTO_Settings {
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'AI Tags Optimizer: Settings', 'ai-tags-optimizer' ); ?></h1>
+			<h1><?php esc_html_e( 'Smart Tags: Settings', 'ai-tags-optimizer' ); ?></h1>
 			<p>
 				<?php
 				printf(
-					/* translators: %s: link to the "Posts > AI Tags Optimizer" screen */
+					/* translators: %s: link to the "Posts > Smart Tags" screen */
 					esc_html__( 'Looking to run an analysis or review suggestions? Head over to %s.', 'ai-tags-optimizer' ),
-					'<a href="' . esc_url( WPTO_Admin_Page::main_page_url() ) . '">' . esc_html__( 'Posts &rsaquo; AI Tags Optimizer', 'ai-tags-optimizer' ) . '</a>'
+					'<a href="' . esc_url( WPTO_Admin_Page::main_page_url() ) . '">' . esc_html__( 'Posts &rsaquo; Smart Tags', 'ai-tags-optimizer' ) . '</a>'
 				);
 				?>
 			</p>
@@ -192,9 +192,9 @@ class WPTO_Settings {
 				<?php
 				printf(
 					/* translators: 1: link to the author's site, 2: link to the plugin repository */
-					esc_html__( 'AI Tags Optimizer for WordPress by %1$s, source on %2$s.', 'ai-tags-optimizer' ),
+					esc_html__( 'Smart Tags for WordPress by %1$s, source on %2$s.', 'ai-tags-optimizer' ),
 					'<a href="https://gioxx.org" target="_blank" rel="noopener noreferrer">Gioxx</a>',
-					'<a href="https://github.com/gioxx/wp-ai-tags-optimizer" target="_blank" rel="noopener noreferrer">GitHub</a>'
+					'<a href="https://github.com/gioxx/wp-smart-tags" target="_blank" rel="noopener noreferrer">GitHub</a>'
 				);
 				?>
 			</p>
