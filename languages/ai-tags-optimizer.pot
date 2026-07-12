@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: AI Tags Optimizer for WordPress 0.5.0\n"
+"Project-Id-Version: AI Tags Optimizer for WordPress 0.7.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-12 11:37+0200\n"
+"POT-Creation-Date: 2026-07-12 11:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,7 +23,7 @@ msgid "AI Tags Optimizer"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:29 includes/class-wpto-admin-page.php:30
-#: includes/class-wpto-settings.php:86
+#: includes/class-wpto-settings.php:103
 msgid "AI Tags Optimizer - Settings"
 msgstr ""
 
@@ -229,37 +229,53 @@ msgstr ""
 msgid "No valid tags found for this batch."
 msgstr ""
 
-#: includes/class-wpto-settings.php:91
+#: includes/class-wpto-settings.php:108
 msgid "Anthropic API Key"
 msgstr ""
 
-#: includes/class-wpto-settings.php:97
+#: includes/class-wpto-settings.php:114
 msgid "Model"
 msgstr ""
 
-#: includes/class-wpto-settings.php:100
+#: includes/class-wpto-settings.php:117
 msgid "E.g. claude-haiku-4-5, claude-sonnet-5."
 msgstr ""
 
-#: includes/class-wpto-settings.php:104
+#: includes/class-wpto-settings.php:121
 msgid "Batch size"
 msgstr ""
 
-#: includes/class-wpto-settings.php:107
+#: includes/class-wpto-settings.php:124
 msgid "Number of tags sent per API call (10-500)."
 msgstr ""
 
-#: includes/class-wpto-settings.php:111
+#: includes/class-wpto-settings.php:128
 msgid "AI response language"
 msgstr ""
 
-#: includes/class-wpto-settings.php:113
+#: includes/class-wpto-settings.php:130
 msgid "e.g. Italian, English..."
 msgstr ""
 
-#: includes/class-wpto-settings.php:114
+#: includes/class-wpto-settings.php:131
 msgid ""
 "Language Claude should use for the \"reason\" it gives on each suggestion. "
 "Leave blank to let it match the language of your tag names automatically. "
 "This only affects Claude's output, not the plugin's own interface language."
+msgstr ""
+
+#: includes/class-wpto-settings.php:135
+msgid "Full cleanup on uninstall"
+msgstr ""
+
+#: includes/class-wpto-settings.php:140
+msgid ""
+"Remove all plugin data (database tables and settings) when the plugin is "
+"deleted."
+msgstr ""
+
+#: includes/class-wpto-settings.php:142
+msgid ""
+"Uncheck this if you want batch history and suggestions to survive a delete-"
+"and-reinstall of the plugin."
 msgstr ""

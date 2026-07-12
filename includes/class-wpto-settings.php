@@ -48,6 +48,19 @@ class WPTO_Settings {
 				'default'           => '',
 			)
 		);
+		register_setting(
+			self::OPTION_GROUP,
+			'wpto_cleanup_on_uninstall',
+			array(
+				'type'              => 'boolean',
+				'sanitize_callback' => array( __CLASS__, 'sanitize_checkbox' ),
+				'default'           => true,
+			)
+		);
+	}
+
+	public static function sanitize_checkbox( $value ) {
+		return empty( $value ) ? 0 : 1;
 	}
 
 	public static function sanitize_batch_size( $value ) {
@@ -75,6 +88,10 @@ class WPTO_Settings {
 
 	public static function get_ai_language() {
 		return get_option( 'wpto_ai_language', '' );
+	}
+
+	public static function get_cleanup_on_uninstall() {
+		return (bool) get_option( 'wpto_cleanup_on_uninstall', true );
 	}
 
 	public static function render_page() {
@@ -112,6 +129,17 @@ class WPTO_Settings {
 						<td>
 							<input type="text" id="wpto_ai_language" name="wpto_ai_language" value="<?php echo esc_attr( self::get_ai_language() ); ?>" class="regular-text" placeholder="<?php esc_attr_e( 'e.g. Italian, English...', 'ai-tags-optimizer' ); ?>" />
 							<p class="description"><?php esc_html_e( 'Language Claude should use for the "reason" it gives on each suggestion. Leave blank to let it match the language of your tag names automatically. This only affects Claude\'s output, not the plugin\'s own interface language.', 'ai-tags-optimizer' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><?php esc_html_e( 'Full cleanup on uninstall', 'ai-tags-optimizer' ); ?></th>
+						<td>
+							<input type="hidden" name="wpto_cleanup_on_uninstall" value="0" />
+							<label>
+								<input type="checkbox" id="wpto_cleanup_on_uninstall" name="wpto_cleanup_on_uninstall" value="1" <?php checked( self::get_cleanup_on_uninstall() ); ?> />
+								<?php esc_html_e( 'Remove all plugin data (database tables and settings) when the plugin is deleted.', 'ai-tags-optimizer' ); ?>
+							</label>
+							<p class="description"><?php esc_html_e( 'Uncheck this if you want batch history and suggestions to survive a delete-and-reinstall of the plugin.', 'ai-tags-optimizer' ); ?></p>
 						</td>
 					</tr>
 				</table>

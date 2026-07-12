@@ -47,5 +47,7 @@ class WPTO_Activator {
 		add_option( 'wpto_api_key', '' );
 		add_option( 'wpto_model', 'claude-haiku-4-5' );
 		add_option( 'wpto_batch_size', 150 );
+		add_option( 'wpto_ai_language', '' );
+		add_option( 'wpto_cleanup_on_uninstall', 1 );
 	}
 }

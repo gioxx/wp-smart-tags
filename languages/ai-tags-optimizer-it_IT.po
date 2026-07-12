@@ -186,3 +186,12 @@ msgstr "es. Italiano, Inglese..."
 
 msgid "Language Claude should use for the \"reason\" it gives on each suggestion. Leave blank to let it match the language of your tag names automatically. This only affects Claude's output, not the plugin's own interface language."
 msgstr "Lingua che Claude deve usare per la motivazione di ogni suggerimento. Lascia vuoto per farla corrispondere automaticamente alla lingua dei nomi dei tuoi tag. Questa impostazione riguarda solo l'output di Claude, non la lingua dell'interfaccia del plugin."
+
+msgid "Full cleanup on uninstall"
+msgstr "Pulizia completa alla disinstallazione"
+
+msgid "Remove all plugin data (database tables and settings) when the plugin is deleted."
+msgstr "Rimuovi tutti i dati del plugin (tabelle del database e impostazioni) quando il plugin viene eliminato."
+
+msgid "Uncheck this if you want batch history and suggestions to survive a delete-and-reinstall of the plugin."
+msgstr "Deseleziona questa opzione se vuoi che lo storico dei batch e i suggerimenti sopravvivano a una disinstallazione e reinstallazione del plugin."
