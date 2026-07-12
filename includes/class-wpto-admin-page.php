@@ -18,7 +18,7 @@ class WPTO_Admin_Page {
 	}
 
 	public static function register_menu() {
-		add_management_page(
+		add_posts_page(
 			__( 'AI Tags Optimizer', 'ai-tags-optimizer' ),
 			__( 'AI Tags Optimizer', 'ai-tags-optimizer' ),
 			'manage_options',
@@ -35,8 +35,16 @@ class WPTO_Admin_Page {
 		);
 	}
 
+	public static function main_page_url() {
+		return admin_url( 'edit.php?page=' . self::MAIN_SLUG );
+	}
+
+	public static function settings_page_url() {
+		return admin_url( 'tools.php?page=' . self::SETTINGS_SLUG );
+	}
+
 	public static function enqueue_assets( $hook ) {
-		$allowed_hooks = array( 'tools_page_' . self::MAIN_SLUG, 'tools_page_' . self::SETTINGS_SLUG );
+		$allowed_hooks = array( 'posts_page_' . self::MAIN_SLUG, 'tools_page_' . self::SETTINGS_SLUG );
 
 		if ( ! in_array( $hook, $allowed_hooks, true ) ) {
 			return;
@@ -105,6 +113,16 @@ class WPTO_Admin_Page {
 		?>
 		<div class="wrap wpto-wrap">
 			<h1><?php esc_html_e( 'AI Tags Optimizer', 'ai-tags-optimizer' ); ?></h1>
+
+			<p>
+				<?php
+				printf(
+					/* translators: %s: link to the plugin settings screen */
+					esc_html__( 'Need to change the API key, model, or other options? Head over to %s.', 'ai-tags-optimizer' ),
+					'<a href="' . esc_url( self::settings_page_url() ) . '">' . esc_html__( 'the plugin settings', 'ai-tags-optimizer' ) . '</a>'
+				);
+				?>
+			</p>
 
 			<div class="wpto-stats">
 				<div class="wpto-stat-tile">

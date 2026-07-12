@@ -33,7 +33,7 @@ Vai su **Strumenti → AI Tags Optimizer - Settings** e compila:
 
 ## Avviare un'analisi
 
-1. Vai su **Strumenti → AI Tags Optimizer**.
+1. Vai su **Articoli → AI Tags Optimizer**.
 2. Clicca **"Start analysis"**. I tag vengono elaborati a batch, con un log di elaborazione live e un indicatore di avanzamento; usa **"Stop analysis"** per interromperla.
 3. Al termine dei batch, i suggerimenti compaiono raggruppati per tipo:
    - **Near-duplicates** — quasi-duplicati testuali (refusi, plurali, maiuscole/minuscole, trattini/spazi)

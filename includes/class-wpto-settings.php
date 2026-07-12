@@ -125,6 +125,15 @@ class WPTO_Settings {
 		?>
 		<div class="wrap">
 			<h1><?php esc_html_e( 'AI Tags Optimizer - Settings', 'ai-tags-optimizer' ); ?></h1>
+			<p>
+				<?php
+				printf(
+					/* translators: %s: link to the "Posts > AI Tags Optimizer" screen */
+					esc_html__( 'Looking to run an analysis or review suggestions? Head over to %s.', 'ai-tags-optimizer' ),
+					'<a href="' . esc_url( WPTO_Admin_Page::main_page_url() ) . '">' . esc_html__( 'Posts &rsaquo; AI Tags Optimizer', 'ai-tags-optimizer' ) . '</a>'
+				);
+				?>
+			</p>
 			<form method="post" action="options.php">
 				<?php settings_fields( self::OPTION_GROUP ); ?>
 				<table class="form-table" role="presentation">

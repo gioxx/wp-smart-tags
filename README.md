@@ -33,7 +33,7 @@ Go to **Tools → AI Tags Optimizer - Settings** and fill in:
 
 ## Running an analysis
 
-1. Go to **Tools → AI Tags Optimizer**.
+1. Go to **Posts → AI Tags Optimizer**.
 2. Click **"Start analysis"**. Tags are processed in batches, with a live processing log and progress indicator; use **"Stop analysis"** to interrupt it.
 3. Once batches complete, suggestions appear grouped by type:
    - **Near-duplicates** — textual near-duplicates (typos, plurals, casing, hyphens/spaces)

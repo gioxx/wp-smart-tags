@@ -2,6 +2,14 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.13.4] - 2026-07-12
+
+- Moved the operational "AI Tags Optimizer" page from Tools to Posts (where tags are managed), keeping the Settings page under Tools. The two pages now cross-link to each other.
+
+## [0.13.3] - 2026-07-12
+
+- Added `autocomplete="off"` to all suggestion/unused-tag checkboxes so the browser no longer restores their checked state after a page reload, which was misleading since the underlying rows change on every refresh.
+
 ## [0.13.2] - 2026-07-12
 
 - Fixed a bug where Claude could propose the same tag pair in both directions ("A into B" and "B into A") as two separate suggestions; only one direction is now kept. Added an explicit prompt rule against this, plus a code-level guard against both directions coexisting as pending or against a pair the user already rejected.

@@ -29,7 +29,7 @@ Features:
 1. Copy the whole plugin folder to `wp-content/plugins/ai-tags-optimizer/`.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Go to **Tools → AI Tags Optimizer - Settings** and enter your Anthropic API key.
-4. Go to **Tools → AI Tags Optimizer** and click "Start analysis".
+4. Go to **Posts → AI Tags Optimizer** and click "Start analysis".
 
 == Frequently Asked Questions ==
 = Does this change my tags automatically? =
