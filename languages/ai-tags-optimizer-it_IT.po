@@ -219,3 +219,21 @@ msgstr "Rimuovi tutti i dati del plugin (tabelle del database e impostazioni) qu
 
 msgid "Uncheck this if you want batch history and suggestions to survive a delete-and-reinstall of the plugin."
 msgstr "Deseleziona questa opzione se vuoi che lo storico dei batch e i suggerimenti sopravvivano a una disinstallazione e reinstallazione del plugin."
+
+msgid "Test API key"
+msgstr "Testa API key"
+
+msgid "Enter an API key first."
+msgstr "Inserisci prima una API key."
+
+msgid "Testing..."
+msgstr "Verifica in corso..."
+
+msgid "Connection successful."
+msgstr "Connessione riuscita."
+
+msgid "AI Tags Optimizer for WordPress by %1$s, source on %2$s."
+msgstr "AI Tags Optimizer for WordPress di %1$s, sorgente su %2$s."
+
+msgid "All trademarks mentioned are the property of their respective owners. Third-party trademarks, product names, trade names, corporate names and companies mentioned may be trademarks of their respective owners or registered trademarks of other companies and have been used for explanatory purposes only and for the benefit of the owner, without any intent to infringe existing copyright."
+msgstr "Tutti i marchi citati sono di proprietà dei rispettivi titolari. Marchi di terzi, nomi di prodotti, nomi commerciali, ragioni sociali e aziende citate possono essere marchi dei rispettivi proprietari o marchi registrati di altre società e sono stati utilizzati a scopo esplicativo esclusivamente a beneficio del titolare, senza alcuna intenzione di violare diritti di copyright esistenti."

@@ -311,3 +311,33 @@ msgid ""
 "Uncheck this if you want batch history and suggestions to survive a delete-"
 "and-reinstall of the plugin."
 msgstr ""
+
+#: includes/class-wpto-settings.php:111
+msgid "Test API key"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:64 includes/class-wpto-settings.php:126
+msgid "Enter an API key first."
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:65
+msgid "Testing..."
+msgstr ""
+
+#: includes/class-wpto-settings.php:135
+msgid "Connection successful."
+msgstr ""
+
+#: includes/class-wpto-settings.php:151
+msgid "AI Tags Optimizer for WordPress by %1$s, source on %2$s."
+msgstr ""
+
+#: includes/class-wpto-settings.php:157
+msgid ""
+"All trademarks mentioned are the property of their respective owners. "
+"Third-party trademarks, product names, trade names, corporate names and "
+"companies mentioned may be trademarks of their respective owners or "
+"registered trademarks of other companies and have been used for "
+"explanatory purposes only and for the benefit of the owner, without any "
+"intent to infringe existing copyright."
+msgstr ""

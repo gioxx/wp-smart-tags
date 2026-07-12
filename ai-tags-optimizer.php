@@ -2,20 +2,26 @@
 /**
  * Plugin Name: AI Tags Optimizer for WordPress
  * Description: Analyzes WordPress tags with the help of the Claude API (Anthropic) to suggest merges for duplicates/synonyms and flag unused tags. Always requires manual approval before any change.
- * Version: 0.8.0
+ * Version: 0.9.0
+ * Requires at least: 6.0
+ * Requires PHP: 7.4
  * Author: Gioxx
  * Author URI: https://gioxx.org
  * Plugin URI: https://github.com/gioxx/ai-tags-optimizer
  * License: GPL-2.0-or-later
  * Text Domain: ai-tags-optimizer
  * Domain Path: /languages
+ *
+ * GitHub Plugin URI: gioxx/wp-ai-tags-optimizer
+ * GitHub Branch: main
+ * GitHub Languages: true
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WPTO_VERSION', '0.8.0' );
+define( 'WPTO_VERSION', '0.9.0' );
 define( 'WPTO_PLUGIN_FILE', __FILE__ );
 define( 'WPTO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPTO_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -45,5 +51,15 @@ add_action(
 		WPTO_Settings::init();
 		WPTO_Queue::init();
 		WPTO_Admin_Page::init();
+	}
+);
+
+add_filter(
+	'plugin_action_links_' . plugin_basename( __FILE__ ),
+	function ( array $links ) {
+		$settings_link = '<a href="' . esc_url( admin_url( 'tools.php?page=' . WPTO_Admin_Page::SETTINGS_SLUG ) ) . '">' . esc_html__( 'Settings', 'ai-tags-optimizer' ) . '</a>';
+		array_unshift( $links, $settings_link );
+
+		return $links;
 	}
 );

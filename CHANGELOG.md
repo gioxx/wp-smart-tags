@@ -2,6 +2,14 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.9.0] - 2026-07-12
+
+- Added a "Test API key" button on the Settings page, verifying the Anthropic API key against a minimal live request before saving.
+- Added Git Updater support: `GitHub Plugin URI`, `GitHub Branch`, and `GitHub Languages` headers, plus `Requires at least` / `Requires PHP`, so the plugin can be updated directly from the GitHub repository.
+- Added a "Settings" quick link on the Plugins list screen, and a credits/attribution footer (author + repo link, trademark notice) on the Settings page.
+- Added `readme.txt` (WordPress.org style) and `README.md` / `README.it.md` (GitHub-facing docs).
+- Enqueued admin assets on the Settings screen too (previously only loaded on the main Tools page).
+
 ## [0.8.0] - 2026-07-12
 
 - Added multi-select checkboxes and bulk actions to the Suggestions tables: "Approve selected" / "Reject selected" per pending group (Near-duplicates, Semantic overlaps, Low-usage tags), and "Restore selected" for rejected suggestions. Each table has its own independent selection.

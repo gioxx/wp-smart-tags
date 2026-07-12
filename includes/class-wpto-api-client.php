@@ -78,6 +78,65 @@ class WPTO_Api_Client {
 		return $this->parse_suggestions( $decoded['content'][0]['text'], $valid_ids );
 	}
 
+	/**
+	 * Sends a minimal request to validate an API key without consuming a real batch.
+	 *
+	 * @param string $api_key Key to test.
+	 * @return true|WP_Error True on success, WP_Error with a human-readable message otherwise.
+	 */
+	public function test_connection( $api_key ) {
+		if ( empty( $api_key ) ) {
+			return new WP_Error( 'wpto_no_api_key', __( 'No API key configured.', 'ai-tags-optimizer' ) );
+		}
+
+		$response = wp_remote_post(
+			self::API_URL,
+			array(
+				'timeout' => 30,
+				'headers' => array(
+					'x-api-key'         => $api_key,
+					'anthropic-version' => self::API_VERSION,
+					'content-type'      => 'application/json',
+				),
+				'body'    => wp_json_encode(
+					array(
+						'model'      => WPTO_Settings::get_model(),
+						'max_tokens' => 1,
+						'messages'   => array(
+							array(
+								'role'    => 'user',
+								'content' => 'Hi',
+							),
+						),
+					)
+				),
+			)
+		);
+
+		if ( is_wp_error( $response ) ) {
+			return $response;
+		}
+
+		$status_code = wp_remote_retrieve_response_code( $response );
+
+		if ( $status_code < 200 || $status_code >= 300 ) {
+			$decoded = json_decode( wp_remote_retrieve_body( $response ), true );
+			$message = isset( $decoded['error']['message'] ) ? $decoded['error']['message'] : wp_remote_retrieve_body( $response );
+
+			return new WP_Error(
+				'wpto_api_error',
+				sprintf(
+					/* translators: 1: HTTP status code, 2: error message */
+					__( 'Claude API error (HTTP %1$d): %2$s', 'ai-tags-optimizer' ),
+					$status_code,
+					$message
+				)
+			);
+		}
+
+		return true;
+	}
+
 	private function build_system_prompt() {
 		$language = trim( WPTO_Settings::get_ai_language() );
 

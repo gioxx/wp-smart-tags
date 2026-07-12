@@ -29,3 +29,21 @@
 #wpto-log li {
 	padding: 2px 0;
 }
+
+.wpto-credits {
+	max-width: 600px;
+	margin-top: 32px;
+	padding-top: 16px;
+	border-top: 1px solid #dcdcde;
+}
+
+.wpto-credits .description {
+	margin: 0 0 6px;
+	color: #646970;
+}
+
+.wpto-credits .wpto-trademark-notice {
+	margin-bottom: 0;
+	font-size: 11px;
+	line-height: 1.5;
+}

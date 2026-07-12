@@ -17,6 +17,28 @@
 		} );
 	} );
 
+	$( '#wpto-test-api-key' ).on( 'click', function () {
+		var $btn = $( this );
+		var $result = $( '#wpto-test-api-key-result' );
+		var apiKey = $( '#wpto_api_key' ).val();
+
+		if ( ! apiKey ) {
+			$result.text( wptoData.i18n.enterApiKey );
+			return;
+		}
+
+		$btn.prop( 'disabled', true );
+		$result.text( wptoData.i18n.testingApiKey );
+
+		ajax( { action: 'wpto_test_api_key', api_key: apiKey } ).done( function ( response ) {
+			$result.text( response.success ? response.data.message : ( response.data && response.data.message ? response.data.message : wptoData.i18n.error ) );
+		} ).fail( function () {
+			$result.text( wptoData.i18n.error );
+		} ).always( function () {
+			$btn.prop( 'disabled', false );
+		} );
+	} );
+
 	$( '#wpto-select-all-unused' ).on( 'change', function () {
 		$( '.wpto-unused-checkbox' ).prop( 'checked', $( this ).prop( 'checked' ) );
 	} );

@@ -36,7 +36,9 @@ class WPTO_Admin_Page {
 	}
 
 	public static function enqueue_assets( $hook ) {
-		if ( 'tools_page_' . self::MAIN_SLUG !== $hook ) {
+		$allowed_hooks = array( 'tools_page_' . self::MAIN_SLUG, 'tools_page_' . self::SETTINGS_SLUG );
+
+		if ( ! in_array( $hook, $allowed_hooks, true ) ) {
 			return;
 		}
 
@@ -59,6 +61,8 @@ class WPTO_Admin_Page {
 					'bulkFailed'         => __( 'Some items could not be processed:', 'ai-tags-optimizer' ),
 					'error'              => __( 'Something went wrong.', 'ai-tags-optimizer' ),
 					'processing'         => __( 'Processing batch, this can take up to two minutes...', 'ai-tags-optimizer' ),
+					'enterApiKey'        => __( 'Enter an API key first.', 'ai-tags-optimizer' ),
+					'testingApiKey'      => __( 'Testing...', 'ai-tags-optimizer' ),
 				),
 			)
 		);

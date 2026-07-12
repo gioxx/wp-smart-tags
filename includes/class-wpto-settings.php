@@ -9,6 +9,7 @@ class WPTO_Settings {
 
 	public static function init() {
 		add_action( 'admin_init', array( __CLASS__, 'register_settings' ) );
+		add_action( 'wp_ajax_wpto_test_api_key', array( __CLASS__, 'ajax_test_api_key' ) );
 	}
 
 	public static function register_settings() {
@@ -94,6 +95,29 @@ class WPTO_Settings {
 		return (bool) get_option( 'wpto_cleanup_on_uninstall', true );
 	}
 
+	public static function ajax_test_api_key() {
+		check_ajax_referer( 'wpto_admin_action', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'ai-tags-optimizer' ) ), 403 );
+		}
+
+		$api_key = isset( $_POST['api_key'] ) ? sanitize_text_field( wp_unslash( $_POST['api_key'] ) ) : '';
+
+		if ( '' === $api_key ) {
+			wp_send_json_error( array( 'message' => __( 'Enter an API key first.', 'ai-tags-optimizer' ) ) );
+		}
+
+		$client = new WPTO_Api_Client();
+		$result = $client->test_connection( $api_key );
+
+		if ( is_wp_error( $result ) ) {
+			wp_send_json_error( array( 'message' => $result->get_error_message() ) );
+		}
+
+		wp_send_json_success( array( 'message' => __( 'Connection successful.', 'ai-tags-optimizer' ) ) );
+	}
+
 	public static function render_page() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
@@ -108,6 +132,8 @@ class WPTO_Settings {
 						<th scope="row"><label for="wpto_api_key"><?php esc_html_e( 'Anthropic API Key', 'ai-tags-optimizer' ); ?></label></th>
 						<td>
 							<input type="password" id="wpto_api_key" name="wpto_api_key" value="<?php echo esc_attr( self::get_api_key() ); ?>" class="regular-text" autocomplete="off" />
+							<button type="button" class="button" id="wpto-test-api-key"><?php esc_html_e( 'Test API key', 'ai-tags-optimizer' ); ?></button>
+							<span id="wpto-test-api-key-result"></span>
 						</td>
 					</tr>
 					<tr>
@@ -145,6 +171,27 @@ class WPTO_Settings {
 				</table>
 				<?php submit_button(); ?>
 			</form>
+			<?php self::render_credits(); ?>
+		</div>
+		<?php
+	}
+
+	private static function render_credits() {
+		?>
+		<div class="wpto-credits">
+			<p class="description">
+				<?php
+				printf(
+					/* translators: 1: link to the author's site, 2: link to the plugin repository */
+					esc_html__( 'AI Tags Optimizer for WordPress by %1$s, source on %2$s.', 'ai-tags-optimizer' ),
+					'<a href="https://gioxx.org" target="_blank" rel="noopener noreferrer">Gioxx</a>',
+					'<a href="https://github.com/gioxx/wp-ai-tags-optimizer" target="_blank" rel="noopener noreferrer">GitHub</a>'
+				);
+				?>
+			</p>
+			<p class="description wpto-trademark-notice">
+				<?php esc_html_e( 'All trademarks mentioned are the property of their respective owners. Third-party trademarks, product names, trade names, corporate names and companies mentioned may be trademarks of their respective owners or registered trademarks of other companies and have been used for explanatory purposes only and for the benefit of the owner, without any intent to infringe existing copyright.', 'ai-tags-optimizer' ); ?>
+			</p>
 		</div>
 		<?php
 	}
