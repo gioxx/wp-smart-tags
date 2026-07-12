@@ -5,7 +5,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WPTO_Activator {
 
+	const DB_VERSION = '2';
+
 	public static function activate() {
+		self::create_tables();
+
+		add_option( 'wpto_api_key', '' );
+		add_option( 'wpto_model', 'claude-haiku-4-5' );
+		add_option( 'wpto_batch_size', 150 );
+		add_option( 'wpto_ai_language', '' );
+		add_option( 'wpto_cleanup_on_uninstall', 1 );
+		update_option( 'wpto_db_version', self::DB_VERSION );
+	}
+
+	/**
+	 * Re-runs dbDelta on plugins_loaded when the schema version changed,
+	 * so already-active installs pick up new columns without reactivation.
+	 */
+	public static function maybe_upgrade() {
+		if ( get_option( 'wpto_db_version' ) === self::DB_VERSION ) {
+			return;
+		}
+
+		self::create_tables();
+		update_option( 'wpto_db_version', self::DB_VERSION );
+	}
+
+	private static function create_tables() {
 		global $wpdb;
 
 		$charset_collate = $wpdb->get_charset_collate();
@@ -35,6 +61,9 @@ class WPTO_Activator {
 			confidence FLOAT NULL,
 			status VARCHAR(20) NOT NULL DEFAULT 'pending',
 			created_at DATETIME NOT NULL,
+			applied_at DATETIME NULL,
+			source_names TEXT NULL,
+			target_name VARCHAR(255) NULL,
 			PRIMARY KEY  (id),
 			KEY batch_id (batch_id),
 			KEY status (status),
@@ -43,11 +72,5 @@ class WPTO_Activator {
 
 		dbDelta( $sql_batches );
 		dbDelta( $sql_suggestions );
-
-		add_option( 'wpto_api_key', '' );
-		add_option( 'wpto_model', 'claude-haiku-4-5' );
-		add_option( 'wpto_batch_size', 150 );
-		add_option( 'wpto_ai_language', '' );
-		add_option( 'wpto_cleanup_on_uninstall', 1 );
 	}
 }

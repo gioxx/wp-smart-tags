@@ -12,7 +12,7 @@ class WPTO_Merge_Handler {
 	 * tagging even if this fails partway through.
 	 *
 	 * @param array $suggestion Row from wpto_suggestions table.
-	 * @return true|WP_Error
+	 * @return array|WP_Error Array with 'source_names' and 'target_name' snapshots on success, WP_Error otherwise.
 	 */
 	public static function apply( array $suggestion ) {
 		$target_id = (int) $suggestion['target_term_id'];
@@ -28,6 +28,8 @@ class WPTO_Merge_Handler {
 			return new WP_Error( 'wpto_missing_source', __( 'No valid source tag in the suggestion.', 'ai-tags-optimizer' ) );
 		}
 
+		$source_names = array();
+
 		foreach ( $source_ids as $source_id ) {
 			$source_id = (int) $source_id;
 
@@ -41,6 +43,8 @@ class WPTO_Merge_Handler {
 				// Already gone (e.g. merged by an earlier suggestion); nothing to do.
 				continue;
 			}
+
+			$source_names[] = $source_term->name;
 
 			$post_ids = get_objects_in_term( $source_id, 'post_tag' );
 
@@ -63,6 +67,9 @@ class WPTO_Merge_Handler {
 			}
 		}
 
-		return true;
+		return array(
+			'source_names' => $source_names,
+			'target_name'  => $target->name,
+		);
 	}
 }

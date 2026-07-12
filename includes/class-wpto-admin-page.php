@@ -78,6 +78,8 @@ class WPTO_Admin_Page {
 		$rejected     = WPTO_Suggestions_Repo::get_suggestions( 'rejected' );
 		$progress     = WPTO_Suggestions_Repo::get_batch_progress();
 		$failed       = WPTO_Suggestions_Repo::get_failed_batches();
+		$counts       = WPTO_Suggestions_Repo::get_status_counts();
+		$applied      = WPTO_Suggestions_Repo::get_applied_suggestions( 50 );
 
 		$grouped = array(
 			'near_duplicate'   => array(),
@@ -99,6 +101,25 @@ class WPTO_Admin_Page {
 		?>
 		<div class="wrap wpto-wrap">
 			<h1><?php esc_html_e( 'AI Tags Optimizer', 'ai-tags-optimizer' ); ?></h1>
+
+			<div class="wpto-stats">
+				<div class="wpto-stat-tile">
+					<span class="wpto-stat-number"><?php echo esc_html( $counts['pending'] ); ?></span>
+					<span class="wpto-stat-label"><?php esc_html_e( 'Pending suggestions', 'ai-tags-optimizer' ); ?></span>
+				</div>
+				<div class="wpto-stat-tile">
+					<span class="wpto-stat-number"><?php echo esc_html( $counts['applied'] ); ?></span>
+					<span class="wpto-stat-label"><?php esc_html_e( 'Merges applied', 'ai-tags-optimizer' ); ?></span>
+				</div>
+				<div class="wpto-stat-tile">
+					<span class="wpto-stat-number"><?php echo esc_html( $counts['rejected'] ); ?></span>
+					<span class="wpto-stat-label"><?php esc_html_e( 'Rejected suggestions', 'ai-tags-optimizer' ); ?></span>
+				</div>
+				<div class="wpto-stat-tile">
+					<span class="wpto-stat-number"><?php echo esc_html( count( $unused_terms ) ); ?></span>
+					<span class="wpto-stat-label"><?php esc_html_e( 'Unused tags', 'ai-tags-optimizer' ); ?></span>
+				</div>
+			</div>
 
 			<h2><?php esc_html_e( 'Unused tags (0 posts)', 'ai-tags-optimizer' ); ?></h2>
 			<p>
@@ -245,6 +266,37 @@ class WPTO_Admin_Page {
 					<tbody>
 						<?php foreach ( $rejected as $row ) : ?>
 							<?php self::render_suggestion_row( $row, true, 'rejected' ); ?>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endif; ?>
+
+			<?php if ( ! empty( $applied ) ) : ?>
+				<hr />
+				<h2><?php esc_html_e( 'Applied suggestions (history)', 'ai-tags-optimizer' ); ?></h2>
+				<p class="description"><?php esc_html_e( 'The most recent merges applied to your tags, read-only.', 'ai-tags-optimizer' ); ?></p>
+				<table class="wp-list-table widefat fixed striped">
+					<thead>
+						<tr>
+							<th><?php esc_html_e( 'Source tag(s)', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Target tag', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Reason', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Confidence', 'ai-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Applied on', 'ai-tags-optimizer' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ( $applied as $row ) : ?>
+							<?php
+							$source_names = json_decode( $row['source_names'], true );
+							?>
+							<tr>
+								<td><?php echo esc_html( implode( ', ', (array) $source_names ) ); ?></td>
+								<td><?php echo esc_html( $row['target_name'] ); ?></td>
+								<td><?php echo esc_html( $row['reason'] ); ?></td>
+								<td><?php echo esc_html( round( $row['confidence'] * 100 ) . '%' ); ?></td>
+								<td><?php echo esc_html( $row['applied_at'] ); ?></td>
+							</tr>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
@@ -400,7 +452,7 @@ class WPTO_Admin_Page {
 			return $result->get_error_message();
 		}
 
-		WPTO_Suggestions_Repo::set_suggestion_status( $id, 'applied' );
+		WPTO_Suggestions_Repo::mark_applied( $id, $result['source_names'], $result['target_name'] );
 		return null;
 	}
 }

@@ -2,6 +2,12 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.10.0] - 2026-07-12
+
+- Added an "Applied suggestions (history)" table showing the most recent merges (last 50), read-only, with source/target tag names snapshotted at approval time since the source tags are deleted by the merge.
+- Added stat tiles at the top of the main page: pending suggestions, merges applied, rejected suggestions, unused tags.
+- Added a `wpto_db_version` upgrade check so existing installs pick up the new `applied_at`/`source_names`/`target_name` columns without reactivating the plugin.
+
 ## [0.9.0] - 2026-07-12
 
 - Added a "Test API key" button on the Settings page, verifying the Anthropic API key against a minimal live request before saving.

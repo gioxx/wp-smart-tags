@@ -19,3 +19,4 @@ delete_option( 'wpto_model' );
 delete_option( 'wpto_batch_size' );
 delete_option( 'wpto_ai_language' );
 delete_option( 'wpto_cleanup_on_uninstall' );
+delete_option( 'wpto_db_version' );

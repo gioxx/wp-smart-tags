@@ -129,6 +129,24 @@ msgstr "Azioni"
 msgid "Rejected suggestions"
 msgstr "Suggerimenti rifiutati"
 
+msgid "Pending suggestions"
+msgstr "Suggerimenti in sospeso"
+
+msgid "Merges applied"
+msgstr "Unioni applicate"
+
+msgid "Unused tags"
+msgstr "Tag inutilizzati"
+
+msgid "Applied suggestions (history)"
+msgstr "Suggerimenti applicati (storico)"
+
+msgid "The most recent merges applied to your tags, read-only."
+msgstr "Le unioni più recenti applicate ai tuoi tag, in sola lettura."
+
+msgid "Applied on"
+msgstr "Applicato il"
+
 msgid "Approve selected"
 msgstr "Approva selezionati"
 

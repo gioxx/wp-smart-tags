@@ -225,4 +225,71 @@ class WPTO_Suggestions_Repo {
 			array( '%d' )
 		);
 	}
+
+	/**
+	 * Marks a suggestion as applied, snapshotting the tag names since the
+	 * source tags are deleted by the merge and would no longer resolve.
+	 *
+	 * @param int      $id           Suggestion ID.
+	 * @param string[] $source_names Names of the merged source tags.
+	 * @param string   $target_name  Name of the target tag.
+	 */
+	public static function mark_applied( $id, array $source_names, $target_name ) {
+		global $wpdb;
+
+		$wpdb->update(
+			self::suggestions_table(),
+			array(
+				'status'        => 'applied',
+				'applied_at'    => current_time( 'mysql' ),
+				'source_names'  => wp_json_encode( $source_names ),
+				'target_name'   => $target_name,
+			),
+			array( 'id' => (int) $id ),
+			array( '%s', '%s', '%s', '%s' ),
+			array( '%d' )
+		);
+	}
+
+	/**
+	 * Returns suggestion counts per status, e.g. ['pending'=>3,'applied'=>12,'rejected'=>2].
+	 *
+	 * @return array<string,int>
+	 */
+	public static function get_status_counts() {
+		global $wpdb;
+
+		$table = self::suggestions_table();
+
+		$rows = $wpdb->get_results(
+			"SELECT status, COUNT(*) AS total FROM {$table} GROUP BY status", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+			ARRAY_A
+		);
+
+		$counts = array(
+			'pending'  => 0,
+			'applied'  => 0,
+			'rejected' => 0,
+		);
+
+		foreach ( (array) $rows as $row ) {
+			$counts[ $row['status'] ] = (int) $row['total'];
+		}
+
+		return $counts;
+	}
+
+	public static function get_applied_suggestions( $limit = 50 ) {
+		global $wpdb;
+
+		$table = self::suggestions_table();
+
+		return $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT * FROM {$table} WHERE status = 'applied' ORDER BY applied_at DESC, id DESC LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				(int) $limit
+			),
+			ARRAY_A
+		);
+	}
 }

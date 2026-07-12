@@ -180,6 +180,30 @@ msgstr ""
 msgid "Rejected suggestions"
 msgstr ""
 
+#: includes/class-wpto-admin-page.php:106
+msgid "Pending suggestions"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:110
+msgid "Merges applied"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:118
+msgid "Unused tags"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:281
+msgid "Applied suggestions (history)"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:282
+msgid "The most recent merges applied to your tags, read-only."
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:293
+msgid "Applied on"
+msgstr ""
+
 #: includes/class-wpto-admin-page.php:203
 msgid "Approve selected"
 msgstr ""
