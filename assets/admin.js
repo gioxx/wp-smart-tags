@@ -41,13 +41,18 @@
 		} );
 	} );
 
+	var stopRequested = false;
+
 	$( '#wpto-start-analysis' ).on( 'click', function () {
 		var $btn = $( this );
 		$btn.prop( 'disabled', true );
+		stopRequested = false;
 
 		ajax( { action: 'wpto_start_analysis' } ).done( function ( response ) {
 			if ( response.success ) {
-				pollProgress();
+				renderStatus( response.data );
+				$( '#wpto-stop-analysis' ).prop( 'disabled', false );
+				processTick();
 			}
 		} ).fail( function () {
 			window.alert( wptoData.i18n.error );
@@ -55,23 +60,69 @@
 		} );
 	} );
 
-	function pollProgress() {
-		ajax( { action: 'wpto_get_progress' } ).done( function ( response ) {
+	$( '#wpto-stop-analysis' ).on( 'click', function () {
+		stopRequested = true;
+		$( this ).prop( 'disabled', true );
+		$( '#wpto-current-status' ).text( '' );
+
+		ajax( { action: 'wpto_stop_analysis' } ).done( function ( response ) {
+			if ( response.success ) {
+				renderStatus( response.data );
+				$( '#wpto-start-analysis' ).prop( 'disabled', false );
+			}
+		} );
+	} );
+
+	function processTick() {
+		if ( stopRequested ) {
+			return;
+		}
+
+		$( '#wpto-current-status' ).text( wptoData.i18n.processing );
+
+		ajax( { action: 'wpto_process_tick' } ).done( function ( response ) {
 			if ( ! response.success ) {
+				window.alert( wptoData.i18n.error );
 				return;
 			}
 
-			var data = response.data;
-			$( '#wpto-progress' ).html(
-				'<p>' + data.done + ' / ' + data.total + '</p>'
-			);
+			renderStatus( response.data );
 
-			if ( data.total > 0 && data.done < data.total ) {
-				setTimeout( pollProgress, 5000 );
-			} else if ( data.total > 0 && data.done >= data.total ) {
-				window.location.reload();
+			var progress = response.data.progress;
+
+			if ( stopRequested || progress.total === 0 || progress.pending === 0 ) {
+				$( '#wpto-current-status' ).text( '' );
+				$( '#wpto-start-analysis' ).prop( 'disabled', false );
+				$( '#wpto-stop-analysis' ).prop( 'disabled', true );
+				if ( progress.total > 0 && progress.pending === 0 ) {
+					window.location.reload();
+				}
+				return;
 			}
+
+			processTick();
+		} ).fail( function () {
+			window.alert( wptoData.i18n.error );
 		} );
+	}
+
+	function renderStatus( data ) {
+		var progress = data.progress;
+
+		$( '#wpto-progress' ).html(
+			'<p>' + progress.done + ' / ' + progress.total + '</p>'
+		);
+
+		if ( data.log ) {
+			var $log = $( '#wpto-log' ).empty();
+			data.log.forEach( function ( row ) {
+				var text = 'Batch #' + row.id + ' - ' + row.status + ' (' + ( row.processed_at || row.created_at ) + ')';
+				if ( row.error_message ) {
+					text += ' - ' + row.error_message;
+				}
+				$( '<li>' ).attr( 'data-batch-id', row.id ).text( text ).appendTo( $log );
+			} );
+		}
 	}
 
 	$( document ).on( 'click', '.wpto-approve', function () {
@@ -112,10 +163,11 @@
 	} );
 
 	if ( $( '#wpto-progress' ).length ) {
-		var total = parseInt( $( '#wpto-progress' ).data( 'total' ), 10 ) || 0;
-		var done = parseInt( $( '#wpto-progress' ).data( 'done' ), 10 ) || 0;
-		if ( total > 0 && done < total ) {
-			pollProgress();
+		var pending = parseInt( $( '#wpto-progress' ).data( 'pending' ), 10 ) || 0;
+		if ( pending > 0 ) {
+			$( '#wpto-start-analysis' ).prop( 'disabled', true );
+			$( '#wpto-stop-analysis' ).prop( 'disabled', false );
+			processTick();
 		}
 	}
 } )( jQuery );

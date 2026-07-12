@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WP Tags Optimizer
  * Description: Analizza i tag di WordPress con l'aiuto dell'API Claude (Anthropic) per suggerire merge di duplicati/sinonimi e individuare tag inutilizzati. Richiede sempre approvazione manuale prima di ogni modifica.
- * Version: 0.2.0
+ * Version: 0.3.0
  * Author: Gioxx
  * Author URI: https://gioxx.org
  * Plugin URI: https://github.com/gioxx/wp-tags-optimizer
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WPTO_VERSION', '0.2.0' );
+define( 'WPTO_VERSION', '0.3.0' );
 define( 'WPTO_PLUGIN_FILE', __FILE__ );
 define( 'WPTO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPTO_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

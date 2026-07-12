@@ -102,15 +102,52 @@ class WPTO_Suggestions_Repo {
 		$total = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
 		$done  = (int) $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT COUNT(*) FROM {$table} WHERE status IN (%s, %s)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT COUNT(*) FROM {$table} WHERE status IN (%s, %s, %s)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
 				'done',
-				'failed'
+				'failed',
+				'cancelled'
+			)
+		);
+		$pending = (int) $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT COUNT(*) FROM {$table} WHERE status = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				'pending'
 			)
 		);
 
 		return array(
-			'total' => $total,
-			'done'  => $done,
+			'total'   => $total,
+			'done'    => $done,
+			'pending' => $pending,
+		);
+	}
+
+	public static function get_recent_batches( $limit = 10 ) {
+		global $wpdb;
+
+		$table = self::batches_table();
+
+		return $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT id, status, error_message, created_at, processed_at FROM {$table} ORDER BY id DESC LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				absint( $limit )
+			),
+			ARRAY_A
+		);
+	}
+
+	public static function cancel_pending_batches() {
+		global $wpdb;
+
+		$wpdb->update(
+			self::batches_table(),
+			array(
+				'status'       => 'cancelled',
+				'processed_at' => current_time( 'mysql' ),
+			),
+			array( 'status' => 'pending' ),
+			array( '%s', '%s' ),
+			array( '%s' )
 		);
 	}
 

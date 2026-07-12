@@ -10,3 +10,22 @@
 #wpto-progress p {
 	font-weight: 600;
 }
+
+#wpto-current-status {
+	font-style: italic;
+	color: #666;
+}
+
+#wpto-log {
+	max-height: 200px;
+	overflow-y: auto;
+	background: #fff;
+	border: 1px solid #ccd0d4;
+	padding: 8px 12px;
+	font-family: monospace;
+	font-size: 12px;
+}
+
+#wpto-log li {
+	padding: 2px 0;
+}

@@ -52,6 +52,7 @@ class WPTO_Admin_Page {
 					'confirmDelete' => __( 'Confermi la cancellazione dei tag selezionati?', 'wp-tags-optimizer' ),
 					'confirmMerge'  => __( 'Confermi questo merge? L\'operazione non e\' reversibile.', 'wp-tags-optimizer' ),
 					'error'         => __( 'Si e\' verificato un errore.', 'wp-tags-optimizer' ),
+					'processing'    => __( 'Elaborazione batch in corso, puo\' richiedere fino a due minuti...', 'wp-tags-optimizer' ),
 				),
 			)
 		);
@@ -125,9 +126,10 @@ class WPTO_Admin_Page {
 
 			<h2><?php esc_html_e( 'Analisi AI', 'wp-tags-optimizer' ); ?></h2>
 			<p>
-				<button type="button" class="button button-primary" id="wpto-start-analysis"><?php esc_html_e( 'Avvia analisi', 'wp-tags-optimizer' ); ?></button>
+				<button type="button" class="button button-primary" id="wpto-start-analysis" <?php disabled( $progress['pending'] > 0 ); ?>><?php esc_html_e( 'Avvia analisi', 'wp-tags-optimizer' ); ?></button>
+				<button type="button" class="button" id="wpto-stop-analysis" <?php disabled( 0 === $progress['pending'] ); ?>><?php esc_html_e( 'Ferma analisi', 'wp-tags-optimizer' ); ?></button>
 			</p>
-			<div id="wpto-progress" data-total="<?php echo esc_attr( $progress['total'] ); ?>" data-done="<?php echo esc_attr( $progress['done'] ); ?>">
+			<div id="wpto-progress" data-total="<?php echo esc_attr( $progress['total'] ); ?>" data-done="<?php echo esc_attr( $progress['done'] ); ?>" data-pending="<?php echo esc_attr( $progress['pending'] ); ?>">
 				<?php if ( $progress['total'] > 0 ) : ?>
 					<p><?php
 						printf(
@@ -139,6 +141,27 @@ class WPTO_Admin_Page {
 					?></p>
 				<?php endif; ?>
 			</div>
+			<div id="wpto-current-status"></div>
+
+			<h3><?php esc_html_e( 'Log elaborazione', 'wp-tags-optimizer' ); ?></h3>
+			<ul id="wpto-log">
+				<?php foreach ( WPTO_Suggestions_Repo::get_recent_batches( 10 ) as $batch_row ) : ?>
+					<li data-batch-id="<?php echo esc_attr( $batch_row['id'] ); ?>">
+						<?php
+						printf(
+							/* translators: 1: batch id, 2: status, 3: timestamp */
+							esc_html__( 'Batch #%1$d - %2$s (%3$s)', 'wp-tags-optimizer' ),
+							(int) $batch_row['id'],
+							esc_html( $batch_row['status'] ),
+							esc_html( $batch_row['processed_at'] ? $batch_row['processed_at'] : $batch_row['created_at'] )
+						);
+						if ( ! empty( $batch_row['error_message'] ) ) {
+							echo ' - ' . esc_html( $batch_row['error_message'] );
+						}
+						?>
+					</li>
+				<?php endforeach; ?>
+			</ul>
 
 			<?php if ( ! empty( $failed ) ) : ?>
 				<h3><?php esc_html_e( 'Batch falliti', 'wp-tags-optimizer' ); ?></h3>
