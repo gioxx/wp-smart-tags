@@ -74,6 +74,8 @@ class WPTO_Admin_Page {
 			return;
 		}
 
+		WPTO_Suggestions_Repo::prune_orphaned_rejected();
+
 		$unused_terms = WPTO_Unused_Tags::get_unused_terms();
 		$suggestions  = WPTO_Suggestions_Repo::get_suggestions( 'pending' );
 		$rejected     = WPTO_Suggestions_Repo::get_suggestions( 'rejected' );

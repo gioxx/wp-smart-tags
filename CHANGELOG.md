@@ -2,6 +2,10 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.13.1] - 2026-07-12
+
+- Rejected suggestions are now automatically pruned when they can no longer be meaningfully restored: their target tag was deleted/merged away, or every one of their source tags was. Keeps the "Rejected suggestions" list free of orphaned entries.
+
 ## [0.13.0] - 2026-07-12
 
 - Rejecting a suggestion now permanently suppresses that specific tag pairing (in either direction) from future analyses, as long as it stays in the "Rejected suggestions" list. Restoring a rejected suggestion lifts the suppression for that pair.

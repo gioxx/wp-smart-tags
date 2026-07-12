@@ -293,6 +293,55 @@ class WPTO_Suggestions_Repo {
 		return min( $a, $b ) . '-' . max( $a, $b );
 	}
 
+	/**
+	 * Deletes rejected suggestions that can no longer be meaningfully
+	 * restored: their target tag is gone, or every one of their source
+	 * tags is gone (e.g. deleted, or merged away by another suggestion).
+	 *
+	 * @return int Number of rows deleted.
+	 */
+	public static function prune_orphaned_rejected() {
+		global $wpdb;
+
+		$table = self::suggestions_table();
+		$rows  = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT id, source_term_ids, target_term_id FROM {$table} WHERE status = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				'rejected'
+			),
+			ARRAY_A
+		);
+
+		$orphaned_ids = array();
+
+		foreach ( (array) $rows as $row ) {
+			$target        = get_term( (int) $row['target_term_id'], 'post_tag' );
+			$target_exists = $target && ! is_wp_error( $target );
+
+			$any_source_exists = false;
+			foreach ( (array) json_decode( $row['source_term_ids'], true ) as $source_id ) {
+				$source = get_term( (int) $source_id, 'post_tag' );
+				if ( $source && ! is_wp_error( $source ) ) {
+					$any_source_exists = true;
+					break;
+				}
+			}
+
+			if ( ! $target_exists || ! $any_source_exists ) {
+				$orphaned_ids[] = (int) $row['id'];
+			}
+		}
+
+		if ( empty( $orphaned_ids ) ) {
+			return 0;
+		}
+
+		$placeholders = implode( ',', array_fill( 0, count( $orphaned_ids ), '%d' ) );
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE id IN ({$placeholders})", $orphaned_ids ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName, WordPress.DB.PreparedSQL.NotPrepared
+
+		return count( $orphaned_ids );
+	}
+
 	public static function get_suggestions( $status = 'pending' ) {
 		global $wpdb;
 
