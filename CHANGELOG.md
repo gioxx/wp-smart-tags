@@ -2,6 +2,14 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.13.0] - 2026-07-12
+
+- Rejecting a suggestion now permanently suppresses that specific tag pairing (in either direction) from future analyses, as long as it stays in the "Rejected suggestions" list. Restoring a rejected suggestion lifts the suppression for that pair.
+
+## [0.12.1] - 2026-07-12
+
+- The "Merge into" selector on each suggestion now sits on its own line above the Approve/Reject buttons instead of being crammed inline with them, and never overflows its table column: long tag names are truncated with an ellipsis when closed, while the opened dropdown still shows the full name.
+
 ## [0.12.0] - 2026-07-12
 
 - Analysis batches now always include the most-used tags ("anchors", up to 100) alongside a rotating slice of the rest, so low-usage/single-post tags are compared against real, popular candidates instead of whatever happens to sort near them alphabetically. Duplicate suggestions caused by anchor repetition across batches are automatically skipped.

@@ -180,14 +180,15 @@ class WPTO_Suggestions_Repo {
 
 	/**
 	 * Inserts suggestions, skipping any that duplicate an already-pending
-	 * one (same type/sources/target). Anchor tags are repeated across
-	 * batches to give low-usage tags real candidates, which can lead the
-	 * API to propose the same pairing more than once across batches.
+	 * one (same type/sources/target), and any that pair up two tags the
+	 * user has already rejected together, so a rejected pairing is never
+	 * re-proposed by a later analysis.
 	 */
 	public static function insert_suggestions( $batch_id, array $suggestions ) {
 		global $wpdb;
 
-		$seen = self::get_pending_signatures();
+		$seen           = self::get_pending_signatures();
+		$rejected_pairs = self::get_rejected_pairs();
 
 		foreach ( $suggestions as $suggestion ) {
 			$signature = self::suggestion_signature( $suggestion['type'], $suggestion['source_term_ids'], $suggestion['target_term_id'] );
@@ -195,6 +196,11 @@ class WPTO_Suggestions_Repo {
 			if ( isset( $seen[ $signature ] ) ) {
 				continue;
 			}
+
+			if ( self::has_rejected_pair( $suggestion['source_term_ids'], $suggestion['target_term_id'], $rejected_pairs ) ) {
+				continue;
+			}
+
 			$seen[ $signature ] = true;
 
 			$wpdb->insert(
@@ -239,6 +245,52 @@ class WPTO_Suggestions_Repo {
 		sort( $source_ids );
 
 		return $type . ':' . implode( ',', $source_ids ) . '>' . (int) $target_term_id;
+	}
+
+	/**
+	 * Every tag-pair (unordered) that appears in a currently rejected
+	 * suggestion, e.g. rejecting "Wii U" -> "Nintendo Wii U" remembers
+	 * that pair regardless of which one is source or target next time.
+	 *
+	 * @return array<string,bool>
+	 */
+	private static function get_rejected_pairs() {
+		global $wpdb;
+
+		$table = self::suggestions_table();
+		$rows  = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT source_term_ids, target_term_id FROM {$table} WHERE status = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				'rejected'
+			),
+			ARRAY_A
+		);
+
+		$pairs = array();
+		foreach ( (array) $rows as $row ) {
+			$target_id = (int) $row['target_term_id'];
+			foreach ( (array) json_decode( $row['source_term_ids'], true ) as $source_id ) {
+				$pairs[ self::pair_key( (int) $source_id, $target_id ) ] = true;
+			}
+		}
+
+		return $pairs;
+	}
+
+	private static function has_rejected_pair( $source_term_ids, $target_term_id, array $rejected_pairs ) {
+		$target_id = (int) $target_term_id;
+
+		foreach ( (array) $source_term_ids as $source_id ) {
+			if ( isset( $rejected_pairs[ self::pair_key( (int) $source_id, $target_id ) ] ) ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static function pair_key( $a, $b ) {
+		return min( $a, $b ) . '-' . max( $a, $b );
 	}
 
 	public static function get_suggestions( $status = 'pending' ) {
