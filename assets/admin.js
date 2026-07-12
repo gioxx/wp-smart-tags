@@ -136,6 +136,10 @@
 		handleSuggestion( $( this ), 'reject' );
 	} );
 
+	$( document ).on( 'click', '.wpto-restore', function () {
+		handleSuggestion( $( this ), 'restore' );
+	} );
+
 	function handleSuggestion( $btn, action ) {
 		var id = $btn.data( 'id' );
 		$btn.closest( 'tr' ).find( 'button' ).prop( 'disabled', true );

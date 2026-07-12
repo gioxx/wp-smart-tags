@@ -65,6 +65,7 @@ class WPTO_Admin_Page {
 
 		$unused_terms = WPTO_Unused_Tags::get_unused_terms();
 		$suggestions  = WPTO_Suggestions_Repo::get_suggestions( 'pending' );
+		$rejected     = WPTO_Suggestions_Repo::get_suggestions( 'rejected' );
 		$progress     = WPTO_Suggestions_Repo::get_batch_progress();
 		$failed       = WPTO_Suggestions_Repo::get_failed_batches();
 
@@ -204,33 +205,61 @@ class WPTO_Admin_Page {
 					</thead>
 					<tbody>
 						<?php foreach ( $rows as $row ) : ?>
-							<?php
-							$source_ids   = json_decode( $row['source_term_ids'], true );
-							$source_names = array();
-							foreach ( (array) $source_ids as $sid ) {
-								$t = get_term( $sid, 'post_tag' );
-								if ( $t && ! is_wp_error( $t ) ) {
-									$source_names[] = $t->name;
-								}
-							}
-							$target_term = get_term( $row['target_term_id'], 'post_tag' );
-							$target_name = ( $target_term && ! is_wp_error( $target_term ) ) ? $target_term->name : '';
-							?>
-							<tr>
-								<td><?php echo esc_html( implode( ', ', $source_names ) ); ?></td>
-								<td><?php echo esc_html( $target_name ); ?></td>
-								<td><?php echo esc_html( $row['reason'] ); ?></td>
-								<td><?php echo esc_html( round( $row['confidence'] * 100 ) . '%' ); ?></td>
-								<td>
-									<button type="button" class="button button-primary wpto-approve" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Approva', 'wp-tags-optimizer' ); ?></button>
-									<button type="button" class="button wpto-reject" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Rifiuta', 'wp-tags-optimizer' ); ?></button>
-								</td>
-							</tr>
+							<?php self::render_suggestion_row( $row ); ?>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
 			<?php endforeach; ?>
+
+			<?php if ( ! empty( $rejected ) ) : ?>
+				<h3><?php esc_html_e( 'Suggerimenti rifiutati', 'wp-tags-optimizer' ); ?></h3>
+				<table class="wp-list-table widefat fixed striped">
+					<thead>
+						<tr>
+							<th><?php esc_html_e( 'Tag sorgente', 'wp-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Tag destinazione', 'wp-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Motivazione', 'wp-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Confidenza', 'wp-tags-optimizer' ); ?></th>
+							<th><?php esc_html_e( 'Azioni', 'wp-tags-optimizer' ); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php foreach ( $rejected as $row ) : ?>
+							<?php self::render_suggestion_row( $row, true ); ?>
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			<?php endif; ?>
 		</div>
+		<?php
+	}
+
+	private static function render_suggestion_row( array $row, $rejected = false ) {
+		$source_ids   = json_decode( $row['source_term_ids'], true );
+		$source_names = array();
+		foreach ( (array) $source_ids as $sid ) {
+			$t = get_term( $sid, 'post_tag' );
+			if ( $t && ! is_wp_error( $t ) ) {
+				$source_names[] = $t->name;
+			}
+		}
+		$target_term = get_term( $row['target_term_id'], 'post_tag' );
+		$target_name = ( $target_term && ! is_wp_error( $target_term ) ) ? $target_term->name : '';
+		?>
+		<tr>
+			<td><?php echo esc_html( implode( ', ', $source_names ) ); ?></td>
+			<td><?php echo esc_html( $target_name ); ?></td>
+			<td><?php echo esc_html( $row['reason'] ); ?></td>
+			<td><?php echo esc_html( round( $row['confidence'] * 100 ) . '%' ); ?></td>
+			<td>
+				<?php if ( $rejected ) : ?>
+					<button type="button" class="button wpto-restore" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Ripristina', 'wp-tags-optimizer' ); ?></button>
+				<?php else : ?>
+					<button type="button" class="button button-primary wpto-approve" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Approva', 'wp-tags-optimizer' ); ?></button>
+					<button type="button" class="button wpto-reject" data-id="<?php echo esc_attr( $row['id'] ); ?>"><?php esc_html_e( 'Rifiuta', 'wp-tags-optimizer' ); ?></button>
+				<?php endif; ?>
+			</td>
+		</tr>
 		<?php
 	}
 
@@ -274,7 +303,7 @@ class WPTO_Admin_Page {
 		$id     = isset( $_POST['id'] ) ? absint( $_POST['id'] ) : 0;
 		$action = isset( $_POST['do'] ) ? sanitize_key( $_POST['do'] ) : '';
 
-		if ( ! $id || ! in_array( $action, array( 'approve', 'reject' ), true ) ) {
+		if ( ! $id || ! in_array( $action, array( 'approve', 'reject', 'restore' ), true ) ) {
 			wp_send_json_error( array( 'message' => __( 'Richiesta non valida.', 'wp-tags-optimizer' ) ) );
 		}
 
@@ -286,6 +315,11 @@ class WPTO_Admin_Page {
 
 		if ( 'reject' === $action ) {
 			WPTO_Suggestions_Repo::set_suggestion_status( $id, 'rejected' );
+			wp_send_json_success();
+		}
+
+		if ( 'restore' === $action ) {
+			WPTO_Suggestions_Repo::set_suggestion_status( $id, 'pending' );
 			wp_send_json_success();
 		}
 
