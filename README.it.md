@@ -48,7 +48,7 @@ Ogni suggerimento può essere **Approvato** (unisce il/i tag sorgente nel tag ta
 
 La tab **"Manage Tags"** (accanto a "AI Analysis" sulla stessa pagina) raccoglie tutta la gestione manuale, non-IA, dei tag:
 
-- Un istogramma di distribuzione dell'utilizzo per un colpo d'occhio immediato sulla tua tassonomia.
+- Un istogramma di distribuzione dell'utilizzo per un colpo d'occhio immediato sulla tua tassonomia — clicca su una barra per filtrare la tabella sottostante esattamente a quel range.
 - La tabella **"Unused tags (0 posts)"**, con un'opzione di cancellazione multipla; usa **"Recount tag counts"** se i conteggi sembrano sbagliati (es. dopo un'importazione).
 - Una tabella di tutti i tag in uso, cercabile, ordinabile e paginata, con ogni tag collegato direttamente alla lista articoli filtrata. Usa il pannello opzioni schermata (in alto a destra) per cambiare quanti tag mostrare per pagina.
 - **Cancella** qualsiasi tag singolarmente (azione di riga) o in blocco.

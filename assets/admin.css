@@ -106,12 +106,30 @@
 	flex: 1;
 	height: 100%;
 	padding-top: 8px;
+	text-decoration: none;
+	border-radius: 4px;
+	transition: background-color 0.1s ease-in-out;
+}
+
+.wpto-histogram-bar-wrap:hover,
+.wpto-histogram-bar-wrap:focus {
+	background: #f0f0f1;
+}
+
+.wpto-histogram-bar-wrap.wpto-histogram-bar-active .wpto-histogram-bar {
+	background: #d63638;
+}
+
+.wpto-histogram-bar-wrap.wpto-histogram-bar-active .wpto-histogram-label {
+	font-weight: 600;
+	color: #1d2327;
 }
 
 .wpto-histogram-count {
 	font-size: 12px;
 	font-weight: 600;
 	margin-bottom: 4px;
+	color: #1d2327;
 }
 
 .wpto-histogram-bar {
@@ -159,4 +177,11 @@
 
 .wpto-merge-basket p {
 	margin: 0.5em 0;
+}
+
+.wpto-histogram-filter-notice {
+	background: #fff;
+	border-left: 4px solid #d63638;
+	padding: 8px 12px;
+	margin: 0 0 16px;
 }

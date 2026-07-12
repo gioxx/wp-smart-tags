@@ -158,6 +158,26 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 		$per_page     = $this->get_items_per_page( 'wpto_tags_per_page', self::PER_PAGE );
 		$current_page = $this->get_pagenum();
 
+		$bucket       = isset( $_REQUEST['bucket'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['bucket'] ) ) : '';
+		$count_range  = isset( WPTO_Admin_Page::USAGE_BUCKETS[ $bucket ] ) ? WPTO_Admin_Page::USAGE_BUCKETS[ $bucket ] : null;
+		$range_filter = null;
+
+		if ( $count_range ) {
+			$range_filter = function ( $clauses ) use ( $count_range ) {
+				global $wpdb;
+
+				if ( PHP_INT_MAX === $count_range[1] ) {
+					$clauses['where'] .= $wpdb->prepare( ' AND tt.count >= %d', $count_range[0] );
+				} else {
+					$clauses['where'] .= $wpdb->prepare( ' AND tt.count BETWEEN %d AND %d', $count_range[0], $count_range[1] );
+				}
+
+				return $clauses;
+			};
+
+			add_filter( 'terms_clauses', $range_filter );
+		}
+
 		$total_items = (int) wp_count_terms(
 			array(
 				'taxonomy'   => 'post_tag',
@@ -177,6 +197,10 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 				'offset'     => ( $current_page - 1 ) * $per_page,
 			)
 		);
+
+		if ( $range_filter ) {
+			remove_filter( 'terms_clauses', $range_filter );
+		}
 
 		if ( is_wp_error( $terms ) ) {
 			$terms = array();

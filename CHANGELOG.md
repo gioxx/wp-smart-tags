@@ -2,6 +2,10 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.16.1] - 2026-07-12
+
+- The usage-distribution histogram bars are now clickable: clicking one filters the tag table below to that exact range (e.g. "3-5" posts), with the active bar highlighted and a "Clear filter" link. The filter is preserved when searching, sorting, or paging within the table.
+
 ## [0.16.0] - 2026-07-12
 
 - Fixed a real limitation in the manual merge workflow: selecting tags across different searches/pages/sort orders used to lose the previous selection, since checkboxes only survive within a single page. The bulk action is now "Add to merge selection", which accumulates tags into a persistent per-user selection (shown in a bar above the table, with its own "Prepare merge" and "Clear selection" controls) so tags found via unrelated searches can be merged together.

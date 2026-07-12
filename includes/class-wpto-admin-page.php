@@ -445,6 +445,9 @@ class WPTO_Admin_Page {
 		<form method="post" id="wpto-tags-filter">
 			<input type="hidden" name="page" value="<?php echo esc_attr( self::MAIN_SLUG ); ?>" />
 			<input type="hidden" name="tab" value="stats" />
+			<?php if ( isset( $_GET['bucket'] ) ) : // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>
+				<input type="hidden" name="bucket" value="<?php echo esc_attr( sanitize_text_field( wp_unslash( $_GET['bucket'] ) ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended ?>" />
+			<?php endif; ?>
 			<?php
 			$table->search_box( __( 'Search tags', 'ai-tags-optimizer' ), 'wpto-tag-search' );
 			$table->display();
@@ -495,6 +498,9 @@ class WPTO_Admin_Page {
 		);
 
 		$base_url = add_query_arg( 'tab', 'stats', self::main_page_url() );
+		if ( isset( $_GET['bucket'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$base_url = add_query_arg( 'bucket', sanitize_text_field( wp_unslash( $_GET['bucket'] ) ), $base_url ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		}
 		?>
 		<p class="wpto-quick-sort">
 			<span class="wpto-quick-sort-label"><?php esc_html_e( 'Quick sort:', 'ai-tags-optimizer' ); ?></span>
@@ -729,18 +735,38 @@ class WPTO_Admin_Page {
 			}
 		}
 
-		$max = max( 1, max( $buckets ) );
+		$max            = max( 1, max( $buckets ) );
+		$active_bucket  = isset( $_GET['bucket'] ) ? sanitize_text_field( wp_unslash( $_GET['bucket'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$base_url       = remove_query_arg( 'paged', add_query_arg( 'tab', 'stats', self::main_page_url() ) );
 		?>
 		<h2><?php esc_html_e( 'Usage distribution', 'ai-tags-optimizer' ); ?></h2>
+		<p class="description"><?php esc_html_e( 'Click a bar to filter the table below to that range.', 'ai-tags-optimizer' ); ?></p>
 		<div class="wpto-histogram">
 			<?php foreach ( $buckets as $label => $count ) : ?>
-				<div class="wpto-histogram-bar-wrap">
+				<?php $is_active = ( $active_bucket === $label ); ?>
+				<a
+					class="wpto-histogram-bar-wrap<?php echo $is_active ? ' wpto-histogram-bar-active' : ''; ?>"
+					href="<?php echo esc_url( add_query_arg( 'bucket', $label, $base_url ) ); ?>"
+					title="<?php echo esc_attr( $label ); ?>"
+				>
 					<span class="wpto-histogram-count"><?php echo esc_html( number_format_i18n( $count ) ); ?></span>
 					<div class="wpto-histogram-bar" style="height: <?php echo esc_attr( max( 2, round( ( $count / $max ) * 100 ) ) ); ?>%;"></div>
 					<span class="wpto-histogram-label"><?php echo esc_html( $label ); ?></span>
-				</div>
+				</a>
 			<?php endforeach; ?>
 		</div>
+		<?php if ( '' !== $active_bucket && isset( self::USAGE_BUCKETS[ $active_bucket ] ) ) : ?>
+			<p class="wpto-histogram-filter-notice">
+				<?php
+				printf(
+					/* translators: %s: usage bucket label, e.g. "3-5" */
+					esc_html__( 'Filtering by usage: %s posts.', 'ai-tags-optimizer' ),
+					esc_html( $active_bucket )
+				);
+				?>
+				<a href="<?php echo esc_url( remove_query_arg( 'bucket', $base_url ) ); ?>"><?php esc_html_e( 'Clear filter', 'ai-tags-optimizer' ); ?></a>
+			</p>
+		<?php endif; ?>
 		<?php
 	}
 

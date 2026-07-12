@@ -48,7 +48,7 @@ Each suggestion can be **Approved** (merges the source tag(s) into the target ta
 
 The **"Manage Tags"** tab (next to "AI Analysis" on the same page) is where all the non-AI, manual tag housekeeping lives:
 
-- A usage-distribution histogram for an at-a-glance read of your taxonomy.
+- A usage-distribution histogram for an at-a-glance read of your taxonomy — click a bar to filter the table below to that exact range.
 - The **"Unused tags (0 posts)"** table, with a bulk delete option; use **"Recount tag counts"** if counts look wrong (e.g. after an import).
 - A searchable, sortable, paginated table of every tag in use, each linking straight to its filtered post list. Use the screen options panel (top right) to change how many tags are shown per page.
 - **Delete** any tag individually (row action) or in bulk.

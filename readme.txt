@@ -43,6 +43,9 @@ It's kept in a "Rejected suggestions" list and can be restored to pending at any
 Yes, the "Unused tags" table lists them with a bulk delete option.
 
 == Changelog ==
+= 0.16.1 =
+* The usage-distribution histogram bars are now clickable, filtering the tag table to that range; the filter is preserved through search, sort, and paging.
+
 = 0.16.0 =
 * Fixed the manual merge workflow losing your selection when searching for a second tag. The bulk action is now "Add to merge selection", which builds a persistent per-user selection across searches/pages before you prepare the merge.
 * Added Quick Edit (inline rename/slug change via AJAX) to the tag table on "Manage Tags".
