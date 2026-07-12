@@ -13,6 +13,7 @@ class WPTO_Admin_Page {
 		add_action( 'admin_enqueue_scripts', array( __CLASS__, 'enqueue_assets' ) );
 		add_action( 'wp_ajax_wpto_delete_unused', array( __CLASS__, 'ajax_delete_unused' ) );
 		add_action( 'wp_ajax_wpto_suggestion_action', array( __CLASS__, 'ajax_suggestion_action' ) );
+		add_action( 'wp_ajax_wpto_bulk_suggestion_action', array( __CLASS__, 'ajax_bulk_suggestion_action' ) );
 		add_action( 'wp_ajax_wpto_recount_tags', array( __CLASS__, 'ajax_recount_tags' ) );
 	}
 
@@ -49,10 +50,15 @@ class WPTO_Admin_Page {
 				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
 				'nonce'   => wp_create_nonce( 'wpto_admin_action' ),
 				'i18n'    => array(
-					'confirmDelete' => __( 'Delete the selected tags?', 'ai-tags-optimizer' ),
-					'confirmMerge'  => __( 'Confirm this merge? This action cannot be undone.', 'ai-tags-optimizer' ),
-					'error'         => __( 'Something went wrong.', 'ai-tags-optimizer' ),
-					'processing'    => __( 'Processing batch, this can take up to two minutes...', 'ai-tags-optimizer' ),
+					'confirmDelete'      => __( 'Delete the selected tags?', 'ai-tags-optimizer' ),
+					'confirmMerge'       => __( 'Confirm this merge? This action cannot be undone.', 'ai-tags-optimizer' ),
+					'confirmBulkApprove' => __( 'Approve the selected suggestions? This action cannot be undone.', 'ai-tags-optimizer' ),
+					'confirmBulkReject'  => __( 'Reject the selected suggestions?', 'ai-tags-optimizer' ),
+					'confirmBulkRestore' => __( 'Restore the selected suggestions to pending?', 'ai-tags-optimizer' ),
+					'noneSelected'       => __( 'Select at least one row first.', 'ai-tags-optimizer' ),
+					'bulkFailed'         => __( 'Some items could not be processed:', 'ai-tags-optimizer' ),
+					'error'              => __( 'Something went wrong.', 'ai-tags-optimizer' ),
+					'processing'         => __( 'Processing batch, this can take up to two minutes...', 'ai-tags-optimizer' ),
 				),
 			)
 		);
@@ -193,9 +199,14 @@ class WPTO_Admin_Page {
 			<?php foreach ( $grouped as $type => $rows ) : ?>
 				<?php if ( empty( $rows ) ) { continue; } ?>
 				<h3><?php echo esc_html( $type_labels[ $type ] ); ?></h3>
+				<p class="wpto-bulk-actions">
+					<button type="button" class="button wpto-bulk-approve" data-group="<?php echo esc_attr( $type ); ?>" disabled><?php esc_html_e( 'Approve selected', 'ai-tags-optimizer' ); ?></button>
+					<button type="button" class="button wpto-bulk-reject" data-group="<?php echo esc_attr( $type ); ?>" disabled><?php esc_html_e( 'Reject selected', 'ai-tags-optimizer' ); ?></button>
+				</p>
 				<table class="wp-list-table widefat fixed striped">
 					<thead>
 						<tr>
+							<td class="check-column"><input type="checkbox" class="wpto-select-all-suggestions" data-group="<?php echo esc_attr( $type ); ?>" /></td>
 							<th><?php esc_html_e( 'Source tag(s)', 'ai-tags-optimizer' ); ?></th>
 							<th><?php esc_html_e( 'Target tag', 'ai-tags-optimizer' ); ?></th>
 							<th><?php esc_html_e( 'Reason', 'ai-tags-optimizer' ); ?></th>
@@ -205,7 +216,7 @@ class WPTO_Admin_Page {
 					</thead>
 					<tbody>
 						<?php foreach ( $rows as $row ) : ?>
-							<?php self::render_suggestion_row( $row ); ?>
+							<?php self::render_suggestion_row( $row, false, $type ); ?>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
@@ -213,9 +224,13 @@ class WPTO_Admin_Page {
 
 			<?php if ( ! empty( $rejected ) ) : ?>
 				<h3><?php esc_html_e( 'Rejected suggestions', 'ai-tags-optimizer' ); ?></h3>
+				<p class="wpto-bulk-actions">
+					<button type="button" class="button wpto-bulk-restore" data-group="rejected" disabled><?php esc_html_e( 'Restore selected', 'ai-tags-optimizer' ); ?></button>
+				</p>
 				<table class="wp-list-table widefat fixed striped">
 					<thead>
 						<tr>
+							<td class="check-column"><input type="checkbox" class="wpto-select-all-suggestions" data-group="rejected" /></td>
 							<th><?php esc_html_e( 'Source tag(s)', 'ai-tags-optimizer' ); ?></th>
 							<th><?php esc_html_e( 'Target tag', 'ai-tags-optimizer' ); ?></th>
 							<th><?php esc_html_e( 'Reason', 'ai-tags-optimizer' ); ?></th>
@@ -225,7 +240,7 @@ class WPTO_Admin_Page {
 					</thead>
 					<tbody>
 						<?php foreach ( $rejected as $row ) : ?>
-							<?php self::render_suggestion_row( $row, true ); ?>
+							<?php self::render_suggestion_row( $row, true, 'rejected' ); ?>
 						<?php endforeach; ?>
 					</tbody>
 				</table>
@@ -234,7 +249,7 @@ class WPTO_Admin_Page {
 		<?php
 	}
 
-	private static function render_suggestion_row( array $row, $rejected = false ) {
+	private static function render_suggestion_row( array $row, $rejected = false, $group = '' ) {
 		$source_ids   = json_decode( $row['source_term_ids'], true );
 		$source_names = array();
 		foreach ( (array) $source_ids as $sid ) {
@@ -247,6 +262,7 @@ class WPTO_Admin_Page {
 		$target_name = ( $target_term && ! is_wp_error( $target_term ) ) ? $target_term->name : '';
 		?>
 		<tr>
+			<th class="check-column"><input type="checkbox" class="wpto-suggestion-checkbox" data-group="<?php echo esc_attr( $group ); ?>" value="<?php echo esc_attr( $row['id'] ); ?>" /></th>
 			<td><?php echo esc_html( implode( ', ', $source_names ) ); ?></td>
 			<td><?php echo esc_html( $target_name ); ?></td>
 			<td><?php echo esc_html( $row['reason'] ); ?></td>
@@ -307,29 +323,80 @@ class WPTO_Admin_Page {
 			wp_send_json_error( array( 'message' => __( 'Invalid request.', 'ai-tags-optimizer' ) ) );
 		}
 
+		$error = self::apply_suggestion_action( $id, $action );
+
+		if ( null !== $error ) {
+			wp_send_json_error( array( 'message' => $error ) );
+		}
+
+		wp_send_json_success();
+	}
+
+	public static function ajax_bulk_suggestion_action() {
+		check_ajax_referer( 'wpto_admin_action', 'nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'ai-tags-optimizer' ) ), 403 );
+		}
+
+		$ids    = isset( $_POST['ids'] ) ? array_map( 'absint', (array) $_POST['ids'] ) : array();
+		$action = isset( $_POST['do'] ) ? sanitize_key( $_POST['do'] ) : '';
+		$ids    = array_filter( $ids );
+
+		if ( empty( $ids ) || ! in_array( $action, array( 'approve', 'reject', 'restore' ), true ) ) {
+			wp_send_json_error( array( 'message' => __( 'Invalid request.', 'ai-tags-optimizer' ) ) );
+		}
+
+		$succeeded = array();
+		$failed    = array();
+
+		foreach ( $ids as $id ) {
+			$error = self::apply_suggestion_action( $id, $action );
+
+			if ( null !== $error ) {
+				$failed[ $id ] = $error;
+			} else {
+				$succeeded[] = $id;
+			}
+		}
+
+		wp_send_json_success(
+			array(
+				'succeeded' => $succeeded,
+				'failed'    => $failed,
+			)
+		);
+	}
+
+	/**
+	 * Applies a single approve/reject/restore action to a suggestion.
+	 *
+	 * @return string|null Error message, or null on success.
+	 */
+	private static function apply_suggestion_action( $id, $action ) {
 		$suggestion = WPTO_Suggestions_Repo::get_suggestion( $id );
 
 		if ( ! $suggestion ) {
-			wp_send_json_error( array( 'message' => __( 'Suggestion not found.', 'ai-tags-optimizer' ) ) );
+			return __( 'Suggestion not found.', 'ai-tags-optimizer' );
 		}
 
 		if ( 'reject' === $action ) {
 			WPTO_Suggestions_Repo::set_suggestion_status( $id, 'rejected' );
-			wp_send_json_success();
+			return null;
 		}
 
 		if ( 'restore' === $action ) {
 			WPTO_Suggestions_Repo::set_suggestion_status( $id, 'pending' );
-			wp_send_json_success();
+			return null;
 		}
 
 		$result = WPTO_Merge_Handler::apply( $suggestion );
 
 		if ( is_wp_error( $result ) ) {
-			wp_send_json_error( array( 'message' => $result->get_error_message() ) );
+			return $result->get_error_message();
 		}
 
 		WPTO_Suggestions_Repo::set_suggestion_status( $id, 'applied' );
-		wp_send_json_success();
+		return null;
 	}
 }

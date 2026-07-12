@@ -35,11 +35,31 @@ msgstr ""
 msgid "Confirm this merge? This action cannot be undone."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:54
+#: includes/class-wpto-admin-page.php:55
+msgid "Approve the selected suggestions? This action cannot be undone."
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:56
+msgid "Reject the selected suggestions?"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:57
+msgid "Restore the selected suggestions to pending?"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:58
+msgid "Select at least one row first."
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:59
+msgid "Some items could not be processed:"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:61
 msgid "Something went wrong."
 msgstr ""
 
-#: includes/class-wpto-admin-page.php:55
+#: includes/class-wpto-admin-page.php:62
 msgid "Processing batch, this can take up to two minutes..."
 msgstr ""
 
@@ -158,6 +178,18 @@ msgstr ""
 
 #: includes/class-wpto-admin-page.php:215
 msgid "Rejected suggestions"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:203
+msgid "Approve selected"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:204
+msgid "Reject selected"
+msgstr ""
+
+#: includes/class-wpto-admin-page.php:228
+msgid "Restore selected"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:256

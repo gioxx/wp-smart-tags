@@ -140,6 +140,82 @@
 		handleSuggestion( $( this ), 'restore' );
 	} );
 
+	$( document ).on( 'change', '.wpto-select-all-suggestions', function () {
+		var group = $( this ).data( 'group' );
+		$( '.wpto-suggestion-checkbox[data-group="' + group + '"]' ).prop( 'checked', $( this ).prop( 'checked' ) );
+		updateBulkButtons( group );
+	} );
+
+	$( document ).on( 'change', '.wpto-suggestion-checkbox', function () {
+		updateBulkButtons( $( this ).data( 'group' ) );
+	} );
+
+	function updateBulkButtons( group ) {
+		var anyChecked = $( '.wpto-suggestion-checkbox[data-group="' + group + '"]:checked' ).length > 0;
+		$( '.wpto-bulk-approve[data-group="' + group + '"], .wpto-bulk-reject[data-group="' + group + '"], .wpto-bulk-restore[data-group="' + group + '"]' ).prop( 'disabled', ! anyChecked );
+	}
+
+	$( document ).on( 'click', '.wpto-bulk-approve', function () {
+		handleBulkSuggestion( $( this ), 'approve', wptoData.i18n.confirmBulkApprove );
+	} );
+
+	$( document ).on( 'click', '.wpto-bulk-reject', function () {
+		handleBulkSuggestion( $( this ), 'reject', wptoData.i18n.confirmBulkReject );
+	} );
+
+	$( document ).on( 'click', '.wpto-bulk-restore', function () {
+		handleBulkSuggestion( $( this ), 'restore', wptoData.i18n.confirmBulkRestore );
+	} );
+
+	function handleBulkSuggestion( $btn, action, confirmMessage ) {
+		var group = $btn.data( 'group' );
+		var $checkboxes = $( '.wpto-suggestion-checkbox[data-group="' + group + '"]:checked' );
+		var ids = $checkboxes.map( function () {
+			return $( this ).val();
+		} ).get();
+
+		if ( ! ids.length ) {
+			window.alert( wptoData.i18n.noneSelected );
+			return;
+		}
+
+		if ( ! window.confirm( confirmMessage ) ) {
+			return;
+		}
+
+		var $groupButtons = $( '.wpto-bulk-approve[data-group="' + group + '"], .wpto-bulk-reject[data-group="' + group + '"], .wpto-bulk-restore[data-group="' + group + '"]' );
+		$groupButtons.prop( 'disabled', true );
+
+		ajax( { action: 'wpto_bulk_suggestion_action', ids: ids, do: action } ).done( function ( response ) {
+			if ( ! response.success ) {
+				window.alert( response.data && response.data.message ? response.data.message : wptoData.i18n.error );
+				updateBulkButtons( group );
+				return;
+			}
+
+			var data = response.data;
+
+			$( data.succeeded ).each( function ( i, id ) {
+				$( '.wpto-suggestion-checkbox[value="' + id + '"][data-group="' + group + '"]' ).closest( 'tr' ).fadeOut( 200, function () {
+					$( this ).remove();
+				} );
+			} );
+
+			if ( data.failed && Object.keys( data.failed ).length ) {
+				var messages = [ wptoData.i18n.bulkFailed ];
+				$.each( data.failed, function ( id, message ) {
+					messages.push( '#' + id + ': ' + message );
+				} );
+				window.alert( messages.join( '\n' ) );
+			}
+
+			updateBulkButtons( group );
+		} ).fail( function () {
+			window.alert( wptoData.i18n.error );
+			updateBulkButtons( group );
+		} );
+	}
+
 	function handleSuggestion( $btn, action ) {
 		var id = $btn.data( 'id' );
 		$btn.closest( 'tr' ).find( 'button' ).prop( 'disabled', true );

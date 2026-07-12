@@ -23,6 +23,21 @@ msgstr "Confermi la cancellazione dei tag selezionati?"
 msgid "Confirm this merge? This action cannot be undone."
 msgstr "Confermi questo merge? L'operazione non è reversibile."
 
+msgid "Approve the selected suggestions? This action cannot be undone."
+msgstr "Confermi l'approvazione dei suggerimenti selezionati? L'operazione non è reversibile."
+
+msgid "Reject the selected suggestions?"
+msgstr "Confermi il rifiuto dei suggerimenti selezionati?"
+
+msgid "Restore the selected suggestions to pending?"
+msgstr "Ripristinare come in sospeso i suggerimenti selezionati?"
+
+msgid "Select at least one row first."
+msgstr "Seleziona almeno una riga."
+
+msgid "Some items could not be processed:"
+msgstr "Alcuni elementi non sono stati elaborati:"
+
 msgid "Something went wrong."
 msgstr "Si è verificato un errore."
 
@@ -113,6 +128,15 @@ msgstr "Azioni"
 
 msgid "Rejected suggestions"
 msgstr "Suggerimenti rifiutati"
+
+msgid "Approve selected"
+msgstr "Approva selezionati"
+
+msgid "Reject selected"
+msgstr "Rifiuta selezionati"
+
+msgid "Restore selected"
+msgstr "Ripristina selezionati"
 
 msgid "Restore"
 msgstr "Ripristina"
