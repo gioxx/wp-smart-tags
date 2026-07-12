@@ -79,6 +79,14 @@ class WPTO_Api_Client {
 	}
 
 	private function build_system_prompt() {
+		$language = trim( WPTO_Settings::get_ai_language() );
+
+		if ( '' !== $language ) {
+			$language_instruction = sprintf( 'Always write the "reason" field in %s, regardless of the language of the tag names.', $language );
+		} else {
+			$language_instruction = 'Write the "reason" field in the same language as the tag names.';
+		}
+
 		return "You are an assistant analyzing a list of WordPress tags (JSON format: id, name, count) to identify:\n"
 			. "1) near_duplicate: textual near-duplicates (typos, plurals, casing, hyphens/spaces)\n"
 			. "2) semantic_overlap: tags with different wording but overlapping meaning\n"
@@ -86,7 +94,7 @@ class WPTO_Api_Client {
 			. "Reply with ONLY valid JSON, no extra text, no code block, in this exact format:\n"
 			. '{"suggestions":[{"type":"near_duplicate|semantic_overlap|low_usage_merge","source_tag_ids":[123],"target_tag_id":456,"reason":"...","confidence":0.0}]}' . "\n\n"
 			. "Rules: only use ids present in the given list; target_tag_id must differ from every source_tag_id; "
-			. "if you find no meaningful suggestions, return {\"suggestions\":[]}. Write the \"reason\" field in the same language as the tag names.";
+			. "if you find no meaningful suggestions, return {\"suggestions\":[]}. {$language_instruction}";
 	}
 
 	private function parse_suggestions( $text, array $valid_ids ) {

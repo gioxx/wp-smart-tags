@@ -39,6 +39,15 @@ class WPTO_Settings {
 				'default'           => 150,
 			)
 		);
+		register_setting(
+			self::OPTION_GROUP,
+			'wpto_ai_language',
+			array(
+				'type'              => 'string',
+				'sanitize_callback' => 'sanitize_text_field',
+				'default'           => '',
+			)
+		);
 	}
 
 	public static function sanitize_batch_size( $value ) {
@@ -62,6 +71,10 @@ class WPTO_Settings {
 
 	public static function get_batch_size() {
 		return (int) get_option( 'wpto_batch_size', 150 );
+	}
+
+	public static function get_ai_language() {
+		return get_option( 'wpto_ai_language', '' );
 	}
 
 	public static function render_page() {
@@ -92,6 +105,13 @@ class WPTO_Settings {
 						<td>
 							<input type="number" min="10" max="500" id="wpto_batch_size" name="wpto_batch_size" value="<?php echo esc_attr( self::get_batch_size() ); ?>" class="small-text" />
 							<p class="description"><?php esc_html_e( 'Number of tags sent per API call (10-500).', 'ai-tags-optimizer' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="wpto_ai_language"><?php esc_html_e( 'AI response language', 'ai-tags-optimizer' ); ?></label></th>
+						<td>
+							<input type="text" id="wpto_ai_language" name="wpto_ai_language" value="<?php echo esc_attr( self::get_ai_language() ); ?>" class="regular-text" placeholder="<?php esc_attr_e( 'e.g. Italian, English...', 'ai-tags-optimizer' ); ?>" />
+							<p class="description"><?php esc_html_e( 'Language Claude should use for the "reason" it gives on each suggestion. Leave blank to let it match the language of your tag names automatically. This only affects Claude\'s output, not the plugin\'s own interface language.', 'ai-tags-optimizer' ); ?></p>
 						</td>
 					</tr>
 				</table>

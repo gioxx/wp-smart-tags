@@ -177,3 +177,12 @@ msgstr "Dimensione batch"
 
 msgid "Number of tags sent per API call (10-500)."
 msgstr "Numero di tag inviati per ogni chiamata API (10-500)."
+
+msgid "AI response language"
+msgstr "Lingua delle risposte AI"
+
+msgid "e.g. Italian, English..."
+msgstr "es. Italiano, Inglese..."
+
+msgid "Language Claude should use for the \"reason\" it gives on each suggestion. Leave blank to let it match the language of your tag names automatically. This only affects Claude's output, not the plugin's own interface language."
+msgstr "Lingua che Claude deve usare per la motivazione di ogni suggerimento. Lascia vuoto per farla corrispondere automaticamente alla lingua dei nomi dei tuoi tag. Questa impostazione riguarda solo l'output di Claude, non la lingua dell'interfaccia del plugin."
