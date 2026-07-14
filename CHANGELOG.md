@@ -7,6 +7,9 @@ All notable changes to this plugin are documented in this file.
 - Merged the "Overview" stat tiles and the "Usage distribution" histogram into a single side-by-side panel instead of two stacked blocks, and narrowed the histogram accordingly.
 - Nudged the floating "back to top" button up so it no longer overlaps the WordPress admin-footer credits in the bottom-right corner.
 - Adding tags to the merge selection (via the table's bulk action or the "Add tags by name" field) now auto-scrolls down to the "Merge selection" section instead of leaving you on top of the reloaded page.
+- Fixed the "Add tags by name" panel jumping to the very top of the page (above the tabs) instead of staying under "Merge selection": it used the `notice` CSS class, which WordPress core auto-relocates to the top of the screen regardless of where it is in the markup.
+- Fixed the "AI Analysis" stat tiles (Pending suggestions / Merges applied / Rejected suggestions) stacking full-width instead of sitting side by side; the column layout meant for the new Overview panel was leaking into the shared `.wpto-stats` class.
+- Toned down how far the floating "back to top" button was nudged up (70px was overkill for clearing the footer credits).
 
 ## [0.18.0] - 2026-07-14
 

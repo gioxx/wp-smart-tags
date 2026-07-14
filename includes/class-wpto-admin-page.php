@@ -732,7 +732,7 @@ class WPTO_Admin_Page {
 		$terms = self::get_merge_basket_terms();
 		$count = count( $terms );
 		?>
-		<div class="notice notice-info wpto-merge-basket">
+		<div class="wpto-merge-basket">
 			<p>
 				<label for="wpto-merge-tag-names"><?php esc_html_e( 'Add tags by name:', 'ai-tags-optimizer' ); ?></label>
 				<form method="post" class="wpto-add-tags-by-name-form">

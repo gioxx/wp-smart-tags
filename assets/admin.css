@@ -76,9 +76,16 @@
 
 .wpto-stats {
 	display: flex;
-	flex-direction: column;
-	flex: 0 0 auto;
+	flex-wrap: wrap;
 	gap: 12px;
+	margin: 16px 0 24px;
+}
+
+.wpto-overview-panel .wpto-stats {
+	flex-direction: column;
+	flex-wrap: nowrap;
+	flex: 0 0 auto;
+	margin: 0;
 }
 
 .wpto-stat-tile {
@@ -226,6 +233,15 @@
 	gap: 8px;
 }
 
+.wpto-merge-basket {
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-left: 4px solid #2271b1;
+	border-radius: 4px;
+	padding: 12px 16px;
+	margin: 0 0 16px;
+}
+
 .wpto-merge-basket p {
 	margin: 0.5em 0;
 }
@@ -277,7 +293,7 @@
 #wpto-back-to-top {
 	position: fixed;
 	right: 24px;
-	bottom: 70px;
+	bottom: 40px;
 	z-index: 100;
 	display: none;
 	width: 40px;
