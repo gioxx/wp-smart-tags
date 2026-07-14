@@ -429,4 +429,33 @@
 				}
 			} );
 	} )();
+
+	// Sticky section nav: smooth-scroll to anchors instead of a hard jump.
+	$( '.wpto-section-nav a[href^="#"]' ).on( 'click', function ( event ) {
+		var target = $( $( this ).attr( 'href' ) );
+
+		if ( ! target.length ) {
+			return;
+		}
+
+		event.preventDefault();
+		$( 'html, body' ).animate( { scrollTop: target.offset().top - 40 }, 300 );
+	} );
+
+	// Back-to-top button: only shown once the page has scrolled a bit.
+	( function () {
+		var $button = $( '#wpto-back-to-top' );
+
+		if ( ! $button.length ) {
+			return;
+		}
+
+		$( window ).on( 'scroll', function () {
+			$button.toggleClass( 'wpto-visible', $( window ).scrollTop() > 300 );
+		} );
+
+		$button.on( 'click', function () {
+			$( 'html, body' ).animate( { scrollTop: 0 }, 300 );
+		} );
+	} )();
 } )( jQuery );

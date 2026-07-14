@@ -150,6 +150,8 @@ class WPTO_Admin_Page {
 			<?php else : ?>
 				<?php self::render_optimizer_tab(); ?>
 			<?php endif; ?>
+
+			<button type="button" id="wpto-back-to-top" class="button button-primary" aria-label="<?php esc_attr_e( 'Back to top', 'ai-tags-optimizer' ); ?>">&uarr;</button>
 		</div>
 		<?php
 	}
@@ -379,7 +381,7 @@ class WPTO_Admin_Page {
 			<?php
 		}
 
-		self::render_merge_basket_bar();
+		self::render_section_nav();
 
 		$unused_terms = WPTO_Unused_Tags::get_unused_terms();
 		$in_use_count = (int) wp_count_terms(
@@ -389,6 +391,7 @@ class WPTO_Admin_Page {
 			)
 		);
 		?>
+		<h2 id="wpto-section-overview"><?php esc_html_e( 'Overview', 'ai-tags-optimizer' ); ?></h2>
 		<div class="wpto-stats">
 			<div class="wpto-stat-tile">
 				<span class="wpto-stat-number"><?php echo esc_html( number_format_i18n( $in_use_count ) ); ?></span>
@@ -400,7 +403,11 @@ class WPTO_Admin_Page {
 			</div>
 		</div>
 
-		<h2><?php esc_html_e( 'Unused tags (0 posts)', 'ai-tags-optimizer' ); ?></h2>
+		<?php self::render_usage_histogram(); ?>
+
+		<hr />
+
+		<h2 id="wpto-section-unused"><?php esc_html_e( 'Unused tags (0 posts)', 'ai-tags-optimizer' ); ?></h2>
 		<p>
 			<button type="button" class="button" id="wpto-recount-tags"><?php esc_html_e( 'Recount tag counts', 'ai-tags-optimizer' ); ?></button>
 			<span class="description"><?php esc_html_e( 'Fixes the per-tag post count if it has drifted out of sync with the actual associations (e.g. after an import).', 'ai-tags-optimizer' ); ?></span>
@@ -435,9 +442,7 @@ class WPTO_Admin_Page {
 
 		<hr />
 
-		<?php self::render_usage_histogram(); ?>
-
-		<h2><?php esc_html_e( 'All tags', 'ai-tags-optimizer' ); ?></h2>
+		<h2 id="wpto-section-all-tags"><?php esc_html_e( 'All tags', 'ai-tags-optimizer' ); ?></h2>
 		<?php self::render_quick_sort_links(); ?>
 		<?php
 		$table->prepare_items();
@@ -454,6 +459,27 @@ class WPTO_Admin_Page {
 			$table->display();
 			?>
 		</form>
+
+		<hr />
+
+		<h2 id="wpto-section-merge"><?php esc_html_e( 'Merge selection', 'ai-tags-optimizer' ); ?></h2>
+		<?php self::render_merge_basket_bar(); ?>
+		<?php
+	}
+
+	private static function render_section_nav() {
+		$sections = array(
+			'wpto-section-overview' => __( 'Overview', 'ai-tags-optimizer' ),
+			'wpto-section-unused'   => __( 'Unused tags', 'ai-tags-optimizer' ),
+			'wpto-section-all-tags' => __( 'All tags', 'ai-tags-optimizer' ),
+			'wpto-section-merge'    => __( 'Merge selection', 'ai-tags-optimizer' ),
+		);
+		?>
+		<nav class="wpto-section-nav">
+			<?php foreach ( $sections as $id => $label ) : ?>
+				<a href="#<?php echo esc_attr( $id ); ?>"><?php echo esc_html( $label ); ?></a>
+			<?php endforeach; ?>
+		</nav>
 		<?php
 	}
 

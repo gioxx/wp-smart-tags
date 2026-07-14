@@ -2,6 +2,11 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.18.0] - 2026-07-14
+
+- Reordered "Manage Tags" into a clearer flow: Overview (stat tiles + usage distribution histogram) → Unused tags → All tags → Merge selection (moved from the top to the bottom, after the table where tags are actually picked).
+- Added a sticky section-nav bar at the top of "Manage Tags" with jump links to each section (smooth-scrolls instead of a hard jump), plus a floating "back to top" button that appears once you've scrolled down.
+
 ## [0.17.0] - 2026-07-14
 
 - Added a "Add tags by name" text field to the merge selection bar on "Manage Tags": type comma-separated tag names (with the same autocomplete WordPress uses on the post-edit Tags box) to add existing tags straight to the merge selection, without hunting for them in the table below. Names that don't match an existing tag are reported, not created.
