@@ -2,7 +2,7 @@
 
 All notable changes to this plugin are documented in this file.
 
-## [Unreleased]
+## [0.17.0] - 2026-07-14
 
 - Added a "Add tags by name" text field to the merge selection bar on "Manage Tags": type comma-separated tag names (with the same autocomplete WordPress uses on the post-edit Tags box) to add existing tags straight to the merge selection, without hunting for them in the table below. Names that don't match an existing tag are reported, not created.
 - Fixed the "Name" and "Assigned posts" column headers in the tag table rendering as blue hyperlinks (they're sortable links under the hood). They now read as plain bold labels like the rest of wp-admin, both above and below the table.
