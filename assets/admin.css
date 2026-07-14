@@ -3,6 +3,23 @@
 	margin-bottom: 20px;
 }
 
+/* Sortable column headers (Name, Assigned posts) are links under the hood,
+   but should read as plain bold labels, not hyperlinks. */
+.wpto-wrap table.wp-list-table thead th.sortable a,
+.wpto-wrap table.wp-list-table thead th.sorted a,
+.wpto-wrap table.wp-list-table tfoot th.sortable a,
+.wpto-wrap table.wp-list-table tfoot th.sorted a {
+	color: #1d2327;
+	text-decoration: none;
+}
+
+.wpto-wrap table.wp-list-table thead th.sortable a:hover,
+.wpto-wrap table.wp-list-table thead th.sorted a:hover,
+.wpto-wrap table.wp-list-table tfoot th.sortable a:hover,
+.wpto-wrap table.wp-list-table tfoot th.sorted a:hover {
+	color: #1d2327;
+}
+
 .wpto-wrap h2 {
 	margin-top: 30px;
 }

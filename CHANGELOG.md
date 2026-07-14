@@ -2,6 +2,10 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [Unreleased]
+
+- Fixed the "Name" and "Assigned posts" column headers in the tag table rendering as blue hyperlinks (they're sortable links under the hood). They now read as plain bold labels like the rest of wp-admin, both above and below the table.
+
 ## [0.16.5] - 2026-07-14
 
 - Fixed the "Manage Tags" success/error notices (merge, delete) staying stuck after being dismissed, because reloading the page resent the same `wpto_merged`/`wpto_deleted`/... query args. The URL is now cleaned up via `history.replaceState` right after the notice is shown, so a refresh no longer brings it back.
