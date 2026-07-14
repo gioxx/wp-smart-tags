@@ -2,6 +2,11 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [Unreleased]
+
+- Merged the "Overview" stat tiles and the "Usage distribution" histogram into a single side-by-side panel instead of two stacked blocks, and narrowed the histogram accordingly.
+- Nudged the floating "back to top" button up so it no longer overlaps the WordPress admin-footer credits in the bottom-right corner.
+
 ## [0.18.0] - 2026-07-14
 
 - Reordered "Manage Tags" into a clearer flow: Overview (stat tiles + usage distribution histogram) → Unused tags → All tags → Merge selection (moved from the top to the bottom, after the table where tags are actually picked).

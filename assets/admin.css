@@ -57,19 +57,57 @@
 	white-space: nowrap;
 }
 
+.wpto-overview-panel {
+	display: flex;
+	align-items: stretch;
+	gap: 24px;
+	margin: 16px 0 24px;
+	padding: 16px;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+}
+
+@media screen and (max-width: 900px) {
+	.wpto-overview-panel {
+		flex-direction: column;
+	}
+}
+
 .wpto-stats {
 	display: flex;
-	flex-wrap: wrap;
+	flex-direction: column;
+	flex: 0 0 auto;
 	gap: 12px;
-	margin: 16px 0 24px;
 }
 
 .wpto-stat-tile {
-	background: #fff;
+	background: #f6f7f7;
 	border: 1px solid #dcdcde;
 	border-radius: 4px;
 	padding: 12px 20px;
 	min-width: 140px;
+}
+
+.wpto-overview-histogram {
+	flex: 1;
+	min-width: 0;
+	padding-left: 24px;
+	border-left: 1px solid #dcdcde;
+}
+
+@media screen and (max-width: 900px) {
+	.wpto-overview-histogram {
+		padding-left: 0;
+		border-left: none;
+		padding-top: 16px;
+		border-top: 1px solid #dcdcde;
+	}
+}
+
+.wpto-overview-histogram-title {
+	margin: 0 0 4px;
+	font-size: 14px;
 }
 
 .wpto-stat-number {
@@ -106,13 +144,9 @@
 .wpto-histogram {
 	display: flex;
 	align-items: flex-end;
-	gap: 16px;
-	height: 160px;
-	margin: 16px 0 32px;
-	padding: 0 8px;
-	background: #fff;
-	border: 1px solid #dcdcde;
-	border-radius: 4px;
+	gap: 12px;
+	height: 130px;
+	margin: 8px 0 0;
 }
 
 .wpto-histogram-bar-wrap {
@@ -243,7 +277,7 @@
 #wpto-back-to-top {
 	position: fixed;
 	right: 24px;
-	bottom: 24px;
+	bottom: 70px;
 	z-index: 100;
 	display: none;
 	width: 40px;
