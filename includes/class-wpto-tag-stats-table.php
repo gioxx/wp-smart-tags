@@ -178,10 +178,15 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 			add_filter( 'terms_clauses', $range_filter );
 		}
 
+		// A search implies the user is hunting for a specific tag (e.g. an
+		// empty one just created to act as a merge master), not browsing
+		// usage stats, so don't hide 0-count tags in that case.
+		$hide_empty = '' === $search;
+
 		$total_items = (int) wp_count_terms(
 			array(
 				'taxonomy'   => 'post_tag',
-				'hide_empty' => true,
+				'hide_empty' => $hide_empty,
 				'search'     => $search,
 			)
 		);
@@ -189,7 +194,7 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 		$terms = get_terms(
 			array(
 				'taxonomy'   => 'post_tag',
-				'hide_empty' => true,
+				'hide_empty' => $hide_empty,
 				'search'     => $search,
 				'orderby'    => $orderby,
 				'order'      => $order,
