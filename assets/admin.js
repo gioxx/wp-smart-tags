@@ -398,7 +398,12 @@
 
 		$input
 			.on( 'keydown', function ( event ) {
-				if ( event.keyCode === $.ui.keyCode.TAB && $( this ).autocomplete( 'instance' ).menu.active ) {
+				var isTab   = event.keyCode === $.ui.keyCode.TAB;
+				var isEnter = event.keyCode === $.ui.keyCode.ENTER;
+
+				if ( ( isTab || isEnter ) && $( this ).autocomplete( 'instance' ).menu.active ) {
+					// A suggestion is highlighted (arrow keys): let the
+					// widget confirm it instead of submitting the form.
 					event.preventDefault();
 				}
 			} )

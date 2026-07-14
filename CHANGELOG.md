@@ -4,6 +4,7 @@ All notable changes to this plugin are documented in this file.
 
 ## [Unreleased]
 
+- Fixed keyboard use of the "Add tags by name" autocomplete: arrow keys already navigated suggestions, but pressing Enter on a highlighted one could submit the form instead of confirming it; Enter (like Tab) now confirms the highlighted suggestion. Also added a visible highlight color, since the default was effectively invisible in wp-admin.
 - Added a short intro box above the tabs, explaining what "Manage Tags" and "AI Analysis" each do, for anyone landing on the page without prior context.
 - Clicking a usage-distribution histogram bar now auto-scrolls down to the "All tags" table so the applied filter is actually visible, instead of leaving you on top of the reloaded page.
 

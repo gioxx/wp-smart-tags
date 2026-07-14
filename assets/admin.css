@@ -270,6 +270,14 @@
 	margin-right: 4px;
 }
 
+/* Visible highlight when arrow-keying through the tag autocomplete menu. */
+.ui-autocomplete .ui-menu-item-wrapper.ui-state-active,
+.ui-autocomplete .ui-state-focus {
+	background: #2271b1;
+	border-color: #2271b1;
+	color: #fff;
+}
+
 .wpto-section-nav {
 	position: sticky;
 	top: 32px;
