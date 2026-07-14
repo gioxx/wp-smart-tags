@@ -579,6 +579,39 @@ class WPTO_Admin_Page {
 			</div>
 			<?php
 		}
+
+		self::strip_notice_query_args();
+	}
+
+	/**
+	 * Drops the one-shot notice query args (wpto_merged, wpto_deleted, ...)
+	 * from the visible URL once the notice has been rendered, so a plain
+	 * page refresh doesn't keep re-showing a dismissed notice.
+	 */
+	private static function strip_notice_query_args() {
+		$notice_args = array( 'wpto_merged', 'wpto_merged_target', 'wpto_merged_count', 'wpto_merge_error', 'wpto_deleted', 'wpto_delete_error' );
+
+		$present = array_filter(
+			$notice_args,
+			function ( $arg ) {
+				return isset( $_GET[ $arg ] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			}
+		);
+
+		if ( empty( $present ) ) {
+			return;
+		}
+		?>
+		<script>
+		( function () {
+			var url = new URL( window.location.href );
+			<?php foreach ( $notice_args as $arg ) : ?>
+			url.searchParams.delete( <?php echo wp_json_encode( $arg ); ?> );
+			<?php endforeach; ?>
+			window.history.replaceState( {}, document.title, url.toString() );
+		} )();
+		</script>
+		<?php
 	}
 
 	private static function get_merge_basket_terms() {

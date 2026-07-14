@@ -2,6 +2,10 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.16.5] - 2026-07-14
+
+- Fixed the "Manage Tags" success/error notices (merge, delete) staying stuck after being dismissed, because reloading the page resent the same `wpto_merged`/`wpto_deleted`/... query args. The URL is now cleaned up via `history.replaceState` right after the notice is shown, so a refresh no longer brings it back.
+
 ## [0.16.4] - 2026-07-14
 
 - Fixed the post-merge admin notice trusting the `wpto_merged_target` URL parameter verbatim, letting a crafted link display an arbitrary "Merged into ..." message; the target tag name is now resolved server-side from its term ID.
