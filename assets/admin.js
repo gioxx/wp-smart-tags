@@ -453,6 +453,16 @@
 		}
 	} )();
 
+	// Clicking a histogram bar reloads with a bucket filter applied; scroll
+	// down to the (now filtered) tag table so the effect is visible.
+	( function () {
+		var $target = $( '#wpto-section-all-tags' );
+
+		if ( $( '.wpto-histogram-filter-notice' ).length && $target.length ) {
+			$( 'html, body' ).animate( { scrollTop: $target.offset().top - 40 }, 300 );
+		}
+	} )();
+
 	// Back-to-top button: only shown once the page has scrolled a bit.
 	( function () {
 		var $button = $( '#wpto-back-to-top' );

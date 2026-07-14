@@ -2,6 +2,10 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [Unreleased]
+
+- Clicking a usage-distribution histogram bar now auto-scrolls down to the "All tags" table so the applied filter is actually visible, instead of leaving you on top of the reloaded page.
+
 ## [0.18.1] - 2026-07-14
 
 - Swapped the tab order and default: "Manage Tags" is now first and what loads by default, "AI Analysis" moved second, reflecting that day-to-day tag management (not AI-driven analysis) has become the primary use case.
