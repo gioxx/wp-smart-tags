@@ -526,8 +526,13 @@ class WPTO_Admin_Page {
 
 	private static function render_stats_notices() {
 		if ( isset( $_GET['wpto_merged'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$target = isset( $_GET['wpto_merged_target'] ) ? sanitize_text_field( wp_unslash( $_GET['wpto_merged_target'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			$count  = isset( $_GET['wpto_merged_count'] ) ? absint( $_GET['wpto_merged_count'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			// Resolve the target name server-side from its term ID rather than
+			// trusting a client-supplied string, so the URL can't be crafted
+			// to display an arbitrary "merged into" message.
+			$target_id   = isset( $_GET['wpto_merged_target'] ) ? absint( $_GET['wpto_merged_target'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$target_term = $target_id ? get_term( $target_id, 'post_tag' ) : null;
+			$target      = ( $target_term && ! is_wp_error( $target_term ) ) ? $target_term->name : '';
+			$count       = isset( $_GET['wpto_merged_count'] ) ? absint( $_GET['wpto_merged_count'] ) : 0; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			?>
 			<div class="notice notice-success is-dismissible">
 				<p>
@@ -867,7 +872,7 @@ class WPTO_Admin_Page {
 		self::clear_merge_basket();
 
 		$redirect_args['wpto_merged']        = 1;
-		$redirect_args['wpto_merged_target'] = rawurlencode( $result['target_name'] );
+		$redirect_args['wpto_merged_target'] = $target_id;
 		$redirect_args['wpto_merged_count']  = count( $result['source_names'] );
 
 		wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
