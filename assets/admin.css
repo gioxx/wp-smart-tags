@@ -3,6 +3,19 @@
 	margin-bottom: 20px;
 }
 
+.wpto-intro {
+	max-width: 800px;
+	margin: 0 0 16px;
+	padding: 12px 16px;
+	background: #f6f7f7;
+	border: 1px solid #dcdcde;
+	border-radius: 4px;
+}
+
+.wpto-intro p {
+	margin: 0.4em 0;
+}
+
 /* Sortable column headers (Name, Assigned posts) are links under the hood,
    but should read as plain bold labels, not hyperlinks. */
 .wpto-wrap table.wp-list-table thead th.sortable a,

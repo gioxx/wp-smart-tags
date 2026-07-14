@@ -140,6 +140,19 @@ class WPTO_Admin_Page {
 				?>
 			</p>
 
+			<div class="wpto-intro">
+				<p>
+					<strong><?php esc_html_e( 'Manage Tags', 'ai-tags-optimizer' ); ?></strong>
+					&mdash;
+					<?php esc_html_e( 'browse, search, sort, recount, delete, and merge tags by hand. No AI involved, nothing happens without your explicit confirmation.', 'ai-tags-optimizer' ); ?>
+				</p>
+				<p>
+					<strong><?php esc_html_e( 'AI Analysis', 'ai-tags-optimizer' ); ?></strong>
+					&mdash;
+					<?php esc_html_e( 'ask Claude to scan your tags for likely duplicates/synonyms and unused tags, then review and approve or reject each suggestion before anything changes.', 'ai-tags-optimizer' ); ?>
+				</p>
+			</div>
+
 			<h2 class="nav-tab-wrapper">
 				<a href="<?php echo esc_url( self::main_page_url() ); ?>" class="nav-tab <?php echo esc_attr( 'stats' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'Manage Tags', 'ai-tags-optimizer' ); ?></a>
 				<a href="<?php echo esc_url( add_query_arg( 'tab', 'optimizer', self::main_page_url() ) ); ?>" class="nav-tab <?php echo esc_attr( 'optimizer' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'AI Analysis', 'ai-tags-optimizer' ); ?></a>

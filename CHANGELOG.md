@@ -4,6 +4,7 @@ All notable changes to this plugin are documented in this file.
 
 ## [Unreleased]
 
+- Added a short intro box above the tabs, explaining what "Manage Tags" and "AI Analysis" each do, for anyone landing on the page without prior context.
 - Clicking a usage-distribution histogram bar now auto-scrolls down to the "All tags" table so the applied filter is actually visible, instead of leaving you on top of the reloaded page.
 
 ## [0.18.1] - 2026-07-14
