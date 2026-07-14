@@ -378,4 +378,55 @@
 			$editRow.find( 'button' ).prop( 'disabled', false );
 		} );
 	} );
+
+	// Comma-separated tag input with the same autocomplete WordPress core
+	// uses for the post-edit "Tags" metabox (ajax-tag-search).
+	( function () {
+		var $input = $( '#wpto-merge-tag-names' );
+
+		if ( ! $input.length || ! $.ui || ! $.ui.autocomplete ) {
+			return;
+		}
+
+		function split( value ) {
+			return value.split( /,\s*/ );
+		}
+
+		function extractLast( term ) {
+			return split( term ).pop();
+		}
+
+		$input
+			.on( 'keydown', function ( event ) {
+				if ( event.keyCode === $.ui.keyCode.TAB && $( this ).autocomplete( 'instance' ).menu.active ) {
+					event.preventDefault();
+				}
+			} )
+			.autocomplete( {
+				minLength: 2,
+				source: function ( request, response ) {
+					$.get( ajaxurl, {
+						action: 'ajax-tag-search',
+						tax: 'post_tag',
+						q: extractLast( request.term )
+					}, function ( data ) {
+						response( typeof data === 'string' ? data.split( '\n' ).filter( Boolean ) : data );
+					} );
+				},
+				search: function () {
+					return extractLast( this.value ).length >= 2;
+				},
+				focus: function () {
+					return false;
+				},
+				select: function ( event, ui ) {
+					var terms = split( this.value );
+					terms.pop();
+					terms.push( ui.item.value );
+					terms.push( '' );
+					this.value = terms.join( ', ' );
+					return false;
+				}
+			} );
+	} )();
 } )( jQuery );

@@ -196,6 +196,17 @@
 	margin: 0.5em 0;
 }
 
+.wpto-add-tags-by-name-form {
+	display: inline-block;
+	margin-left: 6px;
+}
+
+.wpto-add-tags-by-name-form .wpto-tag-autocomplete {
+	width: 260px;
+	max-width: 100%;
+	margin-right: 4px;
+}
+
 .wpto-histogram-filter-notice {
 	background: #fff;
 	border-left: 4px solid #d63638;
