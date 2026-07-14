@@ -125,7 +125,7 @@ class WPTO_Admin_Page {
 			return;
 		}
 
-		$active_tab = ( isset( $_GET['tab'] ) && 'stats' === $_GET['tab'] ) ? 'stats' : 'optimizer'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$active_tab = ( isset( $_GET['tab'] ) && 'optimizer' === $_GET['tab'] ) ? 'optimizer' : 'stats'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		?>
 		<div class="wrap wpto-wrap">
 			<h1><?php esc_html_e( 'Smart Tags for WordPress', 'ai-tags-optimizer' ); ?></h1>
@@ -141,8 +141,8 @@ class WPTO_Admin_Page {
 			</p>
 
 			<h2 class="nav-tab-wrapper">
-				<a href="<?php echo esc_url( self::main_page_url() ); ?>" class="nav-tab <?php echo esc_attr( 'optimizer' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'AI Analysis', 'ai-tags-optimizer' ); ?></a>
-				<a href="<?php echo esc_url( add_query_arg( 'tab', 'stats', self::main_page_url() ) ); ?>" class="nav-tab <?php echo esc_attr( 'stats' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'Manage Tags', 'ai-tags-optimizer' ); ?></a>
+				<a href="<?php echo esc_url( self::main_page_url() ); ?>" class="nav-tab <?php echo esc_attr( 'stats' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'Manage Tags', 'ai-tags-optimizer' ); ?></a>
+				<a href="<?php echo esc_url( add_query_arg( 'tab', 'optimizer', self::main_page_url() ) ); ?>" class="nav-tab <?php echo esc_attr( 'optimizer' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'AI Analysis', 'ai-tags-optimizer' ); ?></a>
 			</h2>
 
 			<?php if ( 'stats' === $active_tab ) : ?>
