@@ -2,6 +2,14 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.16.4] - 2026-07-14
+
+- Fixed the post-merge admin notice trusting the `wpto_merged_target` URL parameter verbatim, letting a crafted link display an arbitrary "Merged into ..." message; the target tag name is now resolved server-side from its term ID.
+
+## [0.16.3] - 2026-07-14
+
+- Fixed the "Manage Tags" tag table hiding tags with 0 posts even when searching, making it impossible to find and add a freshly created empty tag (meant to act as a merge master) to the merge selection. Empty tags are now hidden only when there is no active search term.
+
 ## [0.16.2] - 2026-07-12
 
 - The usage-bucket histogram filter is now remembered per user (same mechanism already used for sort order), so it survives a plain page reload/reopen of "Manage Tags" instead of resetting as soon as `?bucket=` drops out of the URL. Clicking "Clear filter" explicitly forgets it.
