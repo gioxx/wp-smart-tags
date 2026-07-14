@@ -469,6 +469,18 @@ class WPTO_Admin_Page {
 			<?php if ( '' !== $current_bucket ) : ?>
 				<input type="hidden" name="bucket" value="<?php echo esc_attr( $current_bucket ); ?>" />
 			<?php endif; ?>
+			<?php if ( '' !== $current_bucket && isset( self::USAGE_BUCKETS[ $current_bucket ] ) ) : ?>
+				<p class="wpto-histogram-filter-notice">
+					<?php
+					printf(
+						/* translators: %s: usage bucket label, e.g. "3-5" */
+						esc_html__( 'Filtering by usage: %s posts.', 'ai-tags-optimizer' ),
+						esc_html( $current_bucket )
+					);
+					?>
+					<a href="<?php echo esc_url( add_query_arg( 'bucket', '', remove_query_arg( 'paged', add_query_arg( 'tab', 'stats', self::main_page_url() ) ) ) ); ?>"><?php esc_html_e( 'Clear filter', 'ai-tags-optimizer' ); ?></a>
+				</p>
+			<?php endif; ?>
 			<?php
 			$table->search_box( __( 'Search tags', 'ai-tags-optimizer' ), 'wpto-tag-search' );
 			$table->display();
