@@ -363,7 +363,7 @@ class WPTO_Admin_Page {
 			if ( ! empty( $ids ) ) {
 				self::add_to_merge_basket( $ids );
 				?>
-				<div class="notice notice-success"><p><?php esc_html_e( 'Added to the merge selection below.', 'ai-tags-optimizer' ); ?></p></div>
+				<div class="notice notice-success wpto-scroll-to-merge"><p><?php esc_html_e( 'Added to the merge selection below.', 'ai-tags-optimizer' ); ?></p></div>
 				<?php
 			}
 		}
@@ -612,7 +612,7 @@ class WPTO_Admin_Page {
 
 			if ( $added > 0 ) :
 				?>
-				<div class="notice notice-success is-dismissible">
+				<div class="notice notice-success is-dismissible wpto-scroll-to-merge">
 					<p>
 						<?php
 						echo esc_html(

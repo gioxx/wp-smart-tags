@@ -442,6 +442,17 @@
 		$( 'html, body' ).animate( { scrollTop: target.offset().top - 40 }, 300 );
 	} );
 
+	// After adding tag(s) to the merge selection (bulk action or the
+	// "Add tags by name" field), scroll down to that section instead of
+	// leaving the admin on top of the reloaded page.
+	( function () {
+		var $target = $( '#wpto-section-merge' );
+
+		if ( $( '.wpto-scroll-to-merge' ).length && $target.length ) {
+			$( 'html, body' ).animate( { scrollTop: $target.offset().top - 40 }, 300 );
+		}
+	} )();
+
 	// Back-to-top button: only shown once the page has scrolled a bit.
 	( function () {
 		var $button = $( '#wpto-back-to-top' );

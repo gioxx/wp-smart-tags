@@ -6,6 +6,7 @@ All notable changes to this plugin are documented in this file.
 
 - Merged the "Overview" stat tiles and the "Usage distribution" histogram into a single side-by-side panel instead of two stacked blocks, and narrowed the histogram accordingly.
 - Nudged the floating "back to top" button up so it no longer overlaps the WordPress admin-footer credits in the bottom-right corner.
+- Adding tags to the merge selection (via the table's bulk action or the "Add tags by name" field) now auto-scrolls down to the "Merge selection" section instead of leaving you on top of the reloaded page.
 
 ## [0.18.0] - 2026-07-14
 
