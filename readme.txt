@@ -5,7 +5,7 @@ Tags: tags, ai, claude, taxonomy, cleanup
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.9.0
+Stable tag: 0.19.0
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,36 @@ It's kept in a "Rejected suggestions" list and can be restored to pending at any
 Yes, the "Unused tags" table lists them with a bulk delete option.
 
 == Changelog ==
+= 0.19.0 =
+* Added a "Filtering by usage" notice with a "Clear filter" link right above the "All tags" table itself, since clicking a histogram bar now auto-scrolls straight to the table.
+* Fixed keyboard use of the "Add tags by name" autocomplete: Enter on a highlighted suggestion now confirms it instead of possibly submitting the form; added a visible highlight color.
+* Added a short intro above the tabs explaining what "Manage Tags" and "AI Analysis" each do.
+* Clicking a usage-distribution histogram bar now auto-scrolls down to the filtered "All tags" table.
+
+= 0.18.1 =
+* "Manage Tags" is now the first tab and the default one, since day-to-day tag management has become the primary use case; "AI Analysis" moved second.
+* Merged the "Overview" stat tiles and the usage-distribution histogram into one side-by-side panel.
+* Adding tags to the merge selection now auto-scrolls to the "Merge selection" section instead of leaving you on top of the page.
+* Fixed the merge-selection panel jumping to the very top of the page instead of staying under "Merge selection".
+* Fixed the AI Analysis stat tiles stacking full-width instead of sitting side by side.
+
+= 0.18.0 =
+* Reordered "Manage Tags" into Overview → Unused tags → All tags → Merge selection.
+* Added a sticky section-nav bar with jump links, plus a floating "back to top" button.
+
+= 0.17.0 =
+* Added an "Add tags by name" field to the merge selection bar: type comma-separated tag names, with WordPress's own tag autocomplete, to add existing tags straight to the merge selection.
+* Fixed the "Name" and "Assigned posts" column headers rendering as blue hyperlinks instead of plain bold labels.
+
+= 0.16.5 =
+* Fixed success/error notices on "Manage Tags" staying stuck after being dismissed because a page refresh resent the same query args.
+
+= 0.16.4 =
+* Fixed the post-merge notice trusting a URL parameter verbatim, letting a crafted link display an arbitrary "Merged into ..." message; the tag name is now resolved server-side from its term ID.
+
+= 0.16.3 =
+* Fixed the tag table hiding tags with 0 posts even when searching, making it impossible to find and select a freshly created empty tag as a merge target.
+
 = 0.16.2 =
 * The usage-bucket histogram filter is now remembered per user and survives a plain page reload, instead of resetting as soon as the URL parameter drops out.
 
