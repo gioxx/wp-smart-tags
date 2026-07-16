@@ -2,7 +2,7 @@
 
 All notable changes to this plugin are documented in this file.
 
-## [Unreleased]
+## [0.19.0] - 2026-07-16
 
 - Added a "Filtering by usage: X posts" notice with a "Clear filter" link right above the "All tags" table itself (not just next to the histogram), since clicking a histogram bar now auto-scrolls straight to the table and the original notice was out of view.
 - Fixed keyboard use of the "Add tags by name" autocomplete: arrow keys already navigated suggestions, but pressing Enter on a highlighted one could submit the form instead of confirming it; Enter (like Tab) now confirms the highlighted suggestion. Also added a visible highlight color, since the default was effectively invisible in wp-admin.
