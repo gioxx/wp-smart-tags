@@ -18,6 +18,7 @@ class WPTO_Suggestions_Repo {
 	public static function create_batch( array $term_ids ) {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- writes to the plugin's own custom table via the safe $wpdb->insert() API; no core API for custom tables.
 		$wpdb->insert(
 			self::batches_table(),
 			array(
@@ -52,6 +53,7 @@ class WPTO_Suggestions_Repo {
 	public static function mark_batch_done( $batch_id ) {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- writes to the plugin's own custom table via the safe $wpdb->update() API; no core API for custom tables.
 		$wpdb->update(
 			self::batches_table(),
 			array(
@@ -67,6 +69,7 @@ class WPTO_Suggestions_Repo {
 	public static function mark_batch_failed( $batch_id, $error_message ) {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- writes to the plugin's own custom table via the safe $wpdb->update() API; no core API for custom tables.
 		$wpdb->update(
 			self::batches_table(),
 			array(
@@ -83,6 +86,7 @@ class WPTO_Suggestions_Repo {
 	public static function retry_batch( $batch_id ) {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- writes to the plugin's own custom table via the safe $wpdb->update() API; no core API for custom tables.
 		$wpdb->update(
 			self::batches_table(),
 			array(
@@ -145,6 +149,7 @@ class WPTO_Suggestions_Repo {
 	public static function cancel_pending_batches() {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- writes to the plugin's own custom table via the safe $wpdb->update() API; no core API for custom tables.
 		$wpdb->update(
 			self::batches_table(),
 			array(
@@ -166,6 +171,7 @@ class WPTO_Suggestions_Repo {
 	public static function clear_for_new_analysis() {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- writes to the plugin's own custom table via the safe $wpdb->delete() API; no core API for custom tables.
 		$wpdb->delete( self::suggestions_table(), array( 'status' => 'pending' ), array( '%s' ) );
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, PluginCheck.Security.DirectDB.UnescapedDBParameter -- batches_table() returns the plugin's own custom table name (static prefix + hardcoded string), not user input; no values to bind.
 		$wpdb->query( 'DELETE FROM ' . self::batches_table() );
@@ -216,6 +222,7 @@ class WPTO_Suggestions_Repo {
 				$blocked_pairs[ self::pair_key( (int) $source_id, (int) $suggestion['target_term_id'] ) ] = true;
 			}
 
+			// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- writes to the plugin's own custom table via the safe $wpdb->insert() API; no core API for custom tables.
 			$wpdb->insert(
 				self::suggestions_table(),
 				array(
@@ -414,6 +421,7 @@ class WPTO_Suggestions_Repo {
 	public static function set_suggestion_status( $id, $status ) {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- writes to the plugin's own custom table via the safe $wpdb->update() API; no core API for custom tables.
 		$wpdb->update(
 			self::suggestions_table(),
 			array( 'status' => $status ),
@@ -434,6 +442,7 @@ class WPTO_Suggestions_Repo {
 	public static function mark_applied( $id, array $source_names, $target_name ) {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- writes to the plugin's own custom table via the safe $wpdb->update() API; no core API for custom tables.
 		$wpdb->update(
 			self::suggestions_table(),
 			array(

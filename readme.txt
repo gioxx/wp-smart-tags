@@ -5,7 +5,7 @@ Tags: tags, ai, claude, taxonomy, cleanup
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.21.0
+Stable tag: 0.21.1
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,9 @@ It's kept in a "Rejected suggestions" list and can be restored to pending at any
 Yes, the "Unused tags" table lists them with a bulk delete option.
 
 == Changelog ==
+= 0.21.1 =
+* Silenced the remaining Plugin Check warnings on `$wpdb->insert()`/`update()`/`delete()` calls in `includes/class-wpto-suggestions-repo.php`: they write to the plugin's own custom tables through the safe wpdb API, with no core alternative for non-WP tables.
+
 = 0.21.0 =
 * Fixed WordPress Plugin Check findings: existing `phpcs:ignore` comments on direct DB queries used a sniff code that doesn't exist, so they weren't actually suppressing anything; replaced with the correct codes and justifications.
 * Added missing `translators:` comments for the merge-count strings and escaped their count argument.

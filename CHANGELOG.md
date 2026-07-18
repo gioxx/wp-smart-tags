@@ -2,6 +2,10 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.21.1] - 2026-07-18
+
+- Silenced the remaining WordPress Plugin Check warnings on `$wpdb->insert()`/`update()`/`delete()` calls in `includes/class-wpto-suggestions-repo.php` (`create_batch`, `mark_batch_done`, `mark_batch_failed`, `retry_batch`, `cancel_pending_batches`, `clear_for_new_analysis`, `insert_suggestions`, `set_suggestion_status`, `mark_applied`): they write to the plugin's own custom tables through the safe wpdb API, with no core alternative for non-WP tables.
+
 ## [0.21.0] - 2026-07-18
 
 - Fixed WordPress Plugin Check findings on `includes/class-wpto-suggestions-repo.php`, `includes/class-wpto-unused-tags.php`, and `uninstall.php`: the existing `phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName` comments referenced a sniff code that doesn't exist, so none of them were actually suppressing anything. Replaced with the correct codes (`DirectQuery`, `NoCaching`, `InterpolatedNotPrepared`, `PluginCheck.Security.DirectDB.UnescapedDBParameter`, etc.) and a justification, since every affected query targets the plugin's own custom tables via a static, non-user-controlled name.
