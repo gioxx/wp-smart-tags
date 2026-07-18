@@ -2,6 +2,12 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.20.0] - 2026-07-18
+
+- Renamed the plugin from "Smart Tags for WordPress" to "Smart Tags Optimizer" (display name, text domain `ai-tags-optimizer` → `smart-tags-optimizer`, and translation files renamed/regenerated to match) ahead of WordPress.org directory submission: "WordPress" is a restricted term and cannot appear in a plugin name or slug at all.
+- Removed the deprecated `load_plugin_textdomain()` call (WordPress auto-loads translations for hosted plugins since 4.6).
+- Updated the readme "Tested up to" header to 7.0 and excluded `README.it.md` from the release zip built by the GitHub Actions workflow.
+
 ## [0.19.0] - 2026-07-16
 
 - Added a "Filtering by usage: X posts" notice with a "Clear filter" link right above the "All tags" table itself (not just next to the histogram), since clicking a histogram bar now auto-scrolls straight to the table and the original notice was out of view.

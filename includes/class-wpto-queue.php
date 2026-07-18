@@ -21,7 +21,7 @@ class WPTO_Queue {
 		check_ajax_referer( 'wpto_admin_action', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'ai-tags-optimizer' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'smart-tags-optimizer' ) ), 403 );
 		}
 
 		$progress = WPTO_Suggestions_Repo::get_batch_progress();
@@ -42,7 +42,7 @@ class WPTO_Queue {
 		check_ajax_referer( 'wpto_admin_action', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'ai-tags-optimizer' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'smart-tags-optimizer' ) ), 403 );
 		}
 
 		self::process_next_batch();
@@ -54,7 +54,7 @@ class WPTO_Queue {
 		check_ajax_referer( 'wpto_admin_action', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'ai-tags-optimizer' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'smart-tags-optimizer' ) ), 403 );
 		}
 
 		WPTO_Suggestions_Repo::cancel_pending_batches();
@@ -67,13 +67,13 @@ class WPTO_Queue {
 		check_ajax_referer( 'wpto_admin_action', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'ai-tags-optimizer' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'smart-tags-optimizer' ) ), 403 );
 		}
 
 		$batch_id = isset( $_POST['batch_id'] ) ? absint( $_POST['batch_id'] ) : 0;
 
 		if ( ! $batch_id ) {
-			wp_send_json_error( array( 'message' => __( 'Invalid batch.', 'ai-tags-optimizer' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Invalid batch.', 'smart-tags-optimizer' ) ) );
 		}
 
 		WPTO_Suggestions_Repo::retry_batch( $batch_id );
@@ -183,7 +183,7 @@ class WPTO_Queue {
 		$term_ids = json_decode( $batch['term_ids'], true );
 
 		if ( ! is_array( $term_ids ) || empty( $term_ids ) ) {
-			WPTO_Suggestions_Repo::mark_batch_failed( $batch['id'], __( 'Batch tag list is empty or invalid.', 'ai-tags-optimizer' ) );
+			WPTO_Suggestions_Repo::mark_batch_failed( $batch['id'], __( 'Batch tag list is empty or invalid.', 'smart-tags-optimizer' ) );
 			self::maybe_reschedule();
 			return;
 		}
@@ -201,7 +201,7 @@ class WPTO_Queue {
 		}
 
 		if ( empty( $tags ) ) {
-			WPTO_Suggestions_Repo::mark_batch_failed( $batch['id'], __( 'No valid tags found for this batch.', 'ai-tags-optimizer' ) );
+			WPTO_Suggestions_Repo::mark_batch_failed( $batch['id'], __( 'No valid tags found for this batch.', 'smart-tags-optimizer' ) );
 			self::maybe_reschedule();
 			return;
 		}

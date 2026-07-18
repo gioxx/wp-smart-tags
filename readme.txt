@@ -1,18 +1,18 @@
-=== Smart Tags for WordPress ===
+=== Smart Tags Optimizer ===
 Contributors: gioxx
 GitHub Plugin URI: https://github.com/gioxx/wp-smart-tags
 Tags: tags, ai, claude, taxonomy, cleanup
 Requires at least: 6.0
-Tested up to: 6.8
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.19.0
+Stable tag: 0.20.0
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 Manage WordPress tags with or without AI: get Claude suggestions for merging duplicates/synonyms and flagging unused tags, or search, merge, and delete tags manually.
 
 == Description ==
-Smart Tags for WordPress sends your post tags to the Claude API (Anthropic) in batches and asks it to spot near-duplicates, semantic overlaps, and low-usage tags that could be merged into a broader existing tag. Nothing is changed automatically: every suggestion is queued for review and only applied when you approve it. Alongside the AI analysis, a "Manage Tags" tab covers manual, non-AI tag housekeeping: usage statistics, search, merge, and delete.
+Smart Tags Optimizer sends your post tags to the Claude API (Anthropic) in batches and asks it to spot near-duplicates, semantic overlaps, and low-usage tags that could be merged into a broader existing tag. Nothing is changed automatically: every suggestion is queued for review and only applied when you approve it. Alongside the AI analysis, a "Manage Tags" tab covers manual, non-AI tag housekeeping: usage statistics, search, merge, and delete.
 
 Features:
 * Batch analysis of all tags via the Claude API, with a live processing log, progress tracking, and a stop button
@@ -27,9 +27,9 @@ Features:
 * Git Updater compatible for seamless updates from GitHub
 
 == Installation ==
-1. Copy the whole plugin folder to `wp-content/plugins/ai-tags-optimizer/`.
+1. Copy the whole plugin folder to `wp-content/plugins/smart-tags-optimizer/`.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Go to **Tools → Smart Tags for WordPress: Settings** and enter your Anthropic API key.
+3. Go to **Tools → Smart Tags Optimizer: Settings** and enter your Anthropic API key.
 4. Go to **Posts → Smart Tags** and click "Start analysis".
 
 == Frequently Asked Questions ==
@@ -43,6 +43,10 @@ It's kept in a "Rejected suggestions" list and can be restored to pending at any
 Yes, the "Unused tags" table lists them with a bulk delete option.
 
 == Changelog ==
+= 0.20.0 =
+* Renamed the plugin from "Smart Tags for WordPress" to "Smart Tags Optimizer" (display name, text domain, and translation files) ahead of WordPress.org directory submission: "WordPress" is a restricted term and cannot appear in a plugin name or slug at all.
+* Removed the deprecated `load_plugin_textdomain()` call and updated the readme "Tested up to" header.
+
 = 0.19.0 =
 * Added a "Filtering by usage" notice with a "Clear filter" link right above the "All tags" table itself, since clicking a histogram bar now auto-scrolls straight to the table.
 * Fixed keyboard use of the "Add tags by name" autocomplete: Enter on a highlighted suggestion now confirms it instead of possibly submitting the form; added a visible highlight color.
@@ -91,7 +95,7 @@ Yes, the "Unused tags" table lists them with a bulk delete option.
 * Fixed the Settings page/menu title dropping "for WordPress" after the plugin rename.
 
 = 0.15.1 =
-* Renamed the plugin to "Smart Tags for WordPress" to reflect its broader scope (AI analysis plus manual tag management). Display name only: the plugin folder, main file, text domain, and settings are unchanged.
+* Renamed the plugin to "Smart Tags Optimizer" to reflect its broader scope (AI analysis plus manual tag management). Display name only: the plugin folder, main file, text domain, and settings are unchanged.
 
 = 0.9.0 =
 * Added a "Test API key" button on the Settings page to verify the Anthropic API key before saving.

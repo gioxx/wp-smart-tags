@@ -1,15 +1,15 @@
 <?php
 /**
- * Plugin Name: Smart Tags for WordPress
+ * Plugin Name: Smart Tags Optimizer
  * Description: Manage WordPress tags with or without AI: get Claude (Anthropic) suggestions for merging duplicates/synonyms and flagging unused tags, or search, merge, and delete tags manually. Always requires manual approval before any change.
- * Version: 0.19.0
+ * Version: 0.20.0
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Gioxx
  * Author URI: https://gioxx.org
  * Plugin URI: https://github.com/gioxx/wp-smart-tags
  * License: GPL-2.0-or-later
- * Text Domain: ai-tags-optimizer
+ * Text Domain: smart-tags-optimizer
  * Domain Path: /languages
  *
  * GitHub Plugin URI: gioxx/wp-smart-tags
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'WPTO_VERSION', '0.19.0' );
+define( 'WPTO_VERSION', '0.20.0' );
 define( 'WPTO_PLUGIN_FILE', __FILE__ );
 define( 'WPTO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'WPTO_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
@@ -47,8 +47,6 @@ register_deactivation_hook(
 add_action(
 	'plugins_loaded',
 	function () {
-		load_plugin_textdomain( 'ai-tags-optimizer', false, dirname( plugin_basename( WPTO_PLUGIN_FILE ) ) . '/languages' );
-
 		WPTO_Activator::maybe_upgrade();
 		WPTO_Settings::init();
 		WPTO_Queue::init();
@@ -59,7 +57,7 @@ add_action(
 add_filter(
 	'plugin_action_links_' . plugin_basename( __FILE__ ),
 	function ( array $links ) {
-		$settings_link = '<a href="' . esc_url( WPTO_Admin_Page::settings_page_url() ) . '">' . esc_html__( 'Settings', 'ai-tags-optimizer' ) . '</a>';
+		$settings_link = '<a href="' . esc_url( WPTO_Admin_Page::settings_page_url() ) . '">' . esc_html__( 'Settings', 'smart-tags-optimizer' ) . '</a>';
 		array_unshift( $links, $settings_link );
 
 		return $links;

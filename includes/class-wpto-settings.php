@@ -99,13 +99,13 @@ class WPTO_Settings {
 		check_ajax_referer( 'wpto_admin_action', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'ai-tags-optimizer' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'smart-tags-optimizer' ) ), 403 );
 		}
 
 		$api_key = isset( $_POST['api_key'] ) ? sanitize_text_field( wp_unslash( $_POST['api_key'] ) ) : '';
 
 		if ( '' === $api_key ) {
-			wp_send_json_error( array( 'message' => __( 'Enter an API key first.', 'ai-tags-optimizer' ) ) );
+			wp_send_json_error( array( 'message' => __( 'Enter an API key first.', 'smart-tags-optimizer' ) ) );
 		}
 
 		$client = new WPTO_Api_Client();
@@ -115,7 +115,7 @@ class WPTO_Settings {
 			wp_send_json_error( array( 'message' => $result->get_error_message() ) );
 		}
 
-		wp_send_json_success( array( 'message' => __( 'Connection successful.', 'ai-tags-optimizer' ) ) );
+		wp_send_json_success( array( 'message' => __( 'Connection successful.', 'smart-tags-optimizer' ) ) );
 	}
 
 	public static function render_page() {
@@ -124,13 +124,13 @@ class WPTO_Settings {
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'Smart Tags for WordPress: Settings', 'ai-tags-optimizer' ); ?></h1>
+			<h1><?php esc_html_e( 'Smart Tags Optimizer: Settings', 'smart-tags-optimizer' ); ?></h1>
 			<p>
 				<?php
 				printf(
 					/* translators: %s: link to the "Posts > Smart Tags" screen */
-					esc_html__( 'Looking to run an analysis or review suggestions? Head over to %s.', 'ai-tags-optimizer' ),
-					'<a href="' . esc_url( WPTO_Admin_Page::main_page_url() ) . '">' . esc_html__( 'Posts &rsaquo; Smart Tags', 'ai-tags-optimizer' ) . '</a>'
+					esc_html__( 'Looking to run an analysis or review suggestions? Head over to %s.', 'smart-tags-optimizer' ),
+					'<a href="' . esc_url( WPTO_Admin_Page::main_page_url() ) . '">' . esc_html__( 'Posts &rsaquo; Smart Tags', 'smart-tags-optimizer' ) . '</a>'
 				);
 				?>
 			</p>
@@ -138,43 +138,43 @@ class WPTO_Settings {
 				<?php settings_fields( self::OPTION_GROUP ); ?>
 				<table class="form-table" role="presentation">
 					<tr>
-						<th scope="row"><label for="wpto_api_key"><?php esc_html_e( 'Anthropic API Key', 'ai-tags-optimizer' ); ?></label></th>
+						<th scope="row"><label for="wpto_api_key"><?php esc_html_e( 'Anthropic API Key', 'smart-tags-optimizer' ); ?></label></th>
 						<td>
 							<input type="password" id="wpto_api_key" name="wpto_api_key" value="<?php echo esc_attr( self::get_api_key() ); ?>" class="regular-text" autocomplete="off" />
-							<button type="button" class="button" id="wpto-test-api-key"><?php esc_html_e( 'Test API key', 'ai-tags-optimizer' ); ?></button>
+							<button type="button" class="button" id="wpto-test-api-key"><?php esc_html_e( 'Test API key', 'smart-tags-optimizer' ); ?></button>
 							<span id="wpto-test-api-key-result"></span>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="wpto_model"><?php esc_html_e( 'Model', 'ai-tags-optimizer' ); ?></label></th>
+						<th scope="row"><label for="wpto_model"><?php esc_html_e( 'Model', 'smart-tags-optimizer' ); ?></label></th>
 						<td>
 							<input type="text" id="wpto_model" name="wpto_model" value="<?php echo esc_attr( self::get_model() ); ?>" class="regular-text" placeholder="claude-haiku-4-5" />
-							<p class="description"><?php esc_html_e( 'E.g. claude-haiku-4-5, claude-sonnet-5.', 'ai-tags-optimizer' ); ?></p>
+							<p class="description"><?php esc_html_e( 'E.g. claude-haiku-4-5, claude-sonnet-5.', 'smart-tags-optimizer' ); ?></p>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="wpto_batch_size"><?php esc_html_e( 'Batch size', 'ai-tags-optimizer' ); ?></label></th>
+						<th scope="row"><label for="wpto_batch_size"><?php esc_html_e( 'Batch size', 'smart-tags-optimizer' ); ?></label></th>
 						<td>
 							<input type="number" min="10" max="500" id="wpto_batch_size" name="wpto_batch_size" value="<?php echo esc_attr( self::get_batch_size() ); ?>" class="small-text" />
-							<p class="description"><?php esc_html_e( 'Number of tags sent per API call (10-500).', 'ai-tags-optimizer' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Number of tags sent per API call (10-500).', 'smart-tags-optimizer' ); ?></p>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><label for="wpto_ai_language"><?php esc_html_e( 'AI response language', 'ai-tags-optimizer' ); ?></label></th>
+						<th scope="row"><label for="wpto_ai_language"><?php esc_html_e( 'AI response language', 'smart-tags-optimizer' ); ?></label></th>
 						<td>
-							<input type="text" id="wpto_ai_language" name="wpto_ai_language" value="<?php echo esc_attr( self::get_ai_language() ); ?>" class="regular-text" placeholder="<?php esc_attr_e( 'e.g. Italian, English...', 'ai-tags-optimizer' ); ?>" />
-							<p class="description"><?php esc_html_e( 'Language Claude should use for the "reason" it gives on each suggestion. Leave blank to let it match the language of your tag names automatically. This only affects Claude\'s output, not the plugin\'s own interface language.', 'ai-tags-optimizer' ); ?></p>
+							<input type="text" id="wpto_ai_language" name="wpto_ai_language" value="<?php echo esc_attr( self::get_ai_language() ); ?>" class="regular-text" placeholder="<?php esc_attr_e( 'e.g. Italian, English...', 'smart-tags-optimizer' ); ?>" />
+							<p class="description"><?php esc_html_e( 'Language Claude should use for the "reason" it gives on each suggestion. Leave blank to let it match the language of your tag names automatically. This only affects Claude\'s output, not the plugin\'s own interface language.', 'smart-tags-optimizer' ); ?></p>
 						</td>
 					</tr>
 					<tr>
-						<th scope="row"><?php esc_html_e( 'Full cleanup on uninstall', 'ai-tags-optimizer' ); ?></th>
+						<th scope="row"><?php esc_html_e( 'Full cleanup on uninstall', 'smart-tags-optimizer' ); ?></th>
 						<td>
 							<input type="hidden" name="wpto_cleanup_on_uninstall" value="0" />
 							<label>
 								<input type="checkbox" id="wpto_cleanup_on_uninstall" name="wpto_cleanup_on_uninstall" value="1" <?php checked( self::get_cleanup_on_uninstall() ); ?> />
-								<?php esc_html_e( 'Remove all plugin data (database tables and settings) when the plugin is deleted.', 'ai-tags-optimizer' ); ?>
+								<?php esc_html_e( 'Remove all plugin data (database tables and settings) when the plugin is deleted.', 'smart-tags-optimizer' ); ?>
 							</label>
-							<p class="description"><?php esc_html_e( 'Uncheck this if you want batch history and suggestions to survive a delete-and-reinstall of the plugin.', 'ai-tags-optimizer' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Uncheck this if you want batch history and suggestions to survive a delete-and-reinstall of the plugin.', 'smart-tags-optimizer' ); ?></p>
 						</td>
 					</tr>
 				</table>
@@ -192,14 +192,14 @@ class WPTO_Settings {
 				<?php
 				printf(
 					/* translators: 1: link to the author's site, 2: link to the plugin repository */
-					esc_html__( 'Smart Tags for WordPress by %1$s, source on %2$s.', 'ai-tags-optimizer' ),
+					esc_html__( 'Smart Tags Optimizer by %1$s, source on %2$s.', 'smart-tags-optimizer' ),
 					'<a href="https://gioxx.org" target="_blank" rel="noopener noreferrer">Gioxx</a>',
 					'<a href="https://github.com/gioxx/wp-smart-tags" target="_blank" rel="noopener noreferrer">GitHub</a>'
 				);
 				?>
 			</p>
 			<p class="description wpto-trademark-notice">
-				<?php esc_html_e( 'All trademarks mentioned are the property of their respective owners. Third-party trademarks, product names, trade names, corporate names and companies mentioned may be trademarks of their respective owners or registered trademarks of other companies and have been used for explanatory purposes only and for the benefit of the owner, without any intent to infringe existing copyright.', 'ai-tags-optimizer' ); ?>
+				<?php esc_html_e( 'All trademarks mentioned are the property of their respective owners. Third-party trademarks, product names, trade names, corporate names and companies mentioned may be trademarks of their respective owners or registered trademarks of other companies and have been used for explanatory purposes only and for the benefit of the owner, without any intent to infringe existing copyright.', 'smart-tags-optimizer' ); ?>
 			</p>
 		</div>
 		<?php

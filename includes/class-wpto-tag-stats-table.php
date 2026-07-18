@@ -24,9 +24,9 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 	public function get_columns() {
 		return array(
 			'cb'    => '<input type="checkbox" />',
-			'name'  => __( 'Name', 'ai-tags-optimizer' ),
-			'slug'  => __( 'Slug', 'ai-tags-optimizer' ),
-			'count' => __( 'Assigned posts', 'ai-tags-optimizer' ),
+			'name'  => __( 'Name', 'smart-tags-optimizer' ),
+			'slug'  => __( 'Slug', 'smart-tags-optimizer' ),
+			'count' => __( 'Assigned posts', 'smart-tags-optimizer' ),
 		);
 	}
 
@@ -39,13 +39,13 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 
 	protected function get_bulk_actions() {
 		return array(
-			'add_to_merge' => __( 'Add to merge selection', 'ai-tags-optimizer' ),
-			'delete'       => __( 'Delete', 'ai-tags-optimizer' ),
+			'add_to_merge' => __( 'Add to merge selection', 'smart-tags-optimizer' ),
+			'delete'       => __( 'Delete', 'smart-tags-optimizer' ),
 		);
 	}
 
 	public function no_items() {
-		esc_html_e( 'No tags found.', 'ai-tags-optimizer' );
+		esc_html_e( 'No tags found.', 'smart-tags-optimizer' );
 	}
 
 	public function column_cb( $item ) {
@@ -81,14 +81,14 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 				$item['id'],
 				esc_attr( $item['name'] ),
 				esc_attr( $item['slug'] ),
-				esc_html__( 'Quick Edit', 'ai-tags-optimizer' )
+				esc_html__( 'Quick Edit', 'smart-tags-optimizer' )
 			),
-			'edit'       => sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), esc_html__( 'Edit', 'ai-tags-optimizer' ) ),
+			'edit'       => sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), esc_html__( 'Edit', 'smart-tags-optimizer' ) ),
 			'delete'     => sprintf(
 				'<a href="%s" class="submitdelete" onclick="return confirm(\'%s\');">%s</a>',
 				esc_url( $delete_url ),
-				esc_js( __( 'Delete this tag? This cannot be undone.', 'ai-tags-optimizer' ) ),
-				esc_html__( 'Delete', 'ai-tags-optimizer' )
+				esc_js( __( 'Delete this tag? This cannot be undone.', 'smart-tags-optimizer' ) ),
+				esc_html__( 'Delete', 'smart-tags-optimizer' )
 			),
 		);
 

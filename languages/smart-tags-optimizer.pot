@@ -1,8 +1,8 @@
 # Copyright (C) 2026 Gioxx
-# This file is distributed under the same license as the Smart Tags for WordPress package.
+# This file is distributed under the same license as the Smart Tags Optimizer package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Smart Tags for WordPress 0.16.2\n"
+"Project-Id-Version: Smart Tags Optimizer 0.16.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-07-13 00:20+0200\n"
 "PO-Revision-Date: 2026-07-13 00:20+0200\n"
@@ -13,14 +13,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Domain: ai-tags-optimizer\n"
+"X-Domain: smart-tags-optimizer\n"
 
 #: ai-tags-optimizer.php:62
 msgid "Settings"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:35 includes/class-wpto-admin-page.php:131
-msgid "Smart Tags for WordPress"
+msgid "Smart Tags Optimizer"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:36
@@ -29,7 +29,7 @@ msgstr ""
 
 #: includes/class-wpto-admin-page.php:45 includes/class-wpto-admin-page.php:46
 #: includes/class-wpto-settings.php:127
-msgid "Smart Tags for WordPress: Settings"
+msgid "Smart Tags Optimizer: Settings"
 msgstr ""
 
 #: includes/class-wpto-admin-page.php:61
@@ -544,7 +544,7 @@ msgstr ""
 
 #: includes/class-wpto-settings.php:195
 #, php-format
-msgid "Smart Tags for WordPress by %1$s, source on %2$s."
+msgid "Smart Tags Optimizer by %1$s, source on %2$s."
 msgstr ""
 
 #: includes/class-wpto-settings.php:202

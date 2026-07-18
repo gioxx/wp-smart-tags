@@ -20,7 +20,7 @@ class WPTO_Api_Client {
 		$api_key = WPTO_Settings::get_api_key();
 
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'wpto_no_api_key', __( 'No API key configured.', 'ai-tags-optimizer' ) );
+			return new WP_Error( 'wpto_no_api_key', __( 'No API key configured.', 'smart-tags-optimizer' ) );
 		}
 
 		$valid_ids = wp_list_pluck( $tags, 'id' );
@@ -62,7 +62,7 @@ class WPTO_Api_Client {
 				'wpto_api_error',
 				sprintf(
 					/* translators: 1: HTTP status code, 2: response body */
-					__( 'Claude API error (HTTP %1$d): %2$s', 'ai-tags-optimizer' ),
+					__( 'Claude API error (HTTP %1$d): %2$s', 'smart-tags-optimizer' ),
 					$status_code,
 					$raw_body
 				)
@@ -72,7 +72,7 @@ class WPTO_Api_Client {
 		$decoded = json_decode( $raw_body, true );
 
 		if ( ! is_array( $decoded ) || empty( $decoded['content'][0]['text'] ) ) {
-			return new WP_Error( 'wpto_bad_response', __( 'Unexpected API response format.', 'ai-tags-optimizer' ) );
+			return new WP_Error( 'wpto_bad_response', __( 'Unexpected API response format.', 'smart-tags-optimizer' ) );
 		}
 
 		return $this->parse_suggestions( $decoded['content'][0]['text'], $valid_ids );
@@ -86,7 +86,7 @@ class WPTO_Api_Client {
 	 */
 	public function test_connection( $api_key ) {
 		if ( empty( $api_key ) ) {
-			return new WP_Error( 'wpto_no_api_key', __( 'No API key configured.', 'ai-tags-optimizer' ) );
+			return new WP_Error( 'wpto_no_api_key', __( 'No API key configured.', 'smart-tags-optimizer' ) );
 		}
 
 		$response = wp_remote_post(
@@ -127,7 +127,7 @@ class WPTO_Api_Client {
 				'wpto_api_error',
 				sprintf(
 					/* translators: 1: HTTP status code, 2: error message */
-					__( 'Claude API error (HTTP %1$d): %2$s', 'ai-tags-optimizer' ),
+					__( 'Claude API error (HTTP %1$d): %2$s', 'smart-tags-optimizer' ),
 					$status_code,
 					$message
 				)
@@ -171,7 +171,7 @@ class WPTO_Api_Client {
 		$decoded = json_decode( $text, true );
 
 		if ( ! is_array( $decoded ) || ! isset( $decoded['suggestions'] ) || ! is_array( $decoded['suggestions'] ) ) {
-			return new WP_Error( 'wpto_invalid_json', __( 'The model response does not contain valid JSON.', 'ai-tags-optimizer' ) );
+			return new WP_Error( 'wpto_invalid_json', __( 'The model response does not contain valid JSON.', 'smart-tags-optimizer' ) );
 		}
 
 		$valid_ids_flip = array_flip( array_map( 'intval', $valid_ids ) );
