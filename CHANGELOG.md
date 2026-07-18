@@ -2,6 +2,13 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.21.0] - 2026-07-18
+
+- Fixed WordPress Plugin Check findings on `includes/class-wpto-suggestions-repo.php`, `includes/class-wpto-unused-tags.php`, and `uninstall.php`: the existing `phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName` comments referenced a sniff code that doesn't exist, so none of them were actually suppressing anything. Replaced with the correct codes (`DirectQuery`, `NoCaching`, `InterpolatedNotPrepared`, `PluginCheck.Security.DirectDB.UnescapedDBParameter`, etc.) and a justification, since every affected query targets the plugin's own custom tables via a static, non-user-controlled name.
+- Added missing `translators:` comments for the two merge-count `_n()` strings in `includes/class-wpto-admin-page.php`, and explicitly cast their count argument before output.
+- Silenced nonce-verification warnings on read-only admin dispatch/listing code paths (`maybe_process_stats_tab_actions()`, the tag stats table's search/sort) that already verify the nonce inside the handler they call, or don't mutate state.
+- Shortened the readme short description to fit WordPress.org's 150-character limit.
+
 ## [0.20.0] - 2026-07-18
 
 - Renamed the plugin from "Smart Tags for WordPress" to "Smart Tags Optimizer" (display name, text domain `ai-tags-optimizer` → `smart-tags-optimizer`, and translation files renamed/regenerated to match) ahead of WordPress.org directory submission: "WordPress" is a restricted term and cannot appear in a plugin name or slug at all.

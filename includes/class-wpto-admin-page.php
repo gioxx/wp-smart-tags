@@ -591,11 +591,11 @@ class WPTO_Admin_Page {
 				<p>
 					<?php
 					printf(
-						/* translators: 1: number of merged tags, 2: target tag name */
 						esc_html(
+							/* translators: 1: number of merged tags, 2: target tag name */
 							_n( 'Merged %1$d tag into "%2$s".', 'Merged %1$d tags into "%2$s".', $count, 'smart-tags-optimizer' )
 						),
-						$count,
+						absint( $count ),
 						esc_html( $target )
 					);
 					?>
@@ -772,11 +772,11 @@ class WPTO_Admin_Page {
 				<p>
 					<?php
 					printf(
-						/* translators: 1: number of tags selected for merge, 2: comma-separated tag names */
 						esc_html(
+							/* translators: 1: number of tags selected for merge, 2: comma-separated tag names */
 							_n( 'Merge selection (%1$d): %2$s', 'Merge selection (%1$d): %2$s', $count, 'smart-tags-optimizer' )
 						),
-						$count,
+						absint( $count ),
 						esc_html( implode( ', ', wp_list_pluck( $terms, 'name' ) ) )
 					);
 					?>
@@ -932,6 +932,7 @@ class WPTO_Admin_Page {
 	}
 
 	public static function maybe_process_stats_tab_actions() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- presence check only, dispatches to a handler that verifies its own nonce via check_admin_referer().
 		if ( ! isset( $_REQUEST['page'] ) || self::MAIN_SLUG !== $_REQUEST['page'] ) {
 			return;
 		}
@@ -940,6 +941,7 @@ class WPTO_Admin_Page {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- presence check only, dispatches to process_confirm_merge() which verifies the nonce via check_admin_referer().
 		if ( isset( $_POST['wpto_confirm_merge'] ) ) {
 			self::process_confirm_merge();
 			return;
@@ -955,17 +957,20 @@ class WPTO_Admin_Page {
 			return;
 		}
 
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- presence check only, dispatches to process_add_tags_by_name() which verifies the nonce via check_admin_referer().
 		if ( isset( $_POST['wpto_add_tags_by_name'] ) ) {
 			self::process_add_tags_by_name();
 			return;
 		}
 
 		$bulk_action = '';
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- the bulk action name itself; process_bulk_delete() verifies the nonce via check_admin_referer() before acting on it.
 		if ( isset( $_POST['action'] ) && '-1' !== $_POST['action'] ) {
 			$bulk_action = sanitize_key( $_POST['action'] );
 		} elseif ( isset( $_POST['action2'] ) && '-1' !== $_POST['action2'] ) {
 			$bulk_action = sanitize_key( $_POST['action2'] );
 		}
+		// phpcs:enable
 
 		if ( 'delete' === $bulk_action ) {
 			self::process_bulk_delete();
@@ -1084,7 +1089,8 @@ class WPTO_Admin_Page {
 	}
 
 	private static function process_single_delete() {
-		$tag_id = absint( $_GET['wpto_delete_tag'] ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce verified below via check_admin_referer().
+		$tag_id = isset( $_GET['wpto_delete_tag'] ) ? absint( $_GET['wpto_delete_tag'] ) : 0;
 
 		check_admin_referer( 'wpto_delete_tag_' . $tag_id );
 

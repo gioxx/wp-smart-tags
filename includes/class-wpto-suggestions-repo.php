@@ -36,13 +36,15 @@ class WPTO_Suggestions_Repo {
 
 		$table = self::batches_table();
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is the plugin's own custom table (static prefix + hardcoded name), not user input; no core API for custom tables.
 		$row = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT * FROM {$table} WHERE status = %s ORDER BY id ASC LIMIT 1", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT * FROM {$table} WHERE status = %s ORDER BY id ASC LIMIT 1",
 				'pending'
 			),
 			ARRAY_A
 		);
+		// phpcs:enable
 
 		return $row;
 	}
@@ -99,10 +101,11 @@ class WPTO_Suggestions_Repo {
 
 		$table = self::batches_table();
 
-		$total = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table}" ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is the plugin's own custom table (static prefix + hardcoded name), not user input; no core API for custom tables.
+		$total = (int) $wpdb->get_var( "SELECT COUNT(*) FROM {$table}" );
 		$done  = (int) $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT COUNT(*) FROM {$table} WHERE status IN (%s, %s, %s)", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT COUNT(*) FROM {$table} WHERE status IN (%s, %s, %s)",
 				'done',
 				'failed',
 				'cancelled'
@@ -110,10 +113,11 @@ class WPTO_Suggestions_Repo {
 		);
 		$pending = (int) $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT COUNT(*) FROM {$table} WHERE status = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT COUNT(*) FROM {$table} WHERE status = %s",
 				'pending'
 			)
 		);
+		// phpcs:enable
 
 		return array(
 			'total'   => $total,
@@ -127,13 +131,15 @@ class WPTO_Suggestions_Repo {
 
 		$table = self::batches_table();
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is the plugin's own custom table (static prefix + hardcoded name), not user input; no core API for custom tables.
 		return $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT id, status, error_message, created_at, processed_at FROM {$table} ORDER BY id DESC LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT id, status, error_message, created_at, processed_at FROM {$table} ORDER BY id DESC LIMIT %d",
 				absint( $limit )
 			),
 			ARRAY_A
 		);
+		// phpcs:enable
 	}
 
 	public static function cancel_pending_batches() {
@@ -161,7 +167,8 @@ class WPTO_Suggestions_Repo {
 		global $wpdb;
 
 		$wpdb->delete( self::suggestions_table(), array( 'status' => 'pending' ), array( '%s' ) );
-		$wpdb->query( 'DELETE FROM ' . self::batches_table() ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, PluginCheck.Security.DirectDB.UnescapedDBParameter -- batches_table() returns the plugin's own custom table name (static prefix + hardcoded string), not user input; no values to bind.
+		$wpdb->query( 'DELETE FROM ' . self::batches_table() );
 	}
 
 	public static function get_failed_batches() {
@@ -169,13 +176,15 @@ class WPTO_Suggestions_Repo {
 
 		$table = self::batches_table();
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is the plugin's own custom table (static prefix + hardcoded name), not user input; no core API for custom tables.
 		return $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM {$table} WHERE status = %s ORDER BY id ASC", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT * FROM {$table} WHERE status = %s ORDER BY id ASC",
 				'failed'
 			),
 			ARRAY_A
 		);
+		// phpcs:enable
 	}
 
 	/**
@@ -228,13 +237,15 @@ class WPTO_Suggestions_Repo {
 		global $wpdb;
 
 		$table = self::suggestions_table();
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is the plugin's own custom table (static prefix + hardcoded name), not user input; no core API for custom tables.
 		$rows  = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT type, source_term_ids, target_term_id FROM {$table} WHERE status = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT type, source_term_ids, target_term_id FROM {$table} WHERE status = %s",
 				'pending'
 			),
 			ARRAY_A
 		);
+		// phpcs:enable
 
 		$signatures = array();
 		foreach ( (array) $rows as $row ) {
@@ -264,13 +275,15 @@ class WPTO_Suggestions_Repo {
 		global $wpdb;
 
 		$table = self::suggestions_table();
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is the plugin's own custom table (static prefix + hardcoded name), not user input; no core API for custom tables.
 		$rows  = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT source_term_ids, target_term_id FROM {$table} WHERE status = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT source_term_ids, target_term_id FROM {$table} WHERE status = %s",
 				$status
 			),
 			ARRAY_A
 		);
+		// phpcs:enable
 
 		$pairs = array();
 		foreach ( (array) $rows as $row ) {
@@ -325,13 +338,15 @@ class WPTO_Suggestions_Repo {
 		global $wpdb;
 
 		$table = self::suggestions_table();
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is the plugin's own custom table (static prefix + hardcoded name), not user input; no core API for custom tables.
 		$rows  = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT id, source_term_ids, target_term_id FROM {$table} WHERE status = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT id, source_term_ids, target_term_id FROM {$table} WHERE status = %s",
 				$status
 			),
 			ARRAY_A
 		);
+		// phpcs:enable
 
 		$orphaned_ids = array();
 
@@ -358,7 +373,8 @@ class WPTO_Suggestions_Repo {
 		}
 
 		$placeholders = implode( ',', array_fill( 0, count( $orphaned_ids ), '%d' ) );
-		$wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE id IN ({$placeholders})", $orphaned_ids ) ); // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName, WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is the plugin's own custom table, not user input; $placeholders is a run of %d tokens matched 1:1 with $orphaned_ids, correctly bound via $wpdb->prepare().
+		$wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE id IN ({$placeholders})", $orphaned_ids ) );
 
 		return count( $orphaned_ids );
 	}
@@ -368,13 +384,15 @@ class WPTO_Suggestions_Repo {
 
 		$table = self::suggestions_table();
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is the plugin's own custom table (static prefix + hardcoded name), not user input; no core API for custom tables.
 		return $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM {$table} WHERE status = %s ORDER BY type ASC, id ASC", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT * FROM {$table} WHERE status = %s ORDER BY type ASC, id ASC",
 				$status
 			),
 			ARRAY_A
 		);
+		// phpcs:enable
 	}
 
 	public static function get_suggestion( $id ) {
@@ -382,13 +400,15 @@ class WPTO_Suggestions_Repo {
 
 		$table = self::suggestions_table();
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is the plugin's own custom table (static prefix + hardcoded name), not user input; no core API for custom tables.
 		return $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT * FROM {$table} WHERE id = %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT * FROM {$table} WHERE id = %d",
 				(int) $id
 			),
 			ARRAY_A
 		);
+		// phpcs:enable
 	}
 
 	public static function set_suggestion_status( $id, $status ) {
@@ -438,10 +458,12 @@ class WPTO_Suggestions_Repo {
 
 		$table = self::suggestions_table();
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is the plugin's own custom table (static prefix + hardcoded name), not user input; no core API for custom tables.
 		$rows = $wpdb->get_results(
-			"SELECT status, COUNT(*) AS total FROM {$table} GROUP BY status", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+			"SELECT status, COUNT(*) AS total FROM {$table} GROUP BY status",
 			ARRAY_A
 		);
+		// phpcs:enable
 
 		$counts = array(
 			'pending'  => 0,
@@ -461,12 +483,14 @@ class WPTO_Suggestions_Repo {
 
 		$table = self::suggestions_table();
 
+		// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table is the plugin's own custom table (static prefix + hardcoded name), not user input; no core API for custom tables.
 		return $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT * FROM {$table} WHERE status = 'applied' ORDER BY applied_at DESC, id DESC LIMIT %d", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT * FROM {$table} WHERE status = 'applied' ORDER BY applied_at DESC, id DESC LIMIT %d",
 				(int) $limit
 			),
 			ARRAY_A
 		);
+		// phpcs:enable
 	}
 }

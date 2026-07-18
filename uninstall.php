@@ -11,8 +11,10 @@ if ( ! get_option( 'wpto_cleanup_on_uninstall', true ) ) {
 
 global $wpdb;
 
+// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.DirectDatabaseQuery.SchemaChange -- one-time uninstall cleanup of the plugin's own custom tables; no core API drops custom tables.
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wpto_suggestions" );
 $wpdb->query( "DROP TABLE IF EXISTS {$wpdb->prefix}wpto_batches" );
+// phpcs:enable
 
 delete_option( 'wpto_api_key' );
 delete_option( 'wpto_model' );

@@ -5,11 +5,11 @@ Tags: tags, ai, claude, taxonomy, cleanup
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.20.0
+Stable tag: 0.21.0
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Manage WordPress tags with or without AI: get Claude suggestions for merging duplicates/synonyms and flagging unused tags, or search, merge, and delete tags manually.
+Manage tags with or without AI: get Claude suggestions for merging duplicates and flagging unused tags, or search, merge, and delete tags manually.
 
 == Description ==
 Smart Tags Optimizer sends your post tags to the Claude API (Anthropic) in batches and asks it to spot near-duplicates, semantic overlaps, and low-usage tags that could be merged into a broader existing tag. Nothing is changed automatically: every suggestion is queued for review and only applied when you approve it. Alongside the AI analysis, a "Manage Tags" tab covers manual, non-AI tag housekeeping: usage statistics, search, merge, and delete.
@@ -43,6 +43,12 @@ It's kept in a "Rejected suggestions" list and can be restored to pending at any
 Yes, the "Unused tags" table lists them with a bulk delete option.
 
 == Changelog ==
+= 0.21.0 =
+* Fixed WordPress Plugin Check findings: existing `phpcs:ignore` comments on direct DB queries used a sniff code that doesn't exist, so they weren't actually suppressing anything; replaced with the correct codes and justifications.
+* Added missing `translators:` comments for the merge-count strings and escaped their count argument.
+* Silenced nonce-verification warnings on read-only admin dispatch/listing code paths that already verify the nonce in the handler they call.
+* Shortened the readme short description to fit WordPress.org's 150-character limit.
+
 = 0.20.0 =
 * Renamed the plugin from "Smart Tags for WordPress" to "Smart Tags Optimizer" (display name, text domain, and translation files) ahead of WordPress.org directory submission: "WordPress" is a restricted term and cannot appear in a plugin name or slug at all.
 * Removed the deprecated `load_plugin_textdomain()` call and updated the readme "Tested up to" header.

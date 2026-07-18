@@ -125,12 +125,14 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 	}
 
 	public function prepare_items() {
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- read-only search/sort on an admin list table, no state change.
 		$search  = isset( $_REQUEST['s'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['s'] ) ) : '';
 		$user_id = get_current_user_id();
 
 		if ( isset( $_REQUEST['orderby'] ) || isset( $_REQUEST['order'] ) ) {
 			$orderby = isset( $_REQUEST['orderby'] ) ? sanitize_key( $_REQUEST['orderby'] ) : 'count';
 			$order   = isset( $_REQUEST['order'] ) ? strtolower( sanitize_key( $_REQUEST['order'] ) ) : 'desc';
+			// phpcs:enable
 
 			if ( ! in_array( $orderby, array( 'name', 'count' ), true ) ) {
 				$orderby = 'count';

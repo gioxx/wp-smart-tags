@@ -87,9 +87,10 @@ class WPTO_Unused_Tags {
 	public static function recount_all() {
 		global $wpdb;
 
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- bulk term-count recount, mirrors WP-CLI's `wp term recount`; no core API for a single bulk query across all post_tag terms.
 		$tt_ids = $wpdb->get_col(
 			$wpdb->prepare(
-				"SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s", // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedTableName
+				"SELECT term_taxonomy_id FROM {$wpdb->term_taxonomy} WHERE taxonomy = %s",
 				'post_tag'
 			)
 		);
