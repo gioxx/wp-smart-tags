@@ -2,6 +2,10 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.21.2] - 2026-07-19
+
+- Added the `Release Asset: true` plugin header so Git Updater installs the zip attached to the GitHub Release instead of the raw `main` branch zip.
+
 ## [0.21.1] - 2026-07-18
 
 - Silenced the remaining WordPress Plugin Check warnings on `$wpdb->insert()`/`update()`/`delete()` calls in `includes/class-wpto-suggestions-repo.php` (`create_batch`, `mark_batch_done`, `mark_batch_failed`, `retry_batch`, `cancel_pending_batches`, `clear_for_new_analysis`, `insert_suggestions`, `set_suggestion_status`, `mark_applied`): they write to the plugin's own custom tables through the safe wpdb API, with no core alternative for non-WP tables.
