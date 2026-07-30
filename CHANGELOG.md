@@ -2,6 +2,12 @@
 
 All notable changes to this plugin are documented in this file.
 
+## [0.22.0] - 2026-07-30
+
+- Added a lock toggle to the "All tags" table (new "Lock" column): a locked tag can't be selected via checkbox, can't be added to the merge basket (manually or by an approved AI suggestion), and can't be deleted, until unlocked again. Backed by term meta (`wpto_locked`), cleaned up on uninstall when "Remove all plugin settings and export data" is enabled.
+- Labeled the "AI Analysis" tab and its headings as "(experimental)" to set expectations that AI-suggested merges are a newer, less battle-tested feature than the manual tools.
+- Dropped the bundled `languages/*.po`/`.mo`/`.pot` files from the repository (regenerate locally as needed) and excluded them via `.gitignore`, matching the WordPress.org review guidance to rely on translate.wordpress.org for hosted translations instead of bundling them.
+
 ## [0.21.2] - 2026-07-19
 
 - Added the `Release Asset: true` plugin header so Git Updater installs the zip attached to the GitHub Release instead of the raw `main` branch zip.

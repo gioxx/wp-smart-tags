@@ -22,6 +22,10 @@ class WPTO_Merge_Handler {
 			return new WP_Error( 'wpto_missing_target', __( 'The target tag no longer exists.', 'smart-tags-optimizer' ) );
 		}
 
+		if ( WPTO_Tag_Lock::is_locked( $target_id ) ) {
+			return new WP_Error( 'wpto_locked_target', __( 'The target tag is locked and cannot be used in a merge.', 'smart-tags-optimizer' ) );
+		}
+
 		$source_ids = json_decode( $suggestion['source_term_ids'], true );
 
 		if ( ! is_array( $source_ids ) || empty( $source_ids ) ) {
@@ -34,6 +38,11 @@ class WPTO_Merge_Handler {
 			$source_id = (int) $source_id;
 
 			if ( $source_id === $target_id ) {
+				continue;
+			}
+
+			if ( WPTO_Tag_Lock::is_locked( $source_id ) ) {
+				// Locked tags are protected from being merged away.
 				continue;
 			}
 

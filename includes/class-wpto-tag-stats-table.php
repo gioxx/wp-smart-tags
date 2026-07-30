@@ -27,6 +27,7 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 			'name'  => __( 'Name', 'smart-tags-optimizer' ),
 			'slug'  => __( 'Slug', 'smart-tags-optimizer' ),
 			'count' => __( 'Assigned posts', 'smart-tags-optimizer' ),
+			'lock'  => __( 'Lock', 'smart-tags-optimizer' ),
 		);
 	}
 
@@ -49,7 +50,43 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 	}
 
 	public function column_cb( $item ) {
+		if ( WPTO_Tag_Lock::is_locked( $item['id'] ) ) {
+			return sprintf(
+				'<span class="dashicons dashicons-lock" aria-label="%s" title="%s"></span>',
+				esc_attr__( 'Locked — cannot be selected', 'smart-tags-optimizer' ),
+				esc_attr__( 'Locked — cannot be selected', 'smart-tags-optimizer' )
+			);
+		}
+
 		return sprintf( '<input type="checkbox" name="tag_id[]" value="%d" />', $item['id'] );
+	}
+
+	public function column_lock( $item ) {
+		$locked = WPTO_Tag_Lock::is_locked( $item['id'] );
+
+		$toggle_url = wp_nonce_url(
+			add_query_arg(
+				array(
+					'page'             => WPTO_Admin_Page::MAIN_SLUG,
+					'tab'              => 'stats',
+					'wpto_toggle_lock' => $item['id'],
+				),
+				admin_url( 'edit.php' )
+			),
+			'wpto_toggle_lock_' . $item['id']
+		);
+
+		$label = $locked
+			? __( 'Unlock this tag', 'smart-tags-optimizer' )
+			: __( 'Lock this tag (protects it from checkbox selection, merging, and deletion)', 'smart-tags-optimizer' );
+
+		return sprintf(
+			'<a href="%s" class="wpto-toggle-lock" aria-label="%s" title="%s"><span class="dashicons %s"></span></a>',
+			esc_url( $toggle_url ),
+			esc_attr( $label ),
+			esc_attr( $label ),
+			$locked ? 'dashicons-lock' : 'dashicons-unlock'
+		);
 	}
 
 	public function column_name( $item ) {
@@ -84,13 +121,16 @@ class WPTO_Tag_Stats_Table extends WP_List_Table {
 				esc_html__( 'Quick Edit', 'smart-tags-optimizer' )
 			),
 			'edit'       => sprintf( '<a href="%s">%s</a>', esc_url( $edit_url ), esc_html__( 'Edit', 'smart-tags-optimizer' ) ),
-			'delete'     => sprintf(
+		);
+
+		if ( ! WPTO_Tag_Lock::is_locked( $item['id'] ) ) {
+			$row_actions['delete'] = sprintf(
 				'<a href="%s" class="submitdelete" onclick="return confirm(\'%s\');">%s</a>',
 				esc_url( $delete_url ),
 				esc_js( __( 'Delete this tag? This cannot be undone.', 'smart-tags-optimizer' ) ),
 				esc_html__( 'Delete', 'smart-tags-optimizer' )
-			),
-		);
+			);
+		}
 
 		return sprintf(
 			'<a href="%s"><strong>%s</strong></a>%s',

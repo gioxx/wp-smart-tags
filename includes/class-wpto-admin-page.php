@@ -147,7 +147,7 @@ class WPTO_Admin_Page {
 					<?php esc_html_e( 'browse, search, sort, recount, delete, and merge tags by hand. No AI involved, nothing happens without your explicit confirmation.', 'smart-tags-optimizer' ); ?>
 				</p>
 				<p>
-					<strong><?php esc_html_e( 'AI Analysis', 'smart-tags-optimizer' ); ?></strong>
+					<strong><?php esc_html_e( 'AI Analysis (experimental)', 'smart-tags-optimizer' ); ?></strong>
 					&mdash;
 					<?php esc_html_e( 'ask Claude to scan your tags for likely duplicates/synonyms and unused tags, then review and approve or reject each suggestion before anything changes.', 'smart-tags-optimizer' ); ?>
 				</p>
@@ -155,7 +155,7 @@ class WPTO_Admin_Page {
 
 			<h2 class="nav-tab-wrapper">
 				<a href="<?php echo esc_url( self::main_page_url() ); ?>" class="nav-tab <?php echo esc_attr( 'stats' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'Manage Tags', 'smart-tags-optimizer' ); ?></a>
-				<a href="<?php echo esc_url( add_query_arg( 'tab', 'optimizer', self::main_page_url() ) ); ?>" class="nav-tab <?php echo esc_attr( 'optimizer' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'AI Analysis', 'smart-tags-optimizer' ); ?></a>
+				<a href="<?php echo esc_url( add_query_arg( 'tab', 'optimizer', self::main_page_url() ) ); ?>" class="nav-tab <?php echo esc_attr( 'optimizer' === $active_tab ? 'nav-tab-active' : '' ); ?>"><?php esc_html_e( 'AI Analysis (experimental)', 'smart-tags-optimizer' ); ?></a>
 			</h2>
 
 			<?php if ( 'stats' === $active_tab ) : ?>
@@ -213,7 +213,7 @@ class WPTO_Admin_Page {
 				</div>
 			</div>
 
-			<h2><?php esc_html_e( 'AI Analysis', 'smart-tags-optimizer' ); ?></h2>
+			<h2><?php esc_html_e( 'AI Analysis (experimental)', 'smart-tags-optimizer' ); ?></h2>
 			<p>
 				<button type="button" class="button button-primary" id="wpto-start-analysis" <?php disabled( $progress['pending'] > 0 ); ?>><?php esc_html_e( 'Start analysis', 'smart-tags-optimizer' ); ?></button>
 				<button type="button" class="button" id="wpto-stop-analysis" <?php disabled( 0 === $progress['pending'] ); ?>><?php esc_html_e( 'Stop analysis', 'smart-tags-optimizer' ); ?></button>
@@ -719,7 +719,7 @@ class WPTO_Admin_Page {
 
 		foreach ( $ids as $id ) {
 			$term = get_term( $id, 'post_tag' );
-			if ( $term && ! is_wp_error( $term ) ) {
+			if ( $term && ! is_wp_error( $term ) && ! WPTO_Tag_Lock::is_locked( $id ) ) {
 				$terms[]     = $term;
 				$valid_ids[] = $id;
 			}
@@ -739,8 +739,9 @@ class WPTO_Admin_Page {
 			return;
 		}
 
+		$ids      = WPTO_Tag_Lock::filter_unlocked( array_map( 'absint', $ids ) );
 		$existing = array_map( 'absint', (array) get_user_meta( $user_id, 'wpto_merge_basket', true ) );
-		$merged   = array_values( array_unique( array_merge( $existing, array_map( 'absint', $ids ) ) ) );
+		$merged   = array_values( array_unique( array_merge( $existing, $ids ) ) );
 
 		update_user_meta( $user_id, 'wpto_merge_basket', $merged );
 	}
@@ -952,6 +953,11 @@ class WPTO_Admin_Page {
 			return;
 		}
 
+		if ( isset( $_GET['wpto_toggle_lock'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			self::process_toggle_lock();
+			return;
+		}
+
 		if ( isset( $_GET['wpto_clear_merge_basket'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			self::process_clear_merge_basket();
 			return;
@@ -1099,11 +1105,33 @@ class WPTO_Admin_Page {
 			'tab'  => 'stats',
 		);
 
-		$deleted = $tag_id && true === wp_delete_term( $tag_id, 'post_tag' );
+		$deleted = $tag_id && ! WPTO_Tag_Lock::is_locked( $tag_id ) && true === wp_delete_term( $tag_id, 'post_tag' );
 
 		$redirect_args[ $deleted ? 'wpto_deleted' : 'wpto_delete_error' ] = 1;
 
 		wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
+		exit;
+	}
+
+	private static function process_toggle_lock() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- nonce verified below via check_admin_referer().
+		$tag_id = isset( $_GET['wpto_toggle_lock'] ) ? absint( $_GET['wpto_toggle_lock'] ) : 0;
+
+		check_admin_referer( 'wpto_toggle_lock_' . $tag_id );
+
+		if ( $tag_id ) {
+			WPTO_Tag_Lock::set_locked( $tag_id, ! WPTO_Tag_Lock::is_locked( $tag_id ) );
+		}
+
+		wp_safe_redirect(
+			add_query_arg(
+				array(
+					'page' => self::MAIN_SLUG,
+					'tab'  => 'stats',
+				),
+				admin_url( 'edit.php' )
+			)
+		);
 		exit;
 	}
 
@@ -1112,6 +1140,7 @@ class WPTO_Admin_Page {
 
 		$ids = isset( $_POST['tag_id'] ) ? array_map( 'absint', (array) $_POST['tag_id'] ) : array();
 		$ids = array_values( array_unique( array_filter( $ids ) ) );
+		$ids = WPTO_Tag_Lock::filter_unlocked( $ids );
 
 		$redirect_args = array(
 			'page' => self::MAIN_SLUG,

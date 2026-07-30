@@ -5,7 +5,7 @@ Tags: tags, ai, claude, taxonomy, cleanup
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.21.2
+Stable tag: 0.22.0
 License: GPL v2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,6 +43,11 @@ It's kept in a "Rejected suggestions" list and can be restored to pending at any
 Yes, the "Unused tags" table lists them with a bulk delete option.
 
 == Changelog ==
+= 0.22.0 =
+* Added a "Lock" column to the "All tags" table: locking a tag prevents it from being checkbox-selected, merged (manually or via an approved AI suggestion), or deleted, until unlocked.
+* Labeled the "AI Analysis" tab as "(experimental)".
+* Dropped the bundled translation files from the repository in favor of translate.wordpress.org.
+
 = 0.21.1 =
 * Silenced the remaining Plugin Check warnings on `$wpdb->insert()`/`update()`/`delete()` calls in `includes/class-wpto-suggestions-repo.php`: they write to the plugin's own custom tables through the safe wpdb API, with no core alternative for non-WP tables.
 
